@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+  @apply text-blue-500 hover:text-blue-400 hover:underline transition-all;
+}
+
+#product-flyout-menu {
+  opacity: 0;
+  transform: translatey(-1rem);
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+#product-flyout-menu.active {
+  opacity: 1;
+  transform: translatey(0);
+  transition: opacity 150ms ease-in, transform 150ms ease-in;
+}
