@@ -1,23 +1,18 @@
-import './index.css'
+import "./index.css";
 
-const productBtn1 = document.getElementById('product-btn1');
-const flyoutMenu = document.getElementById('product-flyout-menu');
-productBtn1.addEventListener('click', () => {
-    // 特定のクラスが要素に存在するかを確認する
-    if (flyoutMenu.classList.contains('active')) {
-        flyoutMenu.classList.remove('active');
-    } else {
-        flyoutMenu.classList.add('active');
-    }  
+// ヘッダーのメニュー
+const headerOpenBtn = document.getElementById("header-menu-openBtn");
+const headerCloseBtn = document.getElementById("header-menu-closeBtn");
+const headerMenu = document.getElementById("header-menu");
+
+// ヘッダーのメニューを開くコード
+headerOpenBtn.addEventListener("click", () => {
+  headerMenu.classList.remove("translate-x-full");
+  headerMenu.classList.add("translate-x-0");
 });
 
-const productBtn2 = document.getElementById('product-btn2');
-const productIcon2 = document.getElementById('product-icon2');
-productBtn2.addEventListener('click', () => {
-    // 特定のクラスが要素に存在するかを確認する
-    if (productIcon2.classList.contains('rotate-180')) {
-        productIcon2.classList.remove('rotate-180');
-    } else {
-        productIcon2.classList.add('rotate-180');
-    }  
+// ヘッダーのメニューを閉じるコード
+headerCloseBtn.addEventListener("click", () => {
+  headerMenu.classList.remove("translate-x-0");
+  headerMenu.classList.add("translate-x-full");
 });
