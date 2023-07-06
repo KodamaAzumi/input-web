@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="../public/shared/images/favicon.svg"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>write</title>
+  </head>
+  <body>
+    <div class="grid grid-cols-12 gap-4 bg-blue-300 md:gap-8">
+      <div
+        class="col-span-10 col-start-2 grid grid-cols-10 gap-4 bg-red-300 md:col-span-8 md:col-start-3 md:grid-cols-8 md:gap-8"
+      >
+        <div
+          class="col-span-6 col-start-1 bg-gray-300 md:col-span-6 md:col-start-1"
+        >
+          <h1 class="bg-green-300">
+            タイトル<br />
+            タイトル
+          </h1>
+        </div>
+        <div
+          class="col-span-2 col-start-7 bg-gray-300 md:col-span-1 md:col-start-7"
+        >
+          <button class="bg-green-300" type="button">保存</button>
+        </div>
+        <div
+          class="col-span-2 col-start-9 bg-gray-300 md:col-span-1 md:col-start-8"
+        >
+          <button class="bg-green-300" type="button">
+            時
+            <span class="sr-only">go to timeline</span>
+          </button>
+        </div>
 
+        <div
+          class="col-span-8 col-start-2 min-w-0 bg-gray-300 md:col-span-6 md:col-start-2"
+        >
+          <p class="bg-green-300">
+            ダミーテキスト<br />
+            ダミーテキスト<br />
+            ダミーテキスト
+          </p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
