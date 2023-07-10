@@ -8,6 +8,7 @@
   </head>
   <body>
     <div class="grid grid-cols-12 gap-4 bg-blue-300 lg:gap-8">
+      <!-- header -->
       <header class="col-span-12 bg-white">
         <nav
           class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -150,6 +151,7 @@
         </div>
       </header>
 
+      <!-- write -->
       <div
         class="col-span-10 col-start-2 grid grid-cols-10 gap-4 bg-red-300 lg:col-span-8 lg:col-start-3 lg:grid-cols-8 lg:gap-8"
       >
@@ -184,13 +186,70 @@
           </div>
         </div>
 
-        <textarea id="js-textarea" class="input-item" type="text"></textarea>
-
         <div
           class="col-span-8 col-start-2 min-w-0 bg-gray-300 lg:col-span-6 lg:col-start-2"
         >
-          <div id="js-output" class="bg-green-300"></div>
-          <div id="image-para" class="bg-green-300"></div>
+          <!-- tabs -->
+          <div class="flex flex-wrap" id="tabs-id">
+            <div class="w-full">
+              <ul class="mb-0 flex list-none flex-row flex-wrap pt-3 pb-4">
+                <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+                  <a
+                    class="block rounded bg-pink-600 px-5 py-3 text-xs font-bold uppercase leading-normal text-white shadow-sm"
+                    onclick="changeAtiveTab(event,'tab-profile')"
+                  >
+                    不透明度
+                  </a>
+                </li>
+                <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+                  <a
+                    class="block rounded bg-white px-5 py-3 text-xs font-bold uppercase leading-normal text-pink-600 shadow-sm"
+                    onclick="changeAtiveTab(event,'tab-settings')"
+                  >
+                    写真
+                  </a>
+                </li>
+                <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+                  <a
+                    class="block rounded bg-white px-5 py-3 text-xs font-bold uppercase leading-normal text-pink-600 shadow-sm"
+                    onclick="changeAtiveTab(event,'tab-options')"
+                  >
+                    ダミー
+                  </a>
+                </li>
+              </ul>
+              <div
+                class="relative mb-6 flex w-full min-w-0 flex-col break-words rounded bg-white shadow-sm"
+              >
+                <div class="flex-auto px-4 py-5">
+                  <div class="tab-content tab-space relative h-screen">
+                    <div class="absolute inset-0 block" id="tab-profile">
+                      <div id="js-output" class="bg-green-300 text-3xl"></div>
+                    </div>
+                    <div class="absolute inset-0 hidden" id="tab-settings">
+                      <div id="image-para" class="bg-green-300 text-3xl"></div>
+                    </div>
+                    <div class="absolute inset-0 hidden" id="tab-options">
+                      <p>
+                        Efficiently unleash cross-media information without
+                        cross-media value. Quickly maximize timely deliverables
+                        for real-time schemas.
+                        <br />
+                        <br />
+                        Dramatically maintain clicks-and-mortar solutions
+                        without functional solutions.
+                      </p>
+                    </div>
+                    <textarea
+                      id="js-textarea"
+                      class="relative z-10 h-full w-full text-3xl opacity-0"
+                      type="text"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

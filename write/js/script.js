@@ -61,38 +61,29 @@ const loop = () => {
 
 window.requestAnimationFrame(loop);
 
-/*
-// タブに関する記述
-const openTab = (tabName) => {
-  let i, tabcontent, tablinks;
-
-  tabcontent = document.getElementsByClassName("tabcontent");
-  tablinks = document.getElementsByClassName("tablinks");
-
-  // tabcontentの全ての要素を非表示にする
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+// tabに関するコード
+const changeAtiveTab = (event, tabID) => {
+  let element = event.target;
+  while (element.nodeName !== "A") {
+    element = element.parentNode;
   }
-
-  // tablinksの全ての要素からactiveクラスを消去する
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].classList.remove("active");
+  let ulElement = element.parentNode.parentNode;
+  let aElements = ulElement.querySelectorAll("li > a");
+  tabContents = document
+    .getElementById("tabs-id")
+    .querySelectorAll(".tab-content > div");
+  for (let i = 0; i < aElements.length; i++) {
+    aElements[i].classList.remove("text-white");
+    aElements[i].classList.remove("bg-pink-600");
+    aElements[i].classList.add("text-pink-600");
+    aElements[i].classList.add("bg-white");
+    tabContents[i].classList.add("hidden");
+    tabContents[i].classList.remove("block");
   }
-
-  // 引数として受け取ったtabNameのタブを表示状態にする
-  document.getElementById(tabName).style.display = "block";
-  document.getElementById(tabName + "_btn").classList.add("active");
+  element.classList.remove("text-pink-600");
+  element.classList.remove("bg-white");
+  element.classList.add("text-white");
+  element.classList.add("bg-pink-600");
+  document.getElementById(tabID).classList.remove("hidden");
+  document.getElementById(tabID).classList.add("block");
 };
-
-// タブボタンにクリックイベントリスナーを追加する
-document.getElementById("tab1_btn").addEventListener("click", () => {
-  openTab("tab1");
-});
-
-document.getElementById("tab2_btn").addEventListener("click", () => {
-  openTab("tab2");
-});
-
-// 最初のタブを開く
-openTab("tab1");
-*/
