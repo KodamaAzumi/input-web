@@ -192,7 +192,9 @@
           <!-- tabs -->
           <div class="flex flex-wrap" id="tabs-id">
             <div class="w-full">
-              <ul class="mb-0 flex list-none flex-row flex-wrap pt-3 pb-4">
+              <ul
+                class="mb-0 flex list-none flex-row flex-wrap bg-green-300 pt-3 pb-4"
+              >
                 <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
                   <a
                     class="block rounded bg-pink-600 px-5 py-3 text-xs font-bold uppercase leading-normal text-white shadow-sm"
@@ -218,19 +220,58 @@
                   </a>
                 </li>
               </ul>
+
+              <div class="flex justify-start bg-green-300">
+                <button
+                  class="mr-6 rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+                  type="button"
+                  id="start"
+                >
+                  カメラオン
+                </button>
+                <button
+                  class="mr-6 rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+                  type="button"
+                  id="stop"
+                >
+                  カメラオフ
+                </button>
+              </div>
+
+              <video
+                class="hidden"
+                id="video"
+                width="640"
+                height="480"
+                autoplay
+              ></video>
+              <img
+                class="hidden"
+                id="preview"
+                width="320"
+                height="240"
+                src=""
+              />
+
               <div
                 class="relative mb-6 flex w-full min-w-0 flex-col break-words rounded bg-white shadow-sm"
               >
                 <div class="flex-auto px-4 py-5">
                   <div class="tab-content tab-space relative h-screen">
-                    <div class="absolute inset-0 block" id="tab-profile">
-                      <div id="js-output" class="bg-green-300 text-3xl"></div>
+                    <div class="block" id="tab-profile">
+                      <div
+                        id="js-output"
+                        class="absolute inset-0 bg-green-300 text-3xl"
+                      ></div>
                     </div>
-                    <div class="absolute inset-0 hidden" id="tab-settings">
-                      <div id="image-para" class="bg-green-300 text-3xl"></div>
+                    <div class="hidden" id="tab-settings">
+                      <div
+                        id="image-para"
+                        class="absolute inset-0 bg-green-300 text-3xl"
+                      ></div>
                     </div>
-                    <div class="absolute inset-0 hidden" id="tab-options">
-                      <p>
+                    <div class="hidden" id="tab-options">
+                      <p class="absolute inset-0">
                         Efficiently unleash cross-media information without
                         cross-media value. Quickly maximize timely deliverables
                         for real-time schemas.

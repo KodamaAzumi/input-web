@@ -17,10 +17,10 @@ class Photo extends Textarea {
     //document.addEventListener("DOMContentLoaded", this.startCamera);
 
     // スタートボタンをクリックしたときの処理
-    //this.startButton.addEventListener('click', this.startCamera);
+    this.startButton.addEventListener("click", this.startCamera);
 
     // ストップボタンをクリックしたときの処理
-    //this.stopButton.addEventListener("click", this.stopCamera);
+    this.stopButton.addEventListener("click", this.stopCamera);
 
     // 写真の情報を保持するオブジェクト
     this.imageData = {};
