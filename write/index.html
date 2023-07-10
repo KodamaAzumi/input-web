@@ -184,17 +184,21 @@
           </div>
         </div>
 
+        <textarea id="js-textarea" class="input-item" type="text"></textarea>
+
         <div
           class="col-span-8 col-start-2 min-w-0 bg-gray-300 lg:col-span-6 lg:col-start-2"
         >
-          <p class="bg-green-300">
-            ダミーテキスト<br />
-            ダミーテキスト<br />
-            ダミーテキスト
-          </p>
+          <div id="js-output" class="bg-green-300"></div>
+          <div id="image-para" class="bg-green-300"></div>
         </div>
       </div>
     </div>
-    <script type="module" src="./main.js"></script>
   </body>
+  <script type="module" src="./js/main.js"></script>
+  <script src="./js/diff.min.js"></script>
+  <script src="./js/eventemitter3.umd.min.js"></script>
+  <script src="./js/Textarea.js"></script>
+  <script src="./js/Photo.js"></script>
+  <script src="./js/script.js"></script>
 </html>
