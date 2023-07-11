@@ -1,20 +1,19 @@
-const textarea = new Photo("#js-textarea");
-const output = document.querySelector("#js-output");
-const imagePara = document.querySelector("#image-para");
+const textarea = new Photo('#js-textarea');
+const output = document.querySelector('#js-output');
+const imagePara = document.querySelector('#image-para');
 
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
 
-  output.innerHTML = "";
-  imagePara.innerHTML = "";
+  output.innerHTML = '';
+  imagePara.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
     const { timestamp, value } = textarea.entity[entityId];
     // ひとつ前の ID を取得する
     const prevEntityId = textarea.entityIds[i - 1];
-    const span = document.createElement("span");
     // ひとつ前の文字情報との時差
     let diff = 0;
 
@@ -23,9 +22,21 @@ const loop = () => {
       diff = timestamp - textarea.entity[prevEntityId].timestamp;
     }
 
+    // 入力された文字が改行コードか
+    if ('\r\n' === value || '\r' === value || '\n' === value) {
+      // 改行コードであれば br 要素を挿入して、以降の処理を中断する
+      const br = document.createElement('br');
+      fragment.appendChild(br);
+      output.appendChild(fragment);
+      imagePara.appendChild(fragment);
+      return;
+    }
+
     // diffを適した値にするための計算
     const mathDiff = diff;
     //console.log(entityId, i, value, diff, mathDiff);
+
+    const span = document.createElement('span');
 
     // 不透明度に適応させる
     span.style.color = `hsl(0, 0%, ${Math.min(mathDiff, 100)}%)`;
@@ -43,13 +54,13 @@ const loop = () => {
     //console.log(textarea.entity[prevEntityId]);
 
     // storageの画像を表示
-    const spanImg = document.createElement("span");
+    const spanImg = document.createElement('span');
     if (textarea.entity[entityId].imageData) {
       spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
     }
-    spanImg.style.backgroundClip = "text";
-    spanImg.style.webkitBackgroundClip = "text";
-    spanImg.style.color = "transparent";
+    spanImg.style.backgroundClip = 'text';
+    spanImg.style.webkitBackgroundClip = 'text';
+    spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
   });
