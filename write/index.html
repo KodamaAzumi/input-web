@@ -180,8 +180,24 @@
         </div>
 
         <div
-          class="cos-start-1 col-span-10 min-w-0 lg:col-span-6 lg:col-start-2"
+          class="cos-start-1 col-span-10 mt-4 min-w-0 lg:col-span-6 lg:col-start-2"
         >
+          <div class="flex justify-start">
+            <button
+              class="mr-6 flex-auto rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+              type="button"
+              id="start"
+            >
+              カメラオン
+            </button>
+            <button
+              class="mr-6 flex-auto rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+              type="button"
+              id="stop"
+            >
+              カメラオフ
+            </button>
+          </div>
           <!-- tabs -->
           <div class="flex flex-wrap" id="tabs-id">
             <div class="w-full">
@@ -212,23 +228,6 @@
                 </li>
               </ul>
 
-              <div class="flex justify-start">
-                <button
-                  class="mr-6 flex-auto rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-                  type="button"
-                  id="start"
-                >
-                  カメラオン
-                </button>
-                <button
-                  class="mr-6 flex-auto rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-                  type="button"
-                  id="stop"
-                >
-                  カメラオフ
-                </button>
-              </div>
-
               <video
                 class="hidden"
                 id="video"
@@ -245,7 +244,7 @@
               />
 
               <div
-                class="relative mb-6 mt-5 flex w-full min-w-0 flex-col break-words rounded-md border-2 border-gray-200 bg-white shadow-sm"
+                class="relative mb-6 mt-0 flex w-full min-w-0 flex-col break-words rounded-md border-2 border-gray-200 bg-white shadow-sm"
               >
                 <div class="flex-auto px-4 py-5">
                   <div class="tab-content tab-space relative h-screen">
@@ -276,6 +275,7 @@
                       id="js-textarea"
                       class="relative z-10 h-full w-full text-3xl opacity-0"
                       type="text"
+                      maxlength="200"
                     ></textarea>
                   </div>
                 </div>
