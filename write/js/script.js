@@ -77,11 +77,19 @@ const changeAtiveTab = (event, tabID) => {
     aElements[i].classList.remove("bg-orange-400");
     aElements[i].classList.add("text-orange-400");
     aElements[i].classList.add("bg-white");
+    // border-2 border-orange-300
+    aElements[i].classList.add("border-2");
+    aElements[i].classList.add("border-orange-300");
+
     tabContents[i].classList.add("hidden");
     tabContents[i].classList.remove("block");
   }
   element.classList.remove("text-orange-400");
   element.classList.remove("bg-white");
+
+  element.classList.remove("border-2");
+  element.classList.remove("border-orange-300");
+
   element.classList.add("text-white");
   element.classList.add("bg-orange-400");
   document.getElementById(tabID).classList.remove("hidden");
