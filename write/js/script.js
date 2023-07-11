@@ -24,11 +24,11 @@ const loop = () => {
     }
 
     // diffを適した値にするための計算
-    const mathDiff = diff / 10 ** 3;
+    const mathDiff = diff;
     //console.log(entityId, i, value, diff, mathDiff);
 
     // 不透明度に適応させる
-    span.style.opacity = `${Math.max(mathDiff, 0.01)}`;
+    span.style.color = `hsl(0, 0%, ${Math.min(mathDiff, 100)}%)`;
     span.appendChild(document.createTextNode(value));
     fragment.appendChild(span);
 
