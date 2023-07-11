@@ -2,30 +2,24 @@ class Photo extends Textarea {
   constructor(selectors) {
     super(selectors);
 
-    this.video = document.getElementById("video");
-    this.canvas = document.createElement("canvas");
+    this.video = document.getElementById('video');
+    this.canvas = document.createElement('canvas');
     this.canvas.width = 320; // 幅を指定
     this.canvas.height = 240; // 高さを指定
     this.quality = 0.85; // 画像の容量
-    this.context = this.canvas.getContext("2d");
-    this.startButton = document.getElementById("start");
-    this.stopButton = document.getElementById("stop");
-    this.preview = document.getElementById("preview");
+    this.context = this.canvas.getContext('2d');
+    this.cameraButton = document.getElementById('js-cameraBtn');
+    this.preview = document.getElementById('preview');
     this.stream = null;
 
-    // ページを読み込んだ時にカメラを起動する
-    //document.addEventListener("DOMContentLoaded", this.startCamera);
-
-    // スタートボタンをクリックしたときの処理
-    this.startButton.addEventListener("click", this.startCamera);
-
-    // ストップボタンをクリックしたときの処理
-    this.stopButton.addEventListener("click", this.stopCamera);
+    // 書くボタン（カメラボタン）をクリックしたときの処理
+    this.cameraButton.addEventListener('click', this.cameraFunctions);
+    this.isStartCameraActive = true;
 
     // 写真の情報を保持するオブジェクト
     this.imageData = {};
 
-    this.ee.on("added", this.onAdded);
+    this.ee.on('added', this.onAdded);
   }
 
   // カメラを起動する関数
@@ -37,8 +31,9 @@ class Photo extends Textarea {
         this.video.srcObject = this.stream;
       })
       .catch((error) => {
-        console.error("Media device error:", error);
+        console.error('Media device error:', error);
       });
+    console.log('camera start');
   };
 
   // カメラを停止する関数
@@ -47,6 +42,20 @@ class Photo extends Textarea {
       this.stream.getTracks().forEach((track) => track.stop());
       this.stream = null;
       this.video.srcObject = null;
+      console.log('camera stop');
+    }
+  };
+
+  // カメラのオンオフを切り替える関数
+  cameraFunctions = () => {
+    if (this.isStartCameraActive) {
+      this.startCamera();
+      this.isStartCameraActive = false;
+      console.log('camera true');
+    } else {
+      this.stopCamera();
+      this.isStartCameraActive = true;
+      console.log('camera false');
     }
   };
 
@@ -71,7 +80,7 @@ class Photo extends Textarea {
       );
 
       // 画像の容量を変更する
-      const imageUrl = this.canvas.toDataURL("image/jpeg", this.quality);
+      const imageUrl = this.canvas.toDataURL('image/jpeg', this.quality);
 
       // キャプチャした画像をプレビューする
       this.preview.src = imageUrl;
