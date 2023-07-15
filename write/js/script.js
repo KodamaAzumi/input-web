@@ -27,8 +27,10 @@ const loop = () => {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
       const br = document.createElement('br');
       fragment.appendChild(br);
+      const brImg = document.createElement('br');
+      fragmentImg.appendChild(brImg);
       output.appendChild(fragment);
-      imagePara.appendChild(fragment);
+      imagePara.appendChild(fragmentImg);
       return;
     }
 
