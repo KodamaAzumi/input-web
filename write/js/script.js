@@ -14,7 +14,6 @@ const loop = () => {
     const { timestamp, value } = textarea.entity[entityId];
     // ひとつ前の ID を取得する
     const prevEntityId = textarea.entityIds[i - 1];
-    const span = document.createElement('span');
     // ひとつ前の文字情報との時差
     let diff = 0;
 
@@ -22,6 +21,18 @@ const loop = () => {
     if (prevEntityId) {
       diff = timestamp - textarea.entity[prevEntityId].timestamp;
     }
+
+    // 入力された文字が改行コードか
+    if ('\r\n' === value || '\r' === value || '\n' === value) {
+      // 改行コードであれば br 要素を挿入して、以降の処理を中断する
+      const br = document.createElement('br');
+      fragment.appendChild(br);
+      output.appendChild(fragment);
+      imagePara.appendChild(fragment);
+      return;
+    }
+
+    const span = document.createElement('span');
 
     // diffを適した値に変更する
     const calculatedDiff = 100 - (diff / 1000) * 100;
