@@ -27,6 +27,7 @@ class Photo extends Textarea {
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((s) => {
+        this.el.disabled = false;
         this.stream = s;
         this.video.srcObject = this.stream;
       })
@@ -39,6 +40,7 @@ class Photo extends Textarea {
   // カメラを停止する関数
   stopCamera = () => {
     if (this.stream) {
+      this.el.disabled = true;
       this.stream.getTracks().forEach((track) => track.stop());
       this.stream = null;
       this.video.srcObject = null;
