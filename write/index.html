@@ -151,133 +151,135 @@
         </div>
       </header>
 
+      <!-- 写真を確認するためのビデオとプレビュー -->
+      <div
+        class="justify-between lg:col-start-4 col-start-2 col-span-10 lg:col-span-6 bg-pink-300 hidden"
+      >
+        <!-- video -->
+        <video id="js-video" width="320" height="240" autoplay></video>
+        <!-- preview -->
+        <img
+          id="js-preview"
+          width="320"
+          height="240"
+          src="#"
+          alt="写真のプレビュー"
+        />
+      </div>
+
       <!-- write -->
       <div
-        class="col-span-10 col-start-2 mt-4 grid grid-cols-10 gap-4 lg:col-span-8 lg:col-start-3 lg:mt-0 lg:grid-cols-8 lg:gap-8"
+        class="col-span-6 col-start-2 lg:col-span-4 lg:col-start-4 mt-3 lg:mt-0"
       >
-        <div class="col-span-6 col-start-1 lg:col-span-4 lg:col-start-2">
-          <h1 class="text-2xl font-bold">タイトル</h1>
-        </div>
-        <div class="col-span-4 col-start-7 lg:col-span-2 lg:col-start-6">
-          <div class="flex justify-start">
-            <button
-              class="mr-6 flex-auto rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-              type="button"
-            >
-              保存
-            </button>
-            <button
-              class="flex flex-auto justify-center rounded-md bg-orange-400 px-1.5 py-1.5 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-              type="button"
-            >
-              <span class="sr-only">go to timeline</span>
-              <img
-                src="/write/images/clockIcon.svg"
-                alt="タイムラインアイコン"
-              />
-            </button>
-          </div>
-        </div>
+        <h1 class="text-2xl font-bold">タイトル</h1>
+      </div>
 
-        <div
-          class="cos-start-1 col-span-10 mt-4 min-w-0 lg:col-span-6 lg:col-start-2"
+      <div
+        class="lg:mt-0 mt-3 col-span-4 col-start-8 lg:col-span-2 lg:col-start-8"
+      >
+        <div class="flex justify-end">
+          <button
+            class="mr-6 flex justify-center rounded-md bg-orange-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            type="button"
+          >
+            <span class="sr-only">go to timeline</span>
+            <img
+              src="\write\images\paragraphIcon.svg"
+              alt="タイムラインアイコン"
+            />
+          </button>
+          <button
+            class="flex justify-center rounded-md bg-orange-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            type="button"
+          >
+            <span class="sr-only">go to timeline</span>
+            <img src="/write/images/clockIcon.svg" alt="タイムラインアイコン" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="col-span-2 lg:col-span-1 lg:col-start-4 col-start-2 flex items-center"
+      >
+        <button
+          class="flex justify-center rounded-md bg-orange-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+          type="button"
+          id="js-cameraBtn"
         >
-          <div class="flex justify-start">
-            <button
-              class="flex flex-auto justify-center rounded-md bg-orange-400 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-              type="button"
-              id="js-cameraBtn"
+          <span class="sr-only">camera on off</span>
+          <img src="/write/images/writeIcon.svg" alt="書くアイコン" />
+        </button>
+      </div>
+
+      <div class="col-start-6 col-span-6 lg:col-span-4 lg:col-start-6">
+        <ul class="mb-0 flex list-none flex-row flex-wrap">
+          <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+            <a
+              class="block rounded-md bg-orange-400 px-5 py-3 text-sm font-bold uppercase leading-normal text-white shadow-sm"
+              onclick="changeAtiveTab(event,'tab-grayscale')"
             >
-              <span class="sr-only">camera on off</span>
-              <img src="/write/images/writeIcon.svg" alt="書くアイコン" />
-            </button>
-          </div>
+              グレースケール
+            </a>
+          </li>
+          <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+            <a
+              class="block rounded-md border-2 border-orange-300 bg-white px-5 py-3 text-sm font-bold uppercase leading-normal text-orange-400 shadow-sm"
+              onclick="changeAtiveTab(event,'tab-image')"
+            >
+              写真
+            </a>
+          </li>
+        </ul>
+      </div>
 
-          <!-- tabs -->
-          <div class="flex flex-wrap" id="tabs-id">
-            <div class="w-full">
-              <ul class="mb-0 flex list-none flex-row flex-wrap pt-3 pb-4">
-                <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
-                  <a
-                    class="block rounded-md bg-orange-400 px-5 py-3 text-sm font-bold uppercase leading-normal text-white shadow-sm"
-                    onclick="changeAtiveTab(event,'tab-profile')"
-                  >
-                    グレースケール
-                  </a>
-                </li>
-                <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
-                  <a
-                    class="block rounded-md border-2 border-orange-300 bg-white px-5 py-3 text-sm font-bold uppercase leading-normal text-orange-400 shadow-sm"
-                    onclick="changeAtiveTab(event,'tab-settings')"
-                  >
-                    写真
-                  </a>
-                </li>
-                <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
-                  <a
-                    class="block rounded-md border-2 border-orange-300 bg-white px-5 py-3 text-sm font-bold uppercase leading-normal text-orange-400 shadow-sm"
-                    onclick="changeAtiveTab(event,'tab-options')"
-                  >
-                    ダミー
-                  </a>
-                </li>
-              </ul>
-
-              <video
-                class="hidden"
-                id="video"
-                width="640"
-                height="480"
-                autoplay
-              ></video>
-              <img
-                class="hidden"
-                id="preview"
-                width="320"
-                height="240"
-                src=""
-              />
-
-              <div
-                class="relative mb-6 mt-0 flex w-full min-w-0 flex-col break-words rounded-md border-2 border-gray-200 bg-white shadow-sm"
-              >
-                <div class="flex-auto px-4 py-5">
-                  <div class="tab-content tab-space relative h-screen">
-                    <div class="block" id="tab-profile">
-                      <div
-                        id="js-output"
-                        class="absolute inset-0 z-10 text-3xl pointer-events-none"
-                      ></div>
-                    </div>
-                    <div class="hidden" id="tab-settings">
-                      <div
-                        id="image-para"
-                        class="absolute inset-0 z-10 text-3xl pointer-events-none"
-                      ></div>
-                    </div>
-                    <div class="hidden" id="tab-options">
-                      <p class="absolute inset-0">
-                        Efficiently unleash cross-media information without
-                        cross-media value. Quickly maximize timely deliverables
-                        for real-time schemas.
-                        <br />
-                        <br />
-                        Dramatically maintain clicks-and-mortar solutions
-                        without functional solutions.
-                      </p>
-                    </div>
-                    <textarea
-                      id="js-textarea"
-                      class="relative h-full w-full text-3xl bg-transparent focus:outline-none"
-                      type="text"
-                      maxlength="200"
-                      disabled
-                    ></textarea>
-                  </div>
-                </div>
+      <!-- tabs -->
+      <div
+        class="flex flex-wrap lg:col-start-4 col-start-2 col-span-10 lg:col-span-6"
+        id="tabs-id"
+      >
+        <div
+          class="relative mt-0 flex w-full flex-col break-words rounded-md border-2 border-gray-200 bg-white shadow-sm"
+        >
+          <div class="flex-auto px-4 py-5 h-96">
+            <div class="tab-content tab-space relative h-full">
+              <div class="block" id="tab-grayscale">
+                <div
+                  id="js-output-grayscale"
+                  class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
+                ></div>
               </div>
+              <div class="hidden" id="tab-image">
+                <div
+                  id="js-output-image"
+                  class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
+                ></div>
+              </div>
+              <textarea
+                id="js-textarea"
+                class="relative h-full w-full text-xl overflow-hidden lg:text-2xl bg-transparent focus:outline-none"
+                type="text"
+                maxlength="200"
+                disabled
+              ></textarea>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="col-span-4 col-start-8 lg:col-span-3 lg:col-start-7">
+        <div class="flex justify-start">
+          <button
+            class="mr-6 flex-auto rounded-md bg-orange-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            type="button"
+          >
+            保存
+          </button>
+          <button
+            class="flex-auto rounded-md bg-orange-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            type="button"
+          >
+            破棄
+          </button>
         </div>
       </div>
     </div>
