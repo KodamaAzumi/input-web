@@ -1,12 +1,12 @@
 const textarea = new Photo('#js-textarea');
-const output = document.querySelector('#js-output');
-const imagePara = document.querySelector('#image-para');
+const grayscale = document.querySelector('#js-output-grayscale');
+const imagePara = document.querySelector('#js-output-image');
 
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
 
-  output.innerHTML = '';
+  grayscale.innerHTML = '';
   imagePara.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
@@ -29,7 +29,7 @@ const loop = () => {
       fragment.appendChild(br);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
-      output.appendChild(fragment);
+      grayscale.appendChild(fragment);
       imagePara.appendChild(fragmentImg);
       return;
     }
@@ -71,7 +71,7 @@ const loop = () => {
     fragmentImg.appendChild(spanImg);
   });
 
-  output.appendChild(fragment);
+  grayscale.appendChild(fragment);
   imagePara.appendChild(fragmentImg);
   window.requestAnimationFrame(loop);
 };

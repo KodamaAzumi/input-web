@@ -2,14 +2,14 @@ class Photo extends Textarea {
   constructor(selectors) {
     super(selectors);
 
-    this.video = document.getElementById('video');
+    this.video = document.getElementById('js-video');
     this.canvas = document.createElement('canvas');
     this.canvas.width = 320; // 幅を指定
     this.canvas.height = 240; // 高さを指定
     this.quality = 0.85; // 画像の容量
     this.context = this.canvas.getContext('2d');
     this.cameraButton = document.getElementById('js-cameraBtn');
-    this.preview = document.getElementById('preview');
+    this.preview = document.getElementById('js-preview');
     this.stream = null;
 
     // 書くボタン（カメラボタン）をクリックしたときの処理
