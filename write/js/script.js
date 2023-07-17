@@ -90,25 +90,28 @@ const changeAtiveTab = (event, tabID) => {
     .getElementById('tabs-id')
     .querySelectorAll('.tab-content > div');
   for (let i = 0; i < aElements.length; i++) {
-    aElements[i].classList.remove('text-white');
-    aElements[i].classList.remove('bg-orange-400');
-    aElements[i].classList.add('text-orange-400');
-    aElements[i].classList.add('bg-white');
+    aElements[i].classList.remove('text-orange-400');
+    aElements[i].classList.remove('bg-white');
     // border-2 border-orange-300
-    aElements[i].classList.add('border-2');
-    aElements[i].classList.add('border-orange-300');
+    aElements[i].classList.remove('border-2');
+    aElements[i].classList.remove('border-orange-300');
+
+    aElements[i].classList.add('text-white');
+    aElements[i].classList.add('bg-orange-400');
+    // hover:bg-orange-300
+    aElements[i].classList.add('hover:bg-orange-300');
 
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
   }
-  element.classList.remove('text-orange-400');
-  element.classList.remove('bg-white');
+  element.classList.remove('text-white');
+  element.classList.remove('bg-orange-400');
+  element.classList.remove('hover:bg-orange-300');
 
-  element.classList.remove('border-2');
-  element.classList.remove('border-orange-300');
-
-  element.classList.add('text-white');
-  element.classList.add('bg-orange-400');
+  element.classList.add('text-orange-400');
+  element.classList.add('bg-white');
+  element.classList.add('border-2');
+  element.classList.add('border-orange-300');
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
 };
