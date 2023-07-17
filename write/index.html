@@ -236,34 +236,32 @@
 
       <!-- tabs -->
       <div
-        class="flex flex-wrap lg:col-start-4 col-start-2 col-span-10 lg:col-span-6"
+        class="lg:col-start-4 col-start-2 col-span-10 lg:col-span-6"
         id="tabs-id"
       >
         <div
-          class="relative mt-0 flex w-full flex-col break-words rounded-md border-2 border-gray-200 bg-white shadow-sm"
+          class="break-words px-4 py-5 h-96 rounded-md border-2 border-gray-200 bg-white shadow-sm"
         >
-          <div class="flex-auto px-4 py-5 h-96">
-            <div class="tab-content tab-space relative h-full">
-              <div class="block" id="tab-grayscale">
-                <div
-                  id="js-output-grayscale"
-                  class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
-                ></div>
-              </div>
-              <div class="hidden" id="tab-image">
-                <div
-                  id="js-output-image"
-                  class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
-                ></div>
-              </div>
-              <textarea
-                id="js-textarea"
-                class="relative h-full w-full text-xl overflow-hidden lg:text-2xl bg-transparent focus:outline-none"
-                type="text"
-                maxlength="200"
-                disabled
-              ></textarea>
+          <div class="tab-content tab-space relative h-full">
+            <div class="block" id="tab-grayscale">
+              <div
+                id="js-output-grayscale"
+                class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
+              ></div>
             </div>
+            <div class="hidden" id="tab-image">
+              <div
+                id="js-output-image"
+                class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
+              ></div>
+            </div>
+            <textarea
+              id="js-textarea"
+              class="absolute h-full w-full overflow-hidden text-xl lg:text-2xl bg-transparent focus:outline-none"
+              type="text"
+              maxlength="200"
+              disabled
+            ></textarea>
           </div>
         </div>
       </div>
