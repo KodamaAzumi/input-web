@@ -3,10 +3,11 @@
  * このクラスは diff.min.js, eventemitter3.umd.min.js に依存しています
  */
 class Textarea {
-  constructor(selectors) {
+  constructor(selectors, autoResize = true) {
     this.ee = new EventEmitter3();
 
     this.el = document.querySelector(selectors);
+    this.autoResize = autoResize;
     this.prevValue = ''; // 変更（input）直前の文字列
 
     // テキストの削除を除いて input イベントが発生した回数
@@ -35,14 +36,21 @@ class Textarea {
       return;
     }
 
-    throw new Error('Textarea クラスからインスタンスを生成するときは必ず引数に textarea 要素を示すセレクタ文字列を指定してください');
+    throw new Error(
+      'Textarea クラスからインスタンスを生成するときは必ず引数に textarea 要素を示すセレクタ文字列を指定してください'
+    );
   }
 
   onInput(e) {
     const diff = Diff.diffChars(this.prevValue, this.el.value);
-    
+
     let caretCoord = 0;
     let isntCounted = true;
+
+    if (this.autoResize) {
+      this.el.style.height = 'auto';
+      this.el.style.height = `${this.el.scrollHeight}px`;
+    }
 
     diff.forEach((part, i) => {
       // 新しく挿入された文字列があるか
@@ -83,7 +91,6 @@ class Textarea {
       ) {
         this.count++;
       }
-      
     });
 
     // 変更後の文字列を更新する（次の input イベント発生時に文字列の比較に使われる）
