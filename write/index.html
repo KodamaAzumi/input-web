@@ -237,26 +237,26 @@
         id="tabs-id"
       >
         <div
-          class="break-words px-4 py-5 h-96 rounded-md border-2 border-gray-200 bg-white shadow-sm"
+          class="break-words text-xl lg:text-2xl leading-normal px-4 py-5 h-96 rounded-md border-2 border-gray-200 bg-white shadow-sm"
+          id="js-tabarea"
         >
-          <div class="tab-content tab-space relative h-full">
+          <div class="tab-content tab-space relative w-full h-full">
             <div class="block" id="tab-grayscale">
               <div
                 id="js-output-grayscale"
-                class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
+                class="absolute z-10 h-full w-full pointer-events-none"
               ></div>
             </div>
             <div class="hidden" id="tab-image">
               <div
                 id="js-output-image"
-                class="absolute inset-0 z-10 text-xl lg:text-2xl pointer-events-none"
+                class="absolute z-10 h-full w-full pointer-events-none"
               ></div>
             </div>
             <textarea
               id="js-textarea"
-              class="absolute h-full w-full overflow-hidden text-xl lg:text-2xl bg-transparent focus:outline-none"
+              class="absolute h-full w-full bg-transparent focus:outline-none resize-none"
               type="text"
-              maxlength="200"
               disabled
             ></textarea>
           </div>
