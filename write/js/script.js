@@ -34,11 +34,17 @@ const loop = () => {
       return;
     }
 
+    /*
+    console.log(entityId, i, timestamp, value, prevEntityId);
+    console.log(textarea);
+    console.log(textarea.entityIds);
+    console.log(textarea.entity);
+    */
+
     const span = document.createElement('span');
 
     // diffを適した値に変更する
     const calculatedDiff = 100 - (diff / 1000) * 100;
-    //console.log(entityId, i, value, diff, calculatedDiff);
 
     // calculatedDiffをグレースケールに適した値に変更する
     const hslValue = Math.max(Math.min(calculatedDiff, 99), 0);
@@ -78,7 +84,7 @@ const loop = () => {
 
 window.requestAnimationFrame(loop);
 
-// tabに関するコード
+// タブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
   let element = event.target;
   while (element.nodeName !== 'A') {
