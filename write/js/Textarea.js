@@ -30,6 +30,10 @@ class Textarea {
 
     this.onInput = this.onInput.bind(this);
 
+    // ウィンドウのサイズを変更したとき内容に合わせてテキストエリアのサイズを変更する
+    this.onResize = this.onResize.bind(this);
+    window.addEventListener('resize', this.onResize);
+
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
       this.el.addEventListener('input', this.onInput);
@@ -41,16 +45,20 @@ class Textarea {
     );
   }
 
+  onResize(e) {
+    if (this.autoResize) {
+      this.el.style.height = 'auto';
+      this.el.style.height = `${this.el.scrollHeight}px`;
+    }
+  }
+
   onInput(e) {
     const diff = Diff.diffChars(this.prevValue, this.el.value);
 
     let caretCoord = 0;
     let isntCounted = true;
 
-    if (this.autoResize) {
-      this.el.style.height = 'auto';
-      this.el.style.height = `${this.el.scrollHeight}px`;
-    }
+    this.onResize();
 
     diff.forEach((part, i) => {
       // 新しく挿入された文字列があるか
