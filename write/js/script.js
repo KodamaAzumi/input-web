@@ -1,13 +1,16 @@
 const textarea = new Photo('#js-textarea');
 const grayscale = document.querySelector('#js-output-grayscale');
 const imagePara = document.querySelector('#js-output-image');
+const scalePara = document.querySelector('#js-output-scale');
 
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
+  const fragmentScale = document.createDocumentFragment();
 
   grayscale.innerHTML = '';
   imagePara.innerHTML = '';
+  scalePara.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -29,8 +32,11 @@ const loop = () => {
       fragment.appendChild(br);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
+      const brScale = document.createElement('br');
+      fragmentScale.appendChild(brScale);
       grayscale.appendChild(fragment);
       imagePara.appendChild(fragmentImg);
+      scalePara.appendChild(fragmentScale);
       return;
     }
 
@@ -41,15 +47,13 @@ const loop = () => {
     console.log(textarea.entity);
     */
 
-    const span = document.createElement('span');
-
-    // diffを適した値に変更する
-    const calculatedDiff = 100 - (diff / 1000) * 100;
+    // diffを適した値に変更する(diffはミリ秒)
+    const calculatedDiff = (diff / 1000) * 100;
 
     // calculatedDiffをグレースケールに適した値に変更する
-    const hslValue = Math.max(Math.min(calculatedDiff, 99), 0);
-
+    const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
     // グレースケールに適応させる
+    const span = document.createElement('span');
     span.style.color = `hsl(0, 0%, ${hslValue}%)`;
     span.appendChild(document.createTextNode(value));
     fragment.appendChild(span);
@@ -75,10 +79,21 @@ const loop = () => {
     spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
+
+    // calculatedDiffをスケールに適した値に変更する
+    const scaleXValue = Math.max(Math.min(calculatedDiff / 10, 99), 0);
+    // 文字の長さ(scale)に適応させる
+    const spanScale = document.createElement('span');
+    spanScale.style.display = 'inline-block';
+    spanScale.style.transform = `scale(${scaleXValue}, 0.8)`;
+    spanScale.style.transformOrigin = 'left top';
+    spanScale.appendChild(document.createTextNode(value));
+    fragmentScale.appendChild(spanScale);
   });
 
   grayscale.appendChild(fragment);
   imagePara.appendChild(fragmentImg);
+  scalePara.appendChild(fragmentScale);
   window.requestAnimationFrame(loop);
 };
 
@@ -86,6 +101,8 @@ window.requestAnimationFrame(loop);
 
 // タブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
+  textarea.el.classList.remove('opacity-0');
+
   let element = event.target;
   while (element.nodeName !== 'A') {
     element = element.parentNode;
@@ -111,4 +128,8 @@ const changeAtiveTab = (event, tabID) => {
 
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
+};
+
+const textareaOff = () => {
+  textarea.el.classList.add('opacity-0');
 };
