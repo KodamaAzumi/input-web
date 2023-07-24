@@ -65,7 +65,7 @@ const loop = () => {
     //console.log(textarea.entity[entityId]);
     //console.log(textarea.entity[prevEntityId]);
 
-    // storageの画像を表示
+    // 写真と文字を合成する
     const spanImg = document.createElement('span');
     if (textarea.entity[entityId].imageData) {
       spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
@@ -96,28 +96,19 @@ const changeAtiveTab = (event, tabID) => {
     .getElementById('tabs-id')
     .querySelectorAll('.tab-content > div');
   for (let i = 0; i < aElements.length; i++) {
-    aElements[i].classList.remove('text-orange-400');
-    aElements[i].classList.remove('bg-white');
-    // border-2 border-orange-300
-    aElements[i].classList.remove('border-2');
-    aElements[i].classList.remove('border-orange-300');
-
-    aElements[i].classList.add('text-white');
-    aElements[i].classList.add('bg-orange-400');
-    // hover:bg-orange-300
-    aElements[i].classList.add('hover:bg-orange-300');
+    aElements[i].classList.remove('bg-gray-50');
+    aElements[i].classList.add('hover:bg-gray-50');
+    aElements[i].classList.add('underline');
+    aElements[i].classList.add('underline-offset-2');
 
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
   }
-  element.classList.remove('text-white');
-  element.classList.remove('bg-orange-400');
-  element.classList.remove('hover:bg-orange-300');
+  element.classList.remove('hover:bg-gray-50');
+  element.classList.remove('underline');
+  element.classList.remove('underline-offset-2');
+  element.classList.add('bg-gray-50');
 
-  element.classList.add('text-orange-400');
-  element.classList.add('bg-white');
-  element.classList.add('border-2');
-  element.classList.add('border-orange-300');
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
 };
