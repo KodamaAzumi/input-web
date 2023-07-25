@@ -215,7 +215,7 @@
           <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
             <a
               class="block text-sm sm:text-base font-bold leading-normal text-orange-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
-              onclick="changeAtiveTab(event,'tab-grayscale')"
+              onclick="changeAtiveTab(event, 'tab-grayscale')"
             >
               グレースケール
             </a>
@@ -223,17 +223,9 @@
           <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
             <a
               class="block text-sm sm:text-base font-bold leading-normal text-orange-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
-              onclick="changeAtiveTab(event,'tab-image')"
+              onclick="changeAtiveTab(event, 'tab-image')"
             >
               写真
-            </a>
-          </li>
-          <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
-            <a
-              class="block text-sm sm:text-base font-bold leading-normal text-orange-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
-              onclick="changeAtiveTab(event,'tab-scale'); textareaOff()"
-            >
-              文字の長さ
             </a>
           </li>
         </ul>
@@ -259,12 +251,6 @@
               <div
                 id="js-output-image"
                 class="absolute z-10 h-full w-full pointer-events-none"
-              ></div>
-            </div>
-            <div class="hidden" id="tab-scale">
-              <div
-                id="js-output-scale"
-                class="absolute z-10 h-full w-full pointer-events-none text-inherit"
               ></div>
             </div>
             <textarea
