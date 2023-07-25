@@ -28,6 +28,7 @@ class Photo extends Textarea {
       .getUserMedia({ video: true })
       .then((s) => {
         this.el.disabled = false;
+        this.el.focus();
         this.stream = s;
         this.video.srcObject = this.stream;
       })

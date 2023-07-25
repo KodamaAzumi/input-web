@@ -81,11 +81,11 @@ const loop = () => {
     fragmentImg.appendChild(spanImg);
 
     // calculatedDiffをスケールに適した値に変更する
-    const scaleXValue = Math.max(Math.min(calculatedDiff / 10, 99), 0);
+    const scaleXValue = Math.max(Math.min(calculatedDiff / 10, 100), 1);
     // 文字の長さ(scale)に適応させる
     const spanScale = document.createElement('span');
     spanScale.style.display = 'inline-block';
-    spanScale.style.transform = `scale(${scaleXValue}, 0.8)`;
+    spanScale.style.transform = `scale(${scaleXValue}, 1)`;
     spanScale.style.transformOrigin = 'left top';
     spanScale.appendChild(document.createTextNode(value));
     fragmentScale.appendChild(spanScale);
@@ -114,9 +114,11 @@ const changeAtiveTab = (event, tabID) => {
     .querySelectorAll('.tab-content > div');
   for (let i = 0; i < aElements.length; i++) {
     aElements[i].classList.remove('bg-gray-50');
+    aElements[i].classList.remove('cursor-default');
     aElements[i].classList.add('hover:bg-gray-50');
     aElements[i].classList.add('underline');
     aElements[i].classList.add('underline-offset-2');
+    aElements[i].classList.add('cursor-pointer');
 
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
@@ -124,7 +126,9 @@ const changeAtiveTab = (event, tabID) => {
   element.classList.remove('hover:bg-gray-50');
   element.classList.remove('underline');
   element.classList.remove('underline-offset-2');
+  element.classList.remove('cursor-pointer');
   element.classList.add('bg-gray-50');
+  element.classList.add('cursor-default');
 
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
