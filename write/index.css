@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#js-cameraBtn:hover #cameraBtn-tooltip {
+  @apply opacity-100 inline-block;
+}
