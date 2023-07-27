@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-#js-cameraBtn:hover #cameraBtn-tooltip {
+.toolBtn:hover .toolBtn-tooltip {
+  @apply opacity-100 inline-block;
+}
+
+.helpBtn:hover .helpBtn-tooltip {
   @apply opacity-100 inline-block;
 }
