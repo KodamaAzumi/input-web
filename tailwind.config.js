@@ -2,15 +2,19 @@
 
 module.exports = {
   content: [
-    "index.html",
-    "write/index.html",
-    "look/index.html",
-    "chat/index.html",
-    "explanation/index.html",
-    "./src/**/*.{js,jsx,ts,tsx,vue,html}",
+    'index.html',
+    'write/index.html',
+    'look/index.html',
+    'chat/index.html',
+    'explanation/index.html',
+    './src/**/*.{js,jsx,ts,tsx,vue,html}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '360px',
+      },
+    },
   },
   plugins: [],
 };

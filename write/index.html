@@ -7,14 +7,81 @@
     <title>書く | 名古屋造形大学卒展 | 鍜島スタジオ</title>
   </head>
   <body>
-    <div class="grid grid-cols-12 gap-4 sm:gap-8">
-      <!-- header -->
-      <header class="col-span-12 bg-white">
-        <nav
-          class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-          aria-label="Global"
+    <!-- header -->
+    <header class="bg-white">
+      <nav
+        class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div class="flex lg:flex-1">
+          <a href="/" class="-m-1.5 p-1.5">
+            <span class="sr-only">Your Company</span>
+            <img
+              class="h-8 w-auto"
+              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              alt=""
+            />
+          </a>
+        </div>
+        <div class="flex lg:hidden">
+          <button
+            id="header-menu-openBtn"
+            type="button"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="hidden lg:flex lg:gap-x-12">
+          <a
+            href="/write/index.html"
+            class="text-sm font-semibold leading-6 text-gray-900"
+            >書く</a
+          >
+          <a
+            href="/look/index.html"
+            class="text-sm font-semibold leading-6 text-gray-900"
+            >見る</a
+          >
+          <a
+            href="/chat/index.html"
+            class="text-sm font-semibold leading-6 text-gray-900"
+            >チャット</a
+          >
+          <a
+            href="/explanation/index.html"
+            class="text-sm font-semibold leading-6 text-gray-900"
+            >使い方</a
+          >
+        </div>
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+            >Log in <span aria-hidden="true">&rarr;</span></a
+          >
+        </div>
+      </nav>
+      <!-- Mobile menu, show/hide based on menu open state. -->
+      <div class="lg:hidden" role="dialog" aria-modal="true">
+        <!-- Background backdrop, show/hide based on slide-over state. -->
+        <div
+          id="header-menu"
+          class="fixed inset-y-0 right-0 z-10 w-full translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
         >
-          <div class="flex lg:flex-1">
+          <div class="flex items-center justify-between">
             <a href="/" class="-m-1.5 p-1.5">
               <span class="sr-only">Your Company</span>
               <img
@@ -23,14 +90,12 @@
                 alt=""
               />
             </a>
-          </div>
-          <div class="flex lg:hidden">
             <button
-              id="header-menu-openBtn"
+              id="header-menu-closeBtn"
               type="button"
-              class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              class="-m-2.5 rounded-md p-2.5 text-gray-700"
             >
-              <span class="sr-only">Open main menu</span>
+              <span class="sr-only">Close menu</span>
               <svg
                 class="h-6 w-6"
                 fill="none"
@@ -42,115 +107,50 @@
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
             </button>
           </div>
-          <div class="hidden lg:flex lg:gap-x-12">
-            <a
-              href="/write/index.html"
-              class="text-sm font-semibold leading-6 text-gray-900"
-              >書く</a
-            >
-            <a
-              href="/look/index.html"
-              class="text-sm font-semibold leading-6 text-gray-900"
-              >見る</a
-            >
-            <a
-              href="/chat/index.html"
-              class="text-sm font-semibold leading-6 text-gray-900"
-              >チャット</a
-            >
-            <a
-              href="/explanation/index.html"
-              class="text-sm font-semibold leading-6 text-gray-900"
-              >使い方</a
-            >
-          </div>
-          <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
-              >Log in <span aria-hidden="true">&rarr;</span></a
-            >
-          </div>
-        </nav>
-        <!-- Mobile menu, show/hide based on menu open state. -->
-        <div class="lg:hidden" role="dialog" aria-modal="true">
-          <!-- Background backdrop, show/hide based on slide-over state. -->
-          <div
-            id="header-menu"
-            class="fixed inset-y-0 right-0 z-10 w-full translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
-          >
-            <div class="flex items-center justify-between">
-              <a href="/" class="-m-1.5 p-1.5">
-                <span class="sr-only">Your Company</span>
-                <img
-                  class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
-              </a>
-              <button
-                id="header-menu-closeBtn"
-                type="button"
-                class="-m-2.5 rounded-md p-2.5 text-gray-700"
-              >
-                <span class="sr-only">Close menu</span>
-                <svg
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
+          <div class="mt-6 flow-root">
+            <div class="-my-6 divide-y divide-gray-500/10">
+              <div class="space-y-2 py-6">
+                <div class="-mx-3"></div>
+                <a
+                  href="/write/index.html"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >書く</a
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="mt-6 flow-root">
-              <div class="-my-6 divide-y divide-gray-500/10">
-                <div class="space-y-2 py-6">
-                  <div class="-mx-3"></div>
-                  <a
-                    href="/write/index.html"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >書く</a
-                  >
-                  <a
-                    href="/look/index.html"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >見る</a
-                  >
-                  <a
-                    href="/chat/index.html"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >チャット</a
-                  >
-                  <a
-                    href="/explanation/index.html"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >使い方</a
-                  >
-                </div>
-                <div class="py-6">
-                  <a
-                    href="#"
-                    class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >Log in</a
-                  >
-                </div>
+                <a
+                  href="/look/index.html"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >見る</a
+                >
+                <a
+                  href="/chat/index.html"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >チャット</a
+                >
+                <a
+                  href="/explanation/index.html"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >使い方</a
+                >
+              </div>
+              <div class="py-6">
+                <a
+                  href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >Log in</a
+                >
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
+    </header>
 
+    <div class="mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
       <!-- 写真を確認するためのビデオとプレビュー -->
       <div
         class="justify-between lg:col-start-4 col-start-2 col-span-10 lg:col-span-6 bg-pink-300 hidden"
@@ -169,66 +169,45 @@
 
       <!-- write -->
       <div
-        class="col-span-6 col-start-2 lg:col-span-4 lg:col-start-4 mt-3 sm:mt-0"
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-4 lg:col-start-4 lg:col-span-2"
       >
-        <h1 class="text-2xl font-bold">タイトル</h1>
-      </div>
+        <div class="flex justify-start items-center">
+          <button
+            class="toolBtn mr-6 relative flex justify-center rounded-md bg-orange-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            type="button"
+            id="js-cameraBtn"
+          >
+            <span
+              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
+              >カメラを起動して<br />
+              文章を書く
+            </span>
+            <span class="sr-only">camera on off</span>
+            <img src="/write/images/writeIcon.svg" alt="書くアイコン" />
+          </button>
 
-      <div
-        class="lg:mt-0 mt-3 col-span-4 col-start-8 lg:col-span-2 lg:col-start-8"
-      >
-        <div class="flex justify-end">
-          <a
-            href="#"
-            class="toolBtn relative mr-6 flex justify-center rounded-md bg-orange-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+          <button
+            class="helpBtn relative flex justify-center rounded-full bg-orange-400 px-3.5 py-3 text-xs font-bold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            type="button"
+            onclick="tooltipsOnOff(event)"
           >
+            ？
             <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
-              >書いた文章を見る
+              class="helpBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
+              >ヘルプをオンにする
             </span>
-            <span class="sr-only">go to look</span>
-            <img src="\write\images\paragraphIcon.svg" alt="文章アイコン" />
-          </a>
-          <a
-            href="#"
-            class="toolBtn relative flex justify-center rounded-md bg-orange-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-          >
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
-              >撮影した<br />
-              写真を見る
-            </span>
-            <span class="sr-only">go to timeline</span>
-            <img src="/write/images/clockIcon.svg" alt="タイムラインアイコン" />
-          </a>
+            <span class="sr-only">help on off</span>
+          </button>
         </div>
       </div>
 
       <div
-        class="col-span-2 lg:col-span-1 lg:col-start-4 col-start-2 flex items-center"
-      >
-        <button
-          class="toolBtn relative flex justify-center rounded-md bg-orange-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-          type="button"
-          id="js-cameraBtn"
-        >
-          <span
-            class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
-            >カメラを起動して<br />
-            文章を書く
-          </span>
-          <span class="sr-only">camera on off</span>
-          <img src="/write/images/writeIcon.svg" alt="書くアイコン" />
-        </button>
-      </div>
-
-      <div
-        class="col-start-4 col-span-8 sm:col-start-6 sm:col-span-6 lg:col-span-4 lg:col-start-6 flex items-center justify-end"
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 lg:col-span-4 lg:col-start-6 flex items-center sm:justify-end justify-start"
       >
         <ul class="mb-0 flex list-none flex-row flex-wrap">
           <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
             <a
-              class="relative block text-sm sm:text-base font-medium leading-normal text-orange-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
+              class="relative block text-sm font-medium leading-normal text-orange-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
               onclick="changeAtiveTab(event, 'tab-grayscale')"
             >
               グレースケール
@@ -241,7 +220,7 @@
           </li>
           <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
             <a
-              class="toolBtn relative block text-sm sm:text-base font-medium leading-normal text-orange-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+              class="toolBtn relative block text-sm font-medium leading-normal text-orange-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
               onclick="changeAtiveTab(event, 'tab-image')"
             >
               写真
@@ -288,24 +267,7 @@
       </div>
 
       <div
-        class="col-span-2 lg:col-span-1 lg:col-start-4 col-start-2 flex items-center"
-      >
-        <button
-          class="helpBtn relative flex justify-center rounded-full bg-orange-400 px-3.5 py-3 text-xs font-bold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-          type="button"
-          onclick="tooltipsOnOff(event)"
-        >
-          ？
-          <span
-            class="helpBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
-            >ヘルプをオンにする
-          </span>
-          <span class="sr-only">help on off</span>
-        </button>
-      </div>
-
-      <div
-        class="col-span-6 col-start-6 sm:col-span-4 sm:col-start-8 lg:col-span-3 lg:col-start-7"
+        class="col-start-2 col-span-10 xs:col-start-2 xs:col-span-5 sm:col-start-2 sm:col-span-4 lg:col-start-4 lg:col-span-3"
       >
         <div class="flex justify-start flex-wrap">
           <button
@@ -321,6 +283,36 @@
           >
             破棄
           </button>
+        </div>
+      </div>
+
+      <div
+        class="col-start-2 col-span-10 xs:col-start-7 xs:col-span-5 sm:col-start-9 sm:col-span-3 lg:col-start-7 lg:col-span-3"
+      >
+        <div class="flex justify-start xs:justify-end items-center">
+          <a
+            href="#"
+            class="toolBtn relative mr-6 flex justify-center rounded-md bg-orange-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+          >
+            <span
+              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
+              >書いた文章を見る
+            </span>
+            <span class="sr-only">go to look</span>
+            <img src="\write\images\paragraphIcon.svg" alt="文章アイコン" />
+          </a>
+          <a
+            href="#"
+            class="toolBtn relative flex justify-center rounded-md bg-orange-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+          >
+            <span
+              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-500 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-500"
+              >撮影した<br />
+              写真を見る
+            </span>
+            <span class="sr-only">go to timeline</span>
+            <img src="/write/images/clockIcon.svg" alt="タイムラインアイコン" />
+          </a>
         </div>
       </div>
 
