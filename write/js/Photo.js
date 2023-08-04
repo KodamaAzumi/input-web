@@ -11,6 +11,7 @@ class Photo extends Textarea {
     this.cameraButton = document.getElementById('js-cameraBtn');
     this.preview = document.getElementById('js-preview');
     this.stream = null;
+    this.saveButton = document.getElementById('js-saveBtn');
 
     // 書くボタン（カメラボタン）をクリックしたときの処理
     this.cameraButton.addEventListener('click', this.cameraFunctions);
@@ -20,6 +21,9 @@ class Photo extends Textarea {
     this.imageData = {};
 
     this.ee.on('added', this.onAdded);
+
+    // 保存ボタンをクリックしたとき
+    this.saveButton.addEventListener('click', this.onSaved);
   }
 
   // カメラを起動する関数
@@ -68,9 +72,7 @@ class Photo extends Textarea {
 
     // 写真を撮った時の時刻
     const now = new Date();
-    const hour = now.getHours();
-    const min = now.getMinutes();
-    const sec = now.getSeconds();
+    const timeString = now.toLocaleTimeString();
 
     if (this.stream) {
       // キャンバスにビデオ画像を描画する
@@ -91,10 +93,39 @@ class Photo extends Textarea {
       // 画像をオブジェクトに追加する
       this.imageData = {
         imageUrl,
+        timeString,
       };
 
       // entityにimageDataを追加
       this.entity[entityId].imageData = this.imageData;
+    }
+  };
+
+  onSaved = () => {
+    console.log('saveBtn clicked');
+    if (this.entityIds.length > 0) {
+      // 文章を書いた日付を取得する
+      const timestamp = this.entity.c0i0.timestamp;
+      const nowDate = new Date(timestamp);
+      const year = nowDate.getFullYear();
+      const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼロ埋め
+      const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
+      const formattedDate = `${year}-${month}-${day}`;
+
+      // 文章を新しく保存する
+      const entity = this.entity;
+      const entityIds = this.entityIds;
+      let textData = {
+        [formattedDate]: [
+          {
+            timestamp,
+            entity,
+            entityIds,
+          },
+        ],
+      };
+
+      console.log(textData);
     }
   };
 }
