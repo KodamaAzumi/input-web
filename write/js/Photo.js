@@ -112,20 +112,54 @@ class Photo extends Textarea {
       const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
       const formattedDate = `${year}-${month}-${day}`;
 
-      // 文章を新しく保存する
       const entity = this.entity;
       const entityIds = this.entityIds;
-      let textData = {
-        [formattedDate]: [
-          {
+
+      // ローカルデータを取得する
+      const textDataString = localStorage.getItem('textData');
+
+      // 文章を保存する
+      if (textDataString !== null) {
+        console.log('ローカルストレージにデータが保存されています');
+        let textData = JSON.parse(textDataString);
+        if (textData[formattedDate]) {
+          textData[formattedDate].push({
             timestamp,
             entity,
             entityIds,
-          },
-        ],
-      };
+          });
+          // オブジェクトを文字列に変換する
+          const textDataString = JSON.stringify(textData);
+          // データを保存する
+          localStorage.setItem('textData', textDataString);
 
-      console.log(textData);
+          // 保存されたデータを確認する
+          textData = JSON.parse(textDataString);
+          console.log(textData);
+        }
+      } else {
+        console.log('ローカルストレージにデータは保存されていません');
+        // 文章を保存するデータを新しく作る
+        let textData = {
+          [formattedDate]: [
+            {
+              timestamp,
+              entity,
+              entityIds,
+            },
+          ],
+        };
+        // オブジェクトを文字列に変換する
+        const textDataString = JSON.stringify(textData);
+        // データを保存する
+        localStorage.setItem('textData', textDataString);
+
+        // 保存されたデータを確認する
+        textData = JSON.parse(textDataString);
+        console.log(textData);
+      }
     }
   };
 }
+
+//localStorage.clear();
