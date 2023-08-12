@@ -127,3 +127,10 @@ const tooltipsOnOff = (event) => {
     });
   }
 };
+
+// モーダルを閉じる
+const saveModal = document.getElementById('saveBtn-modal');
+const modalCloseBtn = document.getElementById('saveBtn-modal-closeBtn');
+modalCloseBtn.addEventListener('click', () => {
+  saveModal.classList.add('hidden');
+});

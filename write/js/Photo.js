@@ -158,6 +158,10 @@ class Photo extends Textarea {
         textData = JSON.parse(textDataString);
         console.log(textData);
       }
+
+      // モーダルを表示する
+      const saveModal = document.getElementById('saveBtn-modal');
+      saveModal.classList.remove('hidden');
     }
   };
 }
