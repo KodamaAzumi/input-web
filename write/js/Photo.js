@@ -15,7 +15,7 @@ class Photo extends Textarea {
 
     // 書くボタン（カメラボタン）をクリックしたときの処理
     this.cameraButton.addEventListener('click', this.cameraFunctions);
-    this.isStartCameraActive = true;
+    this.isStartCameraActive = false;
 
     // 写真の情報を保持するオブジェクト
     this.imageData = {};
@@ -56,13 +56,13 @@ class Photo extends Textarea {
   // カメラのオンオフを切り替える関数
   cameraFunctions = () => {
     if (this.isStartCameraActive) {
-      this.startCamera();
-      this.isStartCameraActive = false;
-      console.log('camera true');
-    } else {
       this.stopCamera();
-      this.isStartCameraActive = true;
+      this.isStartCameraActive = false;
       console.log('camera false');
+    } else {
+      this.startCamera();
+      this.isStartCameraActive = true;
+      console.log('camera true');
     }
   };
 
@@ -103,6 +103,14 @@ class Photo extends Textarea {
 
   onSaved = () => {
     console.log('saveBtn clicked');
+
+    // カメラをオフにする
+    if (this.isStartCameraActive === true) {
+      this.stopCamera();
+      this.isStartCameraActive = false;
+      console.log('camera false');
+    }
+
     if (this.entityIds.length > 0) {
       // 文章を書いた日付を取得する
       const timestamp = this.entity.c0i0.timestamp;
@@ -159,10 +167,24 @@ class Photo extends Textarea {
         console.log(textData);
       }
 
+      // 保存した文章をリセットする
+      this.onCleared();
+
       // モーダルを表示する
       const saveModal = document.getElementById('saveBtn-modal');
       saveModal.classList.remove('hidden');
     }
+  };
+
+  onCleared = () => {
+    console.log('oncleared');
+    console.log(this.el);
+
+    // 保存した文章をリセットする
+    this.el.value = '';
+    this.count = 0;
+    this.entity = {};
+    this.entityIds = [];
   };
 }
 
