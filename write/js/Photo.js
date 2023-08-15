@@ -124,27 +124,38 @@ class Photo extends Textarea {
       const entityIds = this.entityIds;
 
       // ローカルデータを取得する
-      const textDataString = localStorage.getItem('textData');
+      let textDataString = localStorage.getItem('textData');
 
       // 文章を保存する
+      // ローカルストレージにデータがあるかどうか
       if (textDataString !== null) {
         console.log('ローカルストレージにデータが保存されています');
         let textData = JSON.parse(textDataString);
+        // 今日の日付のデータがあるかどうか
         if (textData[formattedDate]) {
           textData[formattedDate].push({
             timestamp,
             entity,
             entityIds,
           });
-          // オブジェクトを文字列に変換する
-          const textDataString = JSON.stringify(textData);
-          // データを保存する
-          localStorage.setItem('textData', textDataString);
-
-          // 保存されたデータを確認する
-          textData = JSON.parse(textDataString);
-          console.log(textData);
+        } else {
+          // 新しい日付のデータを作成する
+          textData[formattedDate] = [
+            {
+              timestamp,
+              entity,
+              entityIds,
+            },
+          ];
         }
+        // オブジェクトを文字列に変換する
+        textDataString = JSON.stringify(textData);
+        // データを保存する
+        localStorage.setItem('textData', textDataString);
+
+        // 保存されたデータを確認する
+        textData = JSON.parse(textDataString);
+        console.log(textData);
       } else {
         console.log('ローカルストレージにデータは保存されていません');
         // 文章を保存するデータを新しく作る
@@ -158,7 +169,7 @@ class Photo extends Textarea {
           ],
         };
         // オブジェクトを文字列に変換する
-        const textDataString = JSON.stringify(textData);
+        textDataString = JSON.stringify(textData);
         // データを保存する
         localStorage.setItem('textData', textDataString);
 
