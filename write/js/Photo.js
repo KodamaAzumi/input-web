@@ -130,6 +130,7 @@ class Photo extends Textarea {
       // ローカルストレージにデータがあるかどうか
       if (textDataString !== null) {
         console.log('ローカルストレージにデータが保存されています');
+        // 文字列をオブジェクトに変換する
         let textData = JSON.parse(textDataString);
         // 今日の日付のデータがあるかどうか
         if (textData[formattedDate]) {
