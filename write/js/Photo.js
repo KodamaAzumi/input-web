@@ -12,6 +12,7 @@ class Photo extends Textarea {
     this.preview = document.getElementById('js-preview');
     this.stream = null;
     this.saveButton = document.getElementById('js-saveBtn');
+    this.discardButton = document.getElementById('js-discardBtn');
 
     // 書くボタン（カメラボタン）をクリックしたときの処理
     this.cameraButton.addEventListener('click', this.cameraFunctions);
@@ -24,6 +25,9 @@ class Photo extends Textarea {
 
     // 保存ボタンをクリックしたとき
     this.saveButton.addEventListener('click', this.onSaved);
+
+    //破棄ボタンをクリックしたとき
+    this.discardButton.addEventListener('click', this.onCleared);
   }
 
   // カメラを起動する関数
@@ -190,7 +194,13 @@ class Photo extends Textarea {
 
   onCleared = () => {
     console.log('oncleared');
-    console.log(this.el);
+
+    // カメラをオフにする
+    if (this.isStartCameraActive === true) {
+      this.stopCamera();
+      this.isStartCameraActive = false;
+      console.log('camera false');
+    }
 
     // 保存した文章をリセットする
     this.el.value = '';
