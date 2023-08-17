@@ -112,3 +112,24 @@ const changeAtiveTab = (event, tabID) => {
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
 };
+
+// ヘルプのオンオフ
+const tooltipsOnOff = (event) => {
+  const tooltip = document.querySelectorAll('.toolBtn-tooltip');
+  const tooltipOff = document.querySelectorAll('.tooltipOff');
+  const helpTooltip = document.querySelector('.helpBtn-tooltip');
+
+  if (tooltip.length > 0) {
+    tooltip.forEach((tooltips) => {
+      tooltips.classList.remove('toolBtn-tooltip');
+      tooltips.classList.add('tooltipOff');
+      helpTooltip.innerHTML = 'ヘルプをオンにする';
+    });
+  } else if (tooltipOff.length > 0) {
+    tooltipOff.forEach((tooltipOffs) => {
+      tooltipOffs.classList.remove('tooltipOff');
+      tooltipOffs.classList.add('toolBtn-tooltip');
+      helpTooltip.innerHTML = 'ヘルプをオフにする';
+    });
+  }
+};
