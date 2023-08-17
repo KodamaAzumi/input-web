@@ -167,27 +167,53 @@
         />
       </div>
 
-      <!-- write -->
+      <!-- look -->
+      <!--
+      <div class="col-start-2 col-span-10 lg:col-start-4 lg:col-span-6">
+        <button
+          class="relative flex justify-center px-3.5 py-3 hover:bg-gray-50"
+          type="button"
+        >
+          <span
+            class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+            >書いた文章を<br />
+            画像として保存する
+          </span>
+          <span class="sr-only">download</span>
+          <img src="\look\images\arrowIcon.svg" alt="文章アイコン" />
+        </button>
+      </div>
+      -->
       <div
-        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-4 lg:col-start-4 lg:col-span-2"
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5 lg:col-start-4 lg:col-span-3"
       >
-        <div class="flex justify-start items-center">
-          <button
-            class="toolBtn mr-6 relative flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-            type="button"
-            id="js-cameraBtn"
+        <div class="flex justify-between xs:justify-start items-center">
+          <a
+            href="#"
+            class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
           >
             <span
               class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >カメラを起動して<br />
-              文章を書く
+              >撮影した<br />
+              写真を見る
             </span>
-            <span class="sr-only">camera on off</span>
-            <img src="/write/images/writeIcon.svg" alt="書くアイコン" />
-          </button>
-
+            <span class="sr-only">go to timeline</span>
+            <img src="/look/images/clockIcon.svg" alt="タイムラインアイコン" />
+          </a>
           <button
-            class="helpBtn relative flex justify-center rounded-full bg-yellow-400 px-3.5 py-3 text-xs font-bold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+            class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+            type="button"
+          >
+            <span
+              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+              >書いた文章を<br />
+              画像として保存する
+            </span>
+            <span class="sr-only">download</span>
+            <img src="\look\images\downloadIcon.svg" alt="文章アイコン" />
+          </button>
+          <button
+            class="helpBtn relative flex justify-center rounded-full bg-yellow-400 px-3.5 py-3 last:mr-0 text-xs font-bold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
             type="button"
             onclick="tooltipsOnOff(event)"
           >
@@ -202,9 +228,9 @@
       </div>
 
       <div
-        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 lg:col-span-4 lg:col-start-6 flex items-center sm:justify-end justify-start"
+        class="col-start-2 col-span-10 sm:col-start-7 sm:col-span-5 lg:col-start-7 lg:col-span-3 flex items-center sm:justify-end justify-start"
       >
-        <ul class="mb-0 flex list-none flex-row flex-wrap">
+        <ul class="mb-0 flex list-none flex-row flex-wrap items-center">
           <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
             <a
               class="relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
@@ -267,9 +293,29 @@
       </div>
 
       <div
-        class="col-start-2 col-span-10 xs:col-start-2 xs:col-span-5 sm:col-start-2 sm:col-span-4 lg:col-start-4 lg:col-span-3"
+        class="col-start-2 col-span-10 xs:col-start-2 xs:col-span-4 sm:col-start-2 sm:col-span-3 lg:col-start-4 lg:col-span-3"
       >
-        <div class="flex justify-start flex-wrap">
+        <div class="flex justify-start items-center">
+          <button
+            class="toolBtn mr-6 relative flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+            type="button"
+            id="js-cameraBtn"
+          >
+            <span
+              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+              >カメラを起動して<br />
+              文章を書く
+            </span>
+            <span class="sr-only">camera on off</span>
+            <img src="/shared/images/writeIcon.svg" alt="書くアイコン" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="col-start-2 col-span-10 xs:col-start-6 xs:col-span-6 sm:col-start-8 sm:col-span-4 lg:col-start-7 lg:col-span-3"
+      >
+        <div class="flex justify-start flex-wrap items-center">
           <button
             class="mr-6 flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
             type="button"
@@ -283,36 +329,6 @@
           >
             破棄
           </button>
-        </div>
-      </div>
-
-      <div
-        class="col-start-2 col-span-10 xs:col-start-7 xs:col-span-5 sm:col-start-9 sm:col-span-3 lg:col-start-7 lg:col-span-3"
-      >
-        <div class="flex justify-start xs:justify-end items-center">
-          <a
-            href="#"
-            class="toolBtn relative mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-          >
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >書いた文章を見る
-            </span>
-            <span class="sr-only">go to look</span>
-            <img src="\write\images\paragraphIcon.svg" alt="文章アイコン" />
-          </a>
-          <a
-            href="#"
-            class="toolBtn relative flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-          >
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >撮影した<br />
-              写真を見る
-            </span>
-            <span class="sr-only">go to timeline</span>
-            <img src="/write/images/clockIcon.svg" alt="タイムラインアイコン" />
-          </a>
         </div>
       </div>
     </div>
