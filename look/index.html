@@ -7,7 +7,7 @@
     <title>見る | 名古屋造形大学卒展 | 鍜島スタジオ</title>
   </head>
   <body>
-    <!-- header -->
+    <!-- Header -->
     <header class="bg-white">
       <nav
         class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -150,10 +150,11 @@
       </div>
     </header>
 
+    <!-- Look -->
     <div class="mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
       <!-- 写真を確認するためのビデオとプレビュー -->
       <div
-        class="justify-between lg:col-start-4 col-start-2 col-span-10 lg:col-span-6 bg-pink-300 hidden"
+        class="justify-between col-start-2 col-span-10 lg:col-start-4 lg:col-span-6 bg-pink-300 hidden"
       >
         <!-- video -->
         <video id="js-video" width="320" height="240" autoplay></video>
@@ -167,179 +168,211 @@
         />
       </div>
 
-      <!-- look -->
-      <!--
-      <div class="col-start-2 col-span-10 lg:col-start-4 lg:col-span-6">
+      <!-- Sidebar -->
+      <aside
+        class="hidden col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 md:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
+      >
+        <div class="col-start-2 col-span-3 lg:col-start-2 lg:col-span-2">
+          <ul>
+            <li
+              class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
+            >
+              ダミーテキスト
+            </li>
+            <li
+              class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
+            >
+              ダミーテキスト
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Sub Menu -->
+      <div class="col-start-2 col-span-10 md:hidden">
         <button
-          class="relative flex justify-center px-3.5 py-3 hover:bg-gray-50"
+          class="flex justify-center px-3.5 py-3 hover:bg-gray-50"
           type="button"
         >
-          <span
-            class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-            >書いた文章を<br />
-            画像として保存する
-          </span>
-          <span class="sr-only">download</span>
-          <img src="\look\images\arrowIcon.svg" alt="文章アイコン" />
+          <span class="sr-only">Open sidebar</span>
+          <img src="\look\images\arrowIcon.svg" alt="矢印アイコン" />
         </button>
       </div>
-      -->
-      <div
-        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5 lg:col-start-4 lg:col-span-3"
-      >
-        <div class="flex justify-between xs:justify-start items-center">
-          <a
-            href="#"
-            class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-          >
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >撮影した<br />
-              写真を見る
-            </span>
-            <span class="sr-only">go to timeline</span>
-            <img src="/look/images/clockIcon.svg" alt="タイムラインアイコン" />
-          </a>
-          <button
-            class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-            type="button"
-          >
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >書いた文章を<br />
-              画像として保存する
-            </span>
-            <span class="sr-only">download</span>
-            <img src="\look\images\downloadIcon.svg" alt="文章アイコン" />
-          </button>
-          <button
-            class="helpBtn relative flex justify-center rounded-full bg-yellow-400 px-3.5 py-3 last:mr-0 text-xs font-bold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-            type="button"
-            onclick="tooltipsOnOff(event)"
-          >
-            ？
-            <span
-              class="helpBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >ヘルプをオンにする
-            </span>
-            <span class="sr-only">help on off</span>
-          </button>
-        </div>
-      </div>
 
-      <div
-        class="col-start-2 col-span-10 sm:col-start-7 sm:col-span-5 lg:col-start-7 lg:col-span-3 flex items-center sm:justify-end justify-start"
-      >
-        <ul class="mb-0 flex list-none flex-row flex-wrap items-center">
-          <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
-            <a
-              class="relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
-              onclick="changeAtiveTab(event, 'tab-grayscale')"
-            >
-              グレースケール
-              <span
-                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-                >キーボード入力速度を<br />
-                グレースケールに適応させる
-              </span>
-            </a>
-          </li>
-          <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
-            <a
-              class="toolBtn relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
-              onclick="changeAtiveTab(event, 'tab-image')"
-            >
-              写真
-              <span
-                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-                >写真と文字を合成する
-              </span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- tabs -->
-      <div
-        class="lg:col-start-4 col-start-2 col-span-10 lg:col-span-6"
-        id="tabs-id"
+      <!-- Main -->
+      <main
+        class="col-start-1 col-span-12 md:col-start-5 md:col-span-8 lg:col-start-4 lg:col-span-9 grid grid-cols-12 gap-4 md:grid-cols-8 lg:grid-cols-9 sm:gap-8"
       >
         <div
-          class="break-words text-xl lg:text-2xl leading-normal px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
-          id="js-tabarea"
+          class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-3"
         >
-          <div class="tab-content tab-space relative w-full h-full">
-            <div class="block" id="tab-grayscale">
-              <div
-                id="js-output-grayscale"
-                class="absolute z-10 h-full w-full pointer-events-none tracking-wider"
-              ></div>
-            </div>
-            <div class="hidden" id="tab-image">
-              <div
-                id="js-output-image"
-                class="absolute z-10 h-full w-full pointer-events-none tracking-wider"
-              ></div>
-            </div>
-            <textarea
-              id="js-textarea"
-              class="h-auto w-full bg-transparent overflow-hidden focus:outline-none resize-none tracking-wider"
-              type="text"
-              rows="10"
-              disabled
-            ></textarea>
+          <div class="flex justify-between xs:justify-start items-center">
+            <!-- Timeline Button -->
+            <a
+              href="#"
+              class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+            >
+              <span
+                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >撮影した<br />
+                写真を見る
+              </span>
+              <span class="sr-only">go to timeline</span>
+              <img
+                src="/look/images/clockIcon.svg"
+                alt="タイムラインアイコン"
+              />
+            </a>
+            <!-- Download Button -->
+            <button
+              class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              type="button"
+            >
+              <span
+                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >書いた文章を<br />
+                画像として保存する
+              </span>
+              <span class="sr-only">download</span>
+              <img
+                src="\look\images\downloadIcon.svg"
+                alt="ダウンロードアイコン"
+              />
+            </button>
+            <!-- Help Button -->
+            <button
+              class="helpBtn relative flex justify-center rounded-full bg-yellow-400 px-3.5 py-3 last:mr-0 text-xs font-bold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              type="button"
+              onclick="tooltipsOnOff(event)"
+            >
+              ？
+              <span
+                class="helpBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >ヘルプをオンにする
+              </span>
+              <span class="sr-only">help on off</span>
+            </button>
           </div>
         </div>
-      </div>
 
-      <div
-        class="col-start-2 col-span-10 xs:col-start-2 xs:col-span-4 sm:col-start-2 sm:col-span-3 lg:col-start-4 lg:col-span-3"
-      >
-        <div class="flex justify-start items-center">
-          <button
-            class="toolBtn mr-6 relative flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-            type="button"
-            id="js-cameraBtn"
-          >
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >カメラを起動して<br />
-              文章を編集する
-            </span>
-            <span class="sr-only">camera on off</span>
-            <img src="/shared/images/writeIcon.svg" alt="書くアイコン" />
-          </button>
+        <!-- 文章に適応させる要素 -->
+        <div
+          class="col-start-2 col-span-10 sm:col-start-7 sm:col-span-5 md:col-start-1 md:col-span-7 lg:col-start-4 lg:col-span-3 flex items-center sm:justify-end md:justify-start lg:justify-end"
+        >
+          <ul class="mb-0 flex list-none flex-row flex-wrap items-center">
+            <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+              <a
+                class="relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
+                onclick="changeAtiveTab(event, 'tab-grayscale')"
+              >
+                グレースケール
+                <span
+                  class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                  >キーボード入力速度を<br />
+                  グレースケールに適応させる
+                </span>
+              </a>
+            </li>
+            <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+              <a
+                class="toolBtn relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+                onclick="changeAtiveTab(event, 'tab-image')"
+              >
+                写真
+                <span
+                  class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                  >写真と文字を合成する
+                </span>
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
 
-      <div
-        class="col-start-2 col-span-10 xs:col-start-6 xs:col-span-6 sm:col-start-8 sm:col-span-4 lg:col-start-7 lg:col-span-3"
-      >
-        <div class="flex justify-end flex-wrap">
-          <button
-            class="toolBtn mr-6 relative flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-            type="button"
-            id="js-discardBtn"
+        <!-- Tabs Textarea -->
+        <div
+          class="col-start-2 col-span-10 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-6"
+          id="tabs-id"
+        >
+          <div
+            class="break-words text-xl lg:text-2xl leading-normal px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
+            id="js-tabarea"
           >
-            破棄
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >文章の内容を破棄
-            </span>
-          </button>
-          <button
-            class="toolBtn relative flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-            type="button"
-            id="js-saveBtn"
-          >
-            保存
-            <span
-              class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-              >文章の内容を保存
-            </span>
-          </button>
+            <div class="tab-content tab-space relative w-full h-full">
+              <div class="block" id="tab-grayscale">
+                <div
+                  id="js-output-grayscale"
+                  class="absolute z-10 h-full w-full pointer-events-none tracking-wider"
+                ></div>
+              </div>
+              <div class="hidden" id="tab-image">
+                <div
+                  id="js-output-image"
+                  class="absolute z-10 h-full w-full pointer-events-none tracking-wider"
+                ></div>
+              </div>
+              <textarea
+                id="js-textarea"
+                class="h-auto w-full bg-transparent overflow-hidden focus:outline-none resize-none tracking-wider"
+                type="text"
+                rows="10"
+                disabled
+              ></textarea>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <div
+          class="col-start-2 col-span-10 xs:col-start-2 xs:col-span-4 sm:col-start-2 sm:col-span-3 md:col-start-1 md:col-span-3 lg:col-start-1 lg:col-span-3"
+        >
+          <div class="flex justify-start items-center">
+            <!-- Write Button -->
+            <button
+              class="toolBtn mr-6 relative flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              type="button"
+              id="js-cameraBtn"
+            >
+              <span
+                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >カメラを起動して<br />
+                文章を編集する
+              </span>
+              <span class="sr-only">camera on off</span>
+              <img src="/shared/images/writeIcon.svg" alt="書くアイコン" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="col-start-2 col-span-10 xs:col-start-6 xs:col-span-6 sm:col-start-8 sm:col-span-4 md:col-start-4 lg:col-start-4 lg:col-span-3"
+        >
+          <div class="flex justify-end flex-wrap">
+            <!-- Discard Button -->
+            <button
+              class="toolBtn mr-6 relative flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              type="button"
+              id="js-discardBtn"
+            >
+              破棄
+              <span
+                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >文章の内容を破棄
+              </span>
+            </button>
+            <!-- Save Button -->
+            <button
+              class="toolBtn relative flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              type="button"
+              id="js-saveBtn"
+            >
+              保存
+              <span
+                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >文章の内容を保存
+              </span>
+            </button>
+          </div>
+        </div>
+      </main>
     </div>
 
     <!--Save Pop-up Modal -->
@@ -387,7 +420,7 @@
       </div>
     </div>
 
-    <!-- footer -->
+    <!-- Footer -->
     <footer class="bg-white rounded-lg shadow m-4">
       <div
         class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
