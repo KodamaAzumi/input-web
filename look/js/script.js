@@ -212,16 +212,21 @@ const submenuOpenBtn = document.getElementById('submenu-openButton');
 const submenuCloseBtn = document.getElementById('submenu-closeBtn');
 const submenu = document.getElementById('submenu');
 
+// オーバーレイを出す
+const overlay = document.getElementById('js-overlay');
+
 // サブメニューを開く
 submenuOpenBtn.addEventListener('click', () => {
   submenu.classList.remove('-translate-x-full');
   submenu.classList.add('-translate-x-0');
+  overlay.classList.remove('hidden');
 });
 
 // サブメニューを閉じる
 submenuCloseBtn.addEventListener('click', () => {
   submenu.classList.remove('-translate-x-0');
   submenu.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
 });
 
 //localStorage.clear();
