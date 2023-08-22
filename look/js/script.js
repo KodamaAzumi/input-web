@@ -14,6 +14,65 @@ const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼ
 const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
 const formattedDate = `${year}-${month}-${day}`;
 
+// その日に書かれた日記の数だけリストを作る
+for (let i = textData[formattedDate].length - 1; i >= 0; i--) {
+  const targetList = document.getElementById('sidebar-list');
+
+  // 日記が書かれた時間を取得する
+  const atTheTime = new Date(textData[formattedDate][i].timestamp);
+  const hours = atTheTime.getHours().toString().padStart(2, '0');
+  const minutes = atTheTime.getMinutes().toString().padStart(2, '0');
+  const seconds = atTheTime.getSeconds().toString().padStart(2, '0');
+
+  if (i === textData[formattedDate].length - 1) {
+    // タイトルを付ける（その日の日付）
+    const sidebarDate = document.getElementById('sidebar-date');
+    sidebarDate.innerHTML = formattedDate;
+
+    // ページを開いたとき、初めに表示する日記の時間
+    const newListItemTemplate = `  
+    <li  
+      class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
+      onclick="changeAtivePara(event, ${i})"
+    >
+      ${hours}:${minutes}:${seconds}
+    </li>`;
+
+    const newListItem = document.createElement('li');
+    newListItem.innerHTML = newListItemTemplate;
+    targetList.appendChild(newListItem);
+  } else {
+    const newListItemTemplate = `<li
+                      class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
+                      onclick="changeAtivePara(event, ${i})"
+                    >
+                      ${hours}:${minutes}:${seconds}
+                    </li>`;
+    const newListItem = document.createElement('li');
+    newListItem.innerHTML = newListItemTemplate;
+    targetList.appendChild(newListItem);
+  }
+}
+
+// 最初に表示する日記
+let index = textData[formattedDate].length - 1;
+// サブメニューを押したとき
+const changeAtivePara = (event, num) => {
+  // 日記の内容を切り替える
+  index = num;
+
+  // サイドバーの見た目を変える
+  let targetElement = event.target;
+  let ulElement = document.getElementById('sidebar-list');
+  let liElements = ulElement.querySelectorAll('li');
+  for (let i = 0; i < liElements.length; i++) {
+    liElements[i].classList.remove('bg-yellow-50');
+    liElements[i].classList.add('hover:bg-yellow-50');
+  }
+  targetElement.classList.remove('hover:bg-yellow-50');
+  targetElement.classList.add('bg-yellow-50');
+};
+
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
@@ -21,18 +80,20 @@ const loop = () => {
   grayscale.innerHTML = '';
   imagePara.innerHTML = '';
 
-  textData[formattedDate][0].entityIds.forEach((entityId, i) => {
+  textData[formattedDate][index].entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
-    const { timestamp, value } = textData[formattedDate][0].entity[entityId];
+    const { timestamp, value } =
+      textData[formattedDate][index].entity[entityId];
     // ひとつ前の ID を取得する
-    const prevEntityId = textData[formattedDate][0].entityIds[i - 1];
+    const prevEntityId = textData[formattedDate][index].entityIds[i - 1];
     // ひとつ前の文字情報との時差
     let diff = 0;
 
     // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
     if (prevEntityId) {
       diff =
-        timestamp - textData[formattedDate][0].entity[prevEntityId].timestamp;
+        timestamp -
+        textData[formattedDate][index].entity[prevEntityId].timestamp;
     }
 
     // 入力された文字が改行コードか
@@ -61,8 +122,8 @@ const loop = () => {
 
     // 写真と文字を合成する
     const spanImg = document.createElement('span');
-    if (textData[formattedDate][0].entity[entityId].imageData) {
-      spanImg.style.backgroundImage = `url(${textData[formattedDate][0].entity[entityId].imageData.imageUrl})`;
+    if (textData[formattedDate][index].entity[entityId].imageData) {
+      spanImg.style.backgroundImage = `url(${textData[formattedDate][index].entity[entityId].imageData.imageUrl})`;
     }
     spanImg.style.backgroundClip = 'text';
     spanImg.style.webkitBackgroundClip = 'text';
