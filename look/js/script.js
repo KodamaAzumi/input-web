@@ -14,63 +14,71 @@ const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼ
 const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
 const formattedDate = `${year}-${month}-${day}`;
 
-// その日に書かれた日記の数だけリストを作る
-for (let i = textData[formattedDate].length - 1; i >= 0; i--) {
-  const targetList = document.getElementById('sidebar-list');
+if (textData && textData[formattedDate]) {
+  // その日に書かれた日記の数だけリストを作る
+  for (let i = textData[formattedDate].length - 1; i >= 0; i--) {
+    // 日記が書かれた時間を取得する
+    const atTheTime = new Date(textData[formattedDate][i].timestamp);
+    const hours = atTheTime.getHours().toString().padStart(2, '0');
+    const minutes = atTheTime.getMinutes().toString().padStart(2, '0');
+    const seconds = atTheTime.getSeconds().toString().padStart(2, '0');
 
-  // 日記が書かれた時間を取得する
-  const atTheTime = new Date(textData[formattedDate][i].timestamp);
-  const hours = atTheTime.getHours().toString().padStart(2, '0');
-  const minutes = atTheTime.getMinutes().toString().padStart(2, '0');
-  const seconds = atTheTime.getSeconds().toString().padStart(2, '0');
+    const targetList = document.querySelectorAll('.sidebar-list');
+    targetList.forEach((targetLists) => {
+      if (i === textData[formattedDate].length - 1) {
+        // タイトルを付ける（その日の日付）
+        const sidebarDate = document.querySelectorAll('.sidebar-date');
+        sidebarDate.forEach((sidebarDates) => {
+          sidebarDates.innerHTML = formattedDate;
+        });
 
-  if (i === textData[formattedDate].length - 1) {
-    // タイトルを付ける（その日の日付）
-    const sidebarDate = document.getElementById('sidebar-date');
-    sidebarDate.innerHTML = formattedDate;
-
-    // ページを開いたとき、初めに表示する日記の時間
-    const newListItemTemplate = `  
-    <li  
-      class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
-      onclick="changeAtivePara(event, ${i})"
-    >
-      ${hours}:${minutes}:${seconds}
-    </li>`;
-
-    const newListItem = document.createElement('li');
-    newListItem.innerHTML = newListItemTemplate;
-    targetList.appendChild(newListItem);
-  } else {
-    const newListItemTemplate = `<li
+        // ページを開いたとき、初めに表示する日記の時間
+        const newListItemTemplate = `  
+          <li  
+            class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
+            onclick="changeAtivePara(event, ${i})"
+          >
+            ${hours}:${minutes}:${seconds}
+          </li>`;
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        targetLists.appendChild(newListItem);
+      } else {
+        const newListItemTemplate = `<li
                       class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
                       onclick="changeAtivePara(event, ${i})"
                     >
                       ${hours}:${minutes}:${seconds}
                     </li>`;
-    const newListItem = document.createElement('li');
-    newListItem.innerHTML = newListItemTemplate;
-    targetList.appendChild(newListItem);
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        targetLists.appendChild(newListItem);
+      }
+    });
   }
 }
 
-// 最初に表示する日記
-let index = textData[formattedDate].length - 1;
+let index;
 // サブメニューを押したとき
 const changeAtivePara = (event, num) => {
   // 日記の内容を切り替える
   index = num;
 
   // サイドバーの見た目を変える
-  let targetElement = event.target;
-  let ulElement = document.getElementById('sidebar-list');
-  let liElements = ulElement.querySelectorAll('li');
-  for (let i = 0; i < liElements.length; i++) {
-    liElements[i].classList.remove('bg-yellow-50');
-    liElements[i].classList.add('hover:bg-yellow-50');
-  }
-  targetElement.classList.remove('hover:bg-yellow-50');
-  targetElement.classList.add('bg-yellow-50');
+  const ulElements = document.querySelectorAll('.sidebar-list');
+  ulElements.forEach((ulElement) => {
+    const liElements = ulElement.querySelectorAll('li');
+    liElements.forEach((liElement) => {
+      liElement.classList.remove('bg-yellow-50');
+      liElement.classList.add('hover:bg-yellow-50');
+    });
+
+    const targetElement = liElements[textData[formattedDate].length - 1 - num];
+    targetElement.classList.remove('hover:bg-yellow-50');
+    targetElement.classList.add('bg-yellow-50');
+  });
 };
 
 const loop = () => {
@@ -137,7 +145,11 @@ const loop = () => {
   window.requestAnimationFrame(loop);
 };
 
-window.requestAnimationFrame(loop);
+// 最初に表示する日記
+if (textData && textData[formattedDate]) {
+  index = textData[formattedDate].length - 1;
+  window.requestAnimationFrame(loop);
+}
 
 // タブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
@@ -194,3 +206,22 @@ const tooltipsOnOff = (event) => {
     });
   }
 };
+
+// ボタンを押したときサイドメニュー（サイドバー）を出す
+const submenuOpenBtn = document.getElementById('submenu-openButton');
+const submenuCloseBtn = document.getElementById('submenu-closeBtn');
+const submenu = document.getElementById('submenu');
+
+// サブメニューを開く
+submenuOpenBtn.addEventListener('click', () => {
+  submenu.classList.remove('-translate-x-full');
+  submenu.classList.add('-translate-x-0');
+});
+
+// サブメニューを閉じる
+submenuCloseBtn.addEventListener('click', () => {
+  submenu.classList.remove('-translate-x-0');
+  submenu.classList.add('-translate-x-full');
+});
+
+//localStorage.clear();

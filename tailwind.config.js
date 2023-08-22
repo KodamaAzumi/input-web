@@ -5,6 +5,7 @@ module.exports = {
     'index.html',
     'write/index.html',
     'look/index.html',
+    'look/js/script.js',
     'chat/index.html',
     'explanation/index.html',
     './src/**/*.{js,jsx,ts,tsx,vue,html}',
