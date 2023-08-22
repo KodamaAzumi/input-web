@@ -79,6 +79,11 @@ const changeAtivePara = (event, num) => {
     targetElement.classList.remove('hover:bg-yellow-50');
     targetElement.classList.add('bg-yellow-50');
   });
+
+  // サブメニューを閉じる
+  submenu.classList.remove('-translate-x-0');
+  submenu.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
 };
 
 const loop = () => {
