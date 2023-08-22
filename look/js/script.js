@@ -218,7 +218,7 @@ const submenuCloseBtn = document.getElementById('submenu-closeBtn');
 const submenu = document.getElementById('submenu');
 
 // オーバーレイを出す
-const overlay = document.getElementById('js-overlay');
+const overlay = document.getElementById('submenu-overlay');
 
 // サブメニューを開く
 submenuOpenBtn.addEventListener('click', () => {
@@ -229,6 +229,12 @@ submenuOpenBtn.addEventListener('click', () => {
 
 // サブメニューを閉じる
 submenuCloseBtn.addEventListener('click', () => {
+  submenu.classList.remove('-translate-x-0');
+  submenu.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
+});
+// windowサイズが変わったときもサブメニューを閉じる
+window.addEventListener('resize', () => {
   submenu.classList.remove('-translate-x-0');
   submenu.classList.add('-translate-x-full');
   overlay.classList.add('hidden');

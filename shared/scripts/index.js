@@ -19,3 +19,10 @@ headerCloseBtn.addEventListener('click', () => {
   headerMenu.classList.add('translate-x-full');
   overlay.classList.add('hidden');
 });
+
+// ウィンドウサイズ変更したときもヘッダーのメニューを閉じる
+window.addEventListener('resize', () => {
+  headerMenu.classList.remove('translate-x-0');
+  headerMenu.classList.add('translate-x-full');
+  overlay.classList.add('hidden');
+});
