@@ -76,7 +76,10 @@ class Photo extends Textarea {
 
     // 写真を撮った時の時刻
     const now = new Date();
-    const timeString = now.toLocaleTimeString();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
 
     if (this.stream) {
       // キャンバスにビデオ画像を描画する
