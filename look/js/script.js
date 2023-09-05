@@ -7,6 +7,12 @@ console.log(textData);
 const grayscale = document.querySelector('#js-output-grayscale');
 const imagePara = document.querySelector('#js-output-image');
 
+// データがないときはタイムラインに飛ばないようにする
+const timelineBtn = document.getElementById('js-timelineBtn');
+const timelineBtnHandler = (e) => {
+  e.preventDefault();
+};
+
 // 今日の日付
 const nowDate = new Date();
 const year = nowDate.getFullYear();
@@ -66,6 +72,11 @@ if (textData && textData[formattedDate]) {
       }
     });
   }
+
+  // タイムラインページに飛べるようにする
+  timelineBtn.removeEventListener('click', timelineBtnHandler);
+} else {
+  timelineBtn.addEventListener('click', timelineBtnHandler);
 }
 
 let index;
