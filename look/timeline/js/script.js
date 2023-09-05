@@ -14,13 +14,24 @@ const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
 const formattedDate = `${year}-${month}-${day}`;
 
 if (textData && textData[formattedDate]) {
-  const entityIds = textData[formattedDate][0].entityIds;
+  const length = textData[formattedDate].length;
+  // パラグラフページで何も切り替えない場合、最新の日記のタイムラインを表示する
+  let index = length - 1;
+  // パラグラフページで表示する日記を切り替えた場合、切り替えた日記のタイムラインを表示する
+  const savedNum = localStorage.getItem('savedNumber');
+  if (savedNum) {
+    const num = parseInt(savedNum);
+    index = num;
+  }
+
+  // タイムラインを表示する
+  const entityIds = textData[formattedDate][index].entityIds;
   entityIds.forEach((entityId) => {
     const timeStamp =
-      textData[formattedDate][0].entity[entityId].imageData.timeString;
+      textData[formattedDate][index].entity[entityId].imageData.timeString;
     const imgUrl =
-      textData[formattedDate][0].entity[entityId].imageData.imageUrl;
-    const value = textData[formattedDate][0].entity[entityId].value;
+      textData[formattedDate][index].entity[entityId].imageData.imageUrl;
+    const value = textData[formattedDate][index].entity[entityId].value;
 
     const newListItemTemplate = `
         <li>

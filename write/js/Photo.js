@@ -164,6 +164,10 @@ class Photo extends Textarea {
         // 保存されたデータを確認する
         textData = JSON.parse(textDataString);
         console.log(textData);
+
+        // 新しく文章を保存したときは、見るページで最初に表示する文章を最新の文章にする
+        const savedNum = textData[formattedDate].length - 1;
+        localStorage.setItem('savedNumber', savedNum);
       } else {
         console.log('ローカルストレージにデータは保存されていません');
         // 文章を保存するデータを新しく作る

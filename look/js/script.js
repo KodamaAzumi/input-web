@@ -14,7 +14,17 @@ const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼ
 const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
 const formattedDate = `${year}-${month}-${day}`;
 
+// 最後に表示していた日記のインデックス
+const savedNum = localStorage.getItem('savedNumber');
+const parsedNum = parseInt(savedNum);
+
 if (textData && textData[formattedDate]) {
+  // タイトルを付ける（その日の日付）
+  const sidebarDate = document.querySelectorAll('.sidebar-date');
+  sidebarDate.forEach((sidebarDates) => {
+    sidebarDates.innerHTML = formattedDate;
+  });
+
   // その日に書かれた日記の数だけリストを作る
   for (let i = textData[formattedDate].length - 1; i >= 0; i--) {
     // 日記が書かれた時間を取得する
@@ -25,14 +35,12 @@ if (textData && textData[formattedDate]) {
 
     const targetList = document.querySelectorAll('.sidebar-list');
     targetList.forEach((targetLists) => {
-      if (i === textData[formattedDate].length - 1) {
-        // タイトルを付ける（その日の日付）
-        const sidebarDate = document.querySelectorAll('.sidebar-date');
-        sidebarDate.forEach((sidebarDates) => {
-          sidebarDates.innerHTML = formattedDate;
-        });
-
-        // ページを開いたとき、初めに表示する日記の時間
+      if (
+        // 最後に表示されていた日記を再度ページを開いたときに表示する
+        (!savedNum && i === textData[formattedDate].length - 1) ||
+        (savedNum && i === parsedNum)
+      ) {
+        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
         const newListItemTemplate = `  
           <li  
             class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
@@ -65,6 +73,9 @@ let index;
 const changeAtivePara = (event, num) => {
   // 日記の内容を切り替える
   index = num;
+
+  // タイムラインを表示できるように番号を保存する
+  localStorage.setItem('savedNumber', num);
 
   // サイドバーの見た目を変える
   const ulElements = document.querySelectorAll('.sidebar-list');
@@ -152,7 +163,14 @@ const loop = () => {
 
 // 最初に表示する日記
 if (textData && textData[formattedDate]) {
-  index = textData[formattedDate].length - 1;
+  // 最後に表示した日記を表示する
+  if (savedNum) {
+    index = parsedNum;
+    console.log(index);
+  } else {
+    // 一番初めは最新の日記を表示する
+    index = textData[formattedDate].length - 1;
+  }
   window.requestAnimationFrame(loop);
 }
 
