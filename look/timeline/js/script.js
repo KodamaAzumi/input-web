@@ -34,10 +34,11 @@ if (textData && textData[formattedDate]) {
     const value = textData[formattedDate][index].entity[entityId].value;
 
     const newListItemTemplate = `
-        <li>
-            <p>${timeStamp}</p>
-            <p>${value}</p>
-            <img src="${imgUrl}">
+        <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
+          <div class="absolute w-4 h-4 bg-orange-400 rounded-full mt-1 -left-2 border border-white"></div>
+          <time class="text-lg font-normal leading-none text-gray-600">${formattedDate} ${timeStamp}</time>
+          <h3 class="my-2 text-3xl font-semibold text-gray-900">${value}</h3>
+          <img src="${imgUrl}">
         </li>
     `;
     const newListItem = document

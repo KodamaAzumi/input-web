@@ -7,6 +7,7 @@ module.exports = {
     'look/index.html',
     'look/js/script.js',
     'look/timeline/index.html',
+    'look/timeline/js/script.js',
     'chat/index.html',
     'explanation/index.html',
     './src/**/*.{js,jsx,ts,tsx,vue,html}',

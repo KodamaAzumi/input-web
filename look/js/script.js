@@ -7,7 +7,7 @@ console.log(textData);
 const grayscale = document.querySelector('#js-output-grayscale');
 const imagePara = document.querySelector('#js-output-image');
 
-// データがないときはタイムラインに飛ばないようにする
+// 文章を書いていないときはタイムラインに飛ばないようにする
 const timelineBtn = document.getElementById('js-timelineBtn');
 const timelineBtnHandler = (e) => {
   e.preventDefault();
