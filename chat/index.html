@@ -156,16 +156,50 @@
       </div>
     </header>
 
-    <!-- Footer -->
-    <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+    <!-- Chat -->
+    <div class="mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+      <!-- Main -->
+
+      <!-- Textarea -->
       <div
-        class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
+        class="bg-blue-300 h-fit col-start-2 col-span-10 md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6"
       >
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
+        <div class="bg-red-300 p-3 h-[31rem] mb-28 flex items-end">
+          <div
+            class="bg-green-300 overflow-y-auto p-2.5 w-full h-auto max-h-full z-30"
+            id="chat-messages"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div
+      class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-40 md:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
+    >
+      <div class="flex justify-between items-center mb-2 mx-3">
+        <input
+          class="block w-full py-2 pl-4 mr-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+          type="text"
+          id="message-input"
+          placeholder="メッセージを入力"
+        />
+
+        <button
+          class="w-20 h-10 rounded-md bg-sky-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+          id="send-button"
+        >
+          送信
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-between items-center mx-3 py-2">
+        <span class="text-sm text-gray-500"
           >Copyright©Kodama Azumi All Rights Reserved.
         </span>
         <ul
-          class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0"
+          class="flex flex-wrap items-center md:mt-0 text-sm font-medium text-gray-500"
         >
           <li>
             <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
@@ -187,8 +221,9 @@
           </li>
         </ul>
       </div>
-    </footer>
+    </div>
 
-    <script type="module" src="./main.js"></script>
+    <script type="module" src="./js/main.js"></script>
+    <script src="./js/script.js"></script>
   </body>
 </html>
