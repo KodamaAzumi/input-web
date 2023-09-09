@@ -13,27 +13,36 @@ const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼ
 const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
 const formattedDate = `${year}-${month}-${day}`;
 
+// 最後に表示していた日記のインデックス
+const savedNum = localStorage.getItem('savedNumber');
+const parsedNum = parseInt(savedNum);
+
+let index;
+
+// タイムラインを表示する
 if (textData && textData[formattedDate]) {
   const length = textData[formattedDate].length;
-  // パラグラフページで何も切り替えない場合、最新の日記のタイムラインを表示する
-  let index = length - 1;
-  // パラグラフページで表示する日記を切り替えた場合、切り替えた日記のタイムラインを表示する
-  const savedNum = localStorage.getItem('savedNumber');
-  if (savedNum) {
-    const num = parseInt(savedNum);
-    index = num;
-  }
 
-  // タイムラインを表示する
-  const entityIds = textData[formattedDate][index].entityIds;
-  entityIds.forEach((entityId) => {
-    const timeStamp =
-      textData[formattedDate][index].entity[entityId].imageData.timeString;
-    const imgUrl =
-      textData[formattedDate][index].entity[entityId].imageData.imageUrl;
-    const value = textData[formattedDate][index].entity[entityId].value;
+  // 全てのタイムラインを作る
+  for (let i = 0; i < length; i++) {
+    const newOrderedList = document.createElement('ol');
+    newOrderedList.classList.add(
+      'relative',
+      'border-l',
+      'border-orange-400',
+      'hidden'
+    );
+    newOrderedList.id = `orderedList_${i}`;
 
-    const newListItemTemplate = `
+    const entityIds = textData[formattedDate][i].entityIds;
+    entityIds.forEach((entityId) => {
+      const timeStamp =
+        textData[formattedDate][i].entity[entityId].imageData.timeString;
+      const imgUrl =
+        textData[formattedDate][i].entity[entityId].imageData.imageUrl;
+      const value = textData[formattedDate][i].entity[entityId].value;
+
+      const newListItemTemplate = `
         <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
           <div class="absolute w-4 h-4 bg-orange-400 rounded-full mt-1 -left-2 border border-white"></div>
           <time class="text-lg font-normal leading-none text-gray-600">${formattedDate} ${timeStamp}</time>
@@ -41,11 +50,132 @@ if (textData && textData[formattedDate]) {
           <img src="${imgUrl}">
         </li>
     `;
-    const newListItem = document
-      .createRange()
-      .createContextualFragment(newListItemTemplate);
-    timelineList.appendChild(newListItem);
+      const newListItem = document
+        .createRange()
+        .createContextualFragment(newListItemTemplate);
+      newOrderedList.appendChild(newListItem);
+    });
+    timelineList.appendChild(newOrderedList);
+  }
+
+  // 最初に表示するタイムライン
+  // パラグラフページで表示する日記を切り替えた場合、切り替えた日記のタイムラインを表示する
+  if (savedNum) {
+    index = parsedNum;
+  } else {
+    // パラグラフページで何も切り替えない場合、最新の日記のタイムラインを表示する
+    index = length - 1;
+  }
+  document.getElementById(`orderedList_${index}`).classList.remove('hidden');
+  document.getElementById(`orderedList_${index}`).classList.add('block');
+
+  // サブメニューを作る
+  // タイトルを付ける（その日の日付）
+  const sidebarDate = document.querySelectorAll('.sidebar-date');
+  sidebarDate.forEach((sidebarDates) => {
+    sidebarDates.innerHTML = formattedDate;
   });
+
+  for (let j = length - 1; j >= 0; j--) {
+    // 日記が書かれた時間を取得する
+    const atTheTime = new Date(textData[formattedDate][j].timestamp);
+    const hours = atTheTime.getHours().toString().padStart(2, '0');
+    const minutes = atTheTime.getMinutes().toString().padStart(2, '0');
+    const seconds = atTheTime.getSeconds().toString().padStart(2, '0');
+
+    const targetLists = document.querySelectorAll('.sidebar-list');
+    targetLists.forEach((targetList) => {
+      if (
+        // 最後に表示されていた日記を再度ページを開いたときに表示する
+        (!savedNum && j === length - 1) ||
+        (savedNum && j === parsedNum)
+      ) {
+        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
+        const newListItemTemplate = `  
+          <li  
+            class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
+            onclick="changeAtiveTimeline(event, ${j})"
+          >
+            ${hours}:${minutes}:${seconds}
+          </li>`;
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        targetList.appendChild(newListItem);
+      } else {
+        const newListItemTemplate = `<li
+                      class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
+                      onclick="changeAtiveTimeline(event, ${j})"
+                    >
+                      ${hours}:${minutes}:${seconds}
+                    </li>`;
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        targetList.appendChild(newListItem);
+      }
+    });
+  }
 }
+
+// サブメニューを押したとき
+const changeAtiveTimeline = (event, num) => {
+  // タイムラインを切り替える
+  const length = textData[formattedDate].length;
+  for (let i = 0; i < length; i++) {
+    document.getElementById(`orderedList_${i}`).classList.add('hidden');
+  }
+  document.getElementById(`orderedList_${num}`).classList.remove('hidden');
+
+  // 番号を保存する
+  localStorage.setItem('savedNumber', num);
+
+  // サイドバーの見た目を変える
+  const ulElements = document.querySelectorAll('.sidebar-list');
+  ulElements.forEach((ulElement) => {
+    const liElements = ulElement.querySelectorAll('li');
+    liElements.forEach((liElement) => {
+      liElement.classList.remove('bg-yellow-50');
+      liElement.classList.add('hover:bg-yellow-50');
+    });
+
+    const targetElement = liElements[length - 1 - num];
+    targetElement.classList.remove('hover:bg-yellow-50');
+    targetElement.classList.add('bg-yellow-50');
+  });
+
+  // サブメニューを閉じる
+  submenu.classList.remove('-translate-x-0');
+  submenu.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
+};
+
+// ボタンを押したときサイドメニュー（サイドバー）を出す
+const submenuOpenBtn = document.getElementById('submenu-openButton');
+const submenuCloseBtn = document.getElementById('submenu-closeBtn');
+const submenu = document.getElementById('submenu');
+
+// オーバーレイを出す
+const overlay = document.getElementById('submenu-overlay');
+
+// サブメニューを開く
+submenuOpenBtn.addEventListener('click', () => {
+  submenu.classList.remove('-translate-x-full');
+  submenu.classList.add('-translate-x-0');
+  overlay.classList.remove('hidden');
+});
+
+// サブメニューを閉じる
+submenuCloseBtn.addEventListener('click', () => {
+  submenu.classList.remove('-translate-x-0');
+  submenu.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
+});
+// windowサイズが変わったときもサブメニューを閉じる
+window.addEventListener('resize', () => {
+  submenu.classList.remove('-translate-x-0');
+  submenu.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
+});
 
 //localStorage.clear();

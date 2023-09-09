@@ -24,6 +24,7 @@ const formattedDate = `${year}-${month}-${day}`;
 const savedNum = localStorage.getItem('savedNumber');
 const parsedNum = parseInt(savedNum);
 
+// サブメニューを作る
 if (textData && textData[formattedDate]) {
   // タイトルを付ける（その日の日付）
   const sidebarDate = document.querySelectorAll('.sidebar-date');
@@ -39,8 +40,8 @@ if (textData && textData[formattedDate]) {
     const minutes = atTheTime.getMinutes().toString().padStart(2, '0');
     const seconds = atTheTime.getSeconds().toString().padStart(2, '0');
 
-    const targetList = document.querySelectorAll('.sidebar-list');
-    targetList.forEach((targetLists) => {
+    const targetLists = document.querySelectorAll('.sidebar-list');
+    targetLists.forEach((targetList) => {
       if (
         // 最後に表示されていた日記を再度ページを開いたときに表示する
         (!savedNum && i === textData[formattedDate].length - 1) ||
@@ -57,7 +58,7 @@ if (textData && textData[formattedDate]) {
         const newListItem = document
           .createRange()
           .createContextualFragment(newListItemTemplate);
-        targetLists.appendChild(newListItem);
+        targetList.appendChild(newListItem);
       } else {
         const newListItemTemplate = `<li
                       class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
@@ -68,7 +69,7 @@ if (textData && textData[formattedDate]) {
         const newListItem = document
           .createRange()
           .createContextualFragment(newListItemTemplate);
-        targetLists.appendChild(newListItem);
+        targetList.appendChild(newListItem);
       }
     });
   }
@@ -108,6 +109,7 @@ const changeAtivePara = (event, num) => {
   overlay.classList.add('hidden');
 };
 
+// 本文を表示する
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
