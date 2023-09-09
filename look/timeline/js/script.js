@@ -29,7 +29,7 @@ if (textData && textData[formattedDate]) {
     newOrderedList.classList.add(
       'relative',
       'border-l',
-      'border-orange-400',
+      'border-yellow-400',
       'hidden'
     );
     newOrderedList.id = `orderedList_${i}`;
@@ -44,7 +44,7 @@ if (textData && textData[formattedDate]) {
 
       const newListItemTemplate = `
         <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
-          <div class="absolute w-4 h-4 bg-orange-400 rounded-full mt-1 -left-2 border border-white"></div>
+          <div class="absolute w-4 h-4 bg-yellow-400 rounded-full mt-1 -left-2 border border-white"></div>
           <time class="text-lg font-normal leading-none text-gray-600">${formattedDate} ${timeStamp}</time>
           <h3 class="my-2 text-3xl font-semibold text-gray-900">${value}</h3>
           <img src="${imgUrl}">
