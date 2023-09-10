@@ -15,8 +15,7 @@ const sendMessage = () => {
       'p-2',
       'pr-3',
       'mb-3',
-      'mr-2',
-      'text-sm'
+      'mr-2'
     );
     messageElement.textContent = messageText;
     chatMessages.appendChild(messageElement);

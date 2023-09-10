@@ -158,15 +158,15 @@
 
     <!-- Chat -->
     <div class="mx-4 grid grid-cols-12 gap-4 sm:gap-8">
-      <!-- Textarea -->
+      <!-- Timeline -->
       <div
         class="h-fit col-start-2 col-span-10 md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6"
       >
         <div
-          class="bg-sky-300 p-3 h-[calc(100vh-15rem)] xs:h-[calc(100vh-14rem)] flex items-start rounded-md"
+          class="bg-sky-300 p-3 h-[calc(100vh-15rem)] xs:h-[calc(100vh-14rem)] flex items-start rounded-t-md"
         >
           <div
-            class="overflow-y-auto p-2.5 w-full h-auto max-h-full z-30 break-words grid justify-items-end"
+            class="overflow-y-auto p-2.5 w-full h-auto max-h-full z-30 break-words text-gray-800 text-sm font-medium grid justify-items-end"
             id="chat-messages"
           ></div>
         </div>
@@ -174,8 +174,26 @@
 
       <!-- Input -->
       <div
-        class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-40 md:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
+        class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-30 md:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
       >
+        <!-- 文字の見た目を切り替える -->
+        <ul class="ml-3 mb-3 list-none flex flex-row flex-wrap items-center">
+          <li class="mr-5">
+            <a
+              class="relative block text-sm font-semibold p-2 text-blue-400 bg-gray-50 rounded-md"
+              >グレースケール</a
+            >
+          </li>
+          <li class="">
+            <a
+              class="relative block text-sm font-semibold p-2 text-blue-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+            >
+              写真</a
+            >
+          </li>
+        </ul>
+
+        <!-- Input Area -->
         <div class="flex justify-between items-end mb-2 mx-3">
           <textarea
             class="block w-full py-2 px-4 mr-3 bg-gray-100 rounded-md outline-none focus:text-gray-700 resize-none"
@@ -195,34 +213,10 @@
         </div>
 
         <!-- Footer -->
-        <div class="grid justify-items-center py-2">
-          <span class="text-sm text-gray-500 mb-2"
+        <div class="grid justify-items-center py-1">
+          <span class="text-xs text-gray-500"
             >Copyright©Kodama Azumi All Rights Reserved.
           </span>
-          <ul
-            class="flex flex-wrap items-center md:mt-0 text-sm font-medium text-gray-500"
-          >
-            <li>
-              <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
-                >書く</a
-              >
-            </li>
-            <li>
-              <a href="/look/index.html" class="mr-4 hover:underline md:mr-6"
-                >見る</a
-              >
-            </li>
-            <li>
-              <a href="/chat/index.html" class="mr-4 hover:underline md:mr-6"
-                >チャット</a
-              >
-            </li>
-            <li>
-              <a href="/explanation/index.html" class="hover:underline"
-                >使い方</a
-              >
-            </li>
-          </ul>
         </div>
       </div>
     </div>
