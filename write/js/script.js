@@ -84,24 +84,26 @@ const changeAtiveTab = (event, tabID) => {
     .getElementById('tabs-id')
     .querySelectorAll('.tab-content > div');
   for (let i = 0; i < aElements.length; i++) {
-    aElements[i].classList.remove('bg-gray-50');
-    aElements[i].classList.remove('cursor-default');
-    aElements[i].classList.add('hover:bg-gray-50');
-    aElements[i].classList.add('underline');
-    aElements[i].classList.add('underline-offset-2');
-    aElements[i].classList.add('cursor-pointer');
-    aElements[i].classList.add('toolBtn');
+    aElements[i].classList.remove('bg-gray-50', 'cursor-default');
+    aElements[i].classList.add(
+      'hover:bg-gray-50',
+      'underline',
+      'underline-offset-2',
+      'cursor-pointer',
+      'toolBtn'
+    );
 
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
   }
-  element.classList.remove('hover:bg-gray-50');
-  element.classList.remove('underline');
-  element.classList.remove('underline-offset-2');
-  element.classList.remove('cursor-pointer');
-  element.classList.remove('toolBtn');
-  element.classList.add('bg-gray-50');
-  element.classList.add('cursor-default');
+  element.classList.remove(
+    'hover:bg-gray-50',
+    'underline',
+    'underline-offset-2',
+    'cursor-pointer',
+    'toolBtn'
+  );
+  element.classList.add('bg-gray-50', 'cursor-default');
 
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');

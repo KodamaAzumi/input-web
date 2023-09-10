@@ -157,11 +157,9 @@
     </header>
 
     <!-- Look -->
-    <div class="mt-4 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+    <div class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
       <!-- 写真を確認するためのビデオとプレビュー -->
-      <div
-        class="justify-between col-start-2 col-span-10 lg:col-start-4 lg:col-span-6 bg-pink-300 hidden"
-      >
+      <div class="bg-pink-300 hidden justify-between col-start-4 col-span-6">
         <!-- video -->
         <video id="js-video" width="320" height="240" autoplay></video>
         <!-- preview -->
@@ -187,7 +185,7 @@
       <!-- Sub Menu -->
       <div class="col-start-2 col-span-10 md:hidden">
         <button
-          class="flex justify-center px-3.5 py-3 hover:bg-gray-50"
+          class="px-2.5 py-2 xs:px-3.5 xs:py-3 rounded-md hover:bg-gray-50"
           type="button"
           id="submenu-openButton"
         >
@@ -246,13 +244,13 @@
         class="h-fit col-start-1 col-span-12 md:col-start-5 md:col-span-8 lg:col-start-4 lg:col-span-9 grid grid-cols-12 gap-4 md:grid-cols-8 lg:grid-cols-9 sm:gap-8"
       >
         <div
-          class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-3 flex items-center"
+          class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-3"
         >
           <div class="flex justify-between xs:justify-start">
             <!-- Timeline Button -->
             <a
               href="/look/timeline/index.html"
-              class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              class="toolBtn xs:mr-6 relative bg-yellow-400 rounded-md px-2.5 py-2 xs:px-3.5 xs:py-3 shadow-sm hover:bg-yellow-300 flex items-center"
               id="js-timelineBtn"
             >
               <span
@@ -268,7 +266,7 @@
             </a>
             <!-- Download Button -->
             <button
-              class="toolBtn relative xs:mr-6 flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              class="toolBtn xs:mr-6 relative bg-yellow-400 rounded-md px-2.5 py-2 xs:px-3.5 xs:py-3 shadow-sm hover:bg-yellow-300"
               type="button"
             >
               <span
@@ -284,7 +282,7 @@
             </button>
             <!-- Help Button -->
             <button
-              class="helpBtn relative flex justify-center rounded-full bg-yellow-400 px-3.5 py-3 last:mr-0 text-xs font-bold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              class="helpBtn relative bg-yellow-400 rounded-full px-3 py-2.5 xs:px-4 xs:py-3.5 text-xs font-bold text-white shadow-sm hover:bg-yellow-300"
               type="button"
               onclick="tooltipsOnOff(event)"
             >
@@ -302,10 +300,10 @@
         <div
           class="col-start-2 col-span-10 sm:col-start-7 sm:col-span-5 md:col-start-1 md:col-span-7 lg:col-start-4 lg:col-span-3 flex items-center sm:justify-end md:justify-start lg:justify-end"
         >
-          <ul class="mb-0 flex list-none flex-row flex-wrap items-center">
-            <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+          <ul class="list-none flex items-center flex-wrap">
+            <li class="xs:mr-2">
               <a
-                class="relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 bg-gray-50 rounded-md cursor-default"
+                class="relative block text-sm font-medium text-yellow-400 px-2.5 py-2 xs:px-3.5 xs:py-3 bg-gray-50 rounded-md cursor-default"
                 onclick="changeAtiveTab(event, 'tab-grayscale')"
               >
                 グレースケール
@@ -316,9 +314,9 @@
                 </span>
               </a>
             </li>
-            <li class="-mb-px mr-2 flex-auto text-center last:mr-0">
+            <li class="">
               <a
-                class="toolBtn relative block text-sm font-medium leading-normal text-yellow-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+                class="toolBtn relative block text-sm font-medium text-yellow-400 px-2.5 py-2 xs:px-3.5 xs:py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
                 onclick="changeAtiveTab(event, 'tab-image')"
               >
                 写真
@@ -370,7 +368,7 @@
           <div class="flex justify-start items-center">
             <!-- Write Button -->
             <button
-              class="toolBtn mr-6 relative flex justify-center rounded-md bg-yellow-400 px-3.5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              class="toolBtn relative bg-yellow-400 rounded-md px-2.5 py-2 xs:px-3.5 xs:py-3 shadow-sm hover:bg-yellow-300"
               type="button"
               id="js-cameraBtn"
             >
@@ -391,7 +389,7 @@
           <div class="flex justify-end flex-wrap">
             <!-- Discard Button -->
             <button
-              class="toolBtn mr-6 relative flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              class="toolBtn mr-6 relative flex-auto bg-yellow-400 rounded-md px-2 py-1.5 xs:px-3 xs:py-2.5 text-sm font-bold text-white shadow-sm hover:bg-yellow-300"
               type="button"
               id="js-discardBtn"
             >
@@ -403,7 +401,7 @@
             </button>
             <!-- Save Button -->
             <button
-              class="toolBtn relative flex-auto rounded-md bg-yellow-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+              class="toolBtn relative flex-auto bg-yellow-400 rounded-md px-2 py-1.5 xs:px-3 xs:py-2.5 text-sm font-bold text-white shadow-sm hover:bg-yellow-300"
               type="button"
               id="js-saveBtn"
             >
