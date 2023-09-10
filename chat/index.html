@@ -158,68 +158,72 @@
 
     <!-- Chat -->
     <div class="mx-4 grid grid-cols-12 gap-4 sm:gap-8">
-      <!-- Main -->
-
       <!-- Textarea -->
       <div
-        class="bg-blue-300 h-fit col-start-2 col-span-10 md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6"
+        class="h-fit col-start-2 col-span-10 md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6"
       >
-        <div class="bg-red-300 p-3 h-[31rem] mb-28 flex items-end">
+        <div
+          class="bg-sky-300 p-3 h-[calc(100vh-15rem)] xs:h-[calc(100vh-14rem)] flex items-start rounded-md"
+        >
           <div
-            class="bg-green-300 overflow-y-auto p-2.5 w-full h-auto max-h-full z-30"
+            class="overflow-y-auto p-2.5 w-full h-auto max-h-full z-30 break-words grid justify-items-end"
             id="chat-messages"
           ></div>
         </div>
       </div>
-    </div>
 
-    <!-- Input -->
-    <div
-      class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-40 md:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
-    >
-      <div class="flex justify-between items-center mb-2 mx-3">
-        <input
-          class="block w-full py-2 pl-4 mr-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-          type="text"
-          id="message-input"
-          placeholder="メッセージを入力"
-        />
+      <!-- Input -->
+      <div
+        class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-40 md:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
+      >
+        <div class="flex justify-between items-end mb-2 mx-3">
+          <textarea
+            class="block w-full py-2 px-4 mr-3 bg-gray-100 rounded-md outline-none focus:text-gray-700 resize-none"
+            id="input-message"
+            type="text"
+            rows="1"
+            placeholder="メッセージを入力"
+            oninput="inputText(this)"
+          ></textarea>
 
-        <button
-          class="w-20 h-10 rounded-md bg-sky-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
-          id="send-button"
-        >
-          送信
-        </button>
-      </div>
+          <button
+            class="w-20 h-10 rounded-md bg-sky-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+            id="send-button"
+          >
+            送信
+          </button>
+        </div>
 
-      <!-- Footer -->
-      <div class="flex justify-between items-center mx-3 py-2">
-        <span class="text-sm text-gray-500"
-          >Copyright©Kodama Azumi All Rights Reserved.
-        </span>
-        <ul
-          class="flex flex-wrap items-center md:mt-0 text-sm font-medium text-gray-500"
-        >
-          <li>
-            <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
-              >書く</a
-            >
-          </li>
-          <li>
-            <a href="/look/index.html" class="mr-4 hover:underline md:mr-6"
-              >見る</a
-            >
-          </li>
-          <li>
-            <a href="/chat/index.html" class="mr-4 hover:underline md:mr-6"
-              >チャット</a
-            >
-          </li>
-          <li>
-            <a href="/explanation/index.html" class="hover:underline">使い方</a>
-          </li>
-        </ul>
+        <!-- Footer -->
+        <div class="grid justify-items-center py-2">
+          <span class="text-sm text-gray-500 mb-2"
+            >Copyright©Kodama Azumi All Rights Reserved.
+          </span>
+          <ul
+            class="flex flex-wrap items-center md:mt-0 text-sm font-medium text-gray-500"
+          >
+            <li>
+              <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
+                >書く</a
+              >
+            </li>
+            <li>
+              <a href="/look/index.html" class="mr-4 hover:underline md:mr-6"
+                >見る</a
+              >
+            </li>
+            <li>
+              <a href="/chat/index.html" class="mr-4 hover:underline md:mr-6"
+                >チャット</a
+              >
+            </li>
+            <li>
+              <a href="/explanation/index.html" class="hover:underline"
+                >使い方</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
