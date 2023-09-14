@@ -158,6 +158,20 @@
 
     <!-- Chat -->
     <div class="mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+      <!-- 写真を確認するためのビデオとプレビュー -->
+      <div class="bg-pink-300 hidden justify-between col-start-4 col-span-6">
+        <!-- video -->
+        <video id="js-video" width="320" height="240" autoplay></video>
+        <!-- preview -->
+        <img
+          id="js-preview"
+          width="320"
+          height="240"
+          src="#"
+          alt="写真のプレビュー"
+        />
+      </div>
+
       <!-- Timeline -->
       <div
         class="h-fit col-start-2 col-span-10 md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6"
@@ -167,42 +181,73 @@
         >
           <div
             class="overflow-y-auto p-2.5 w-full h-auto max-h-full z-30 break-words text-gray-800 text-sm font-medium grid justify-items-end"
-            id="chat-messages"
+            id="js-chatarea"
           ></div>
         </div>
       </div>
 
       <!-- Input -->
       <div
-        class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-30 md:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
+        class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-30 lg:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
       >
-        <!-- 文字の見た目を切り替える -->
-        <ul class="ml-3 mb-3 list-none flex flex-row flex-wrap items-center">
-          <li class="mr-5">
-            <a
-              class="relative block text-sm font-semibold p-2 text-blue-400 bg-gray-50 rounded-md"
-              >グレースケール</a
-            >
-          </li>
-          <li class="">
-            <a
-              class="relative block text-sm font-semibold p-2 text-blue-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
-            >
-              写真</a
-            >
-          </li>
-        </ul>
+        <!-- Write Button -->
+        <div class="ml-3 mb-3 flex justify-start items-center">
+          <button
+            class="mr-6 relative bg-sky-400 rounded-md p-2 shadow-sm hover:bg-sky-300"
+            type="button"
+            id="js-cameraBtn"
+          >
+            <span class="sr-only">camera on off</span>
+            <img src="/shared/images/writeIcon.svg" alt="書くアイコン" />
+          </button>
+
+          <!-- 文字の見た目を切り替える -->
+          <ul class="list-none flex flex-row flex-wrap items-center">
+            <li class="mr-5">
+              <a
+                class="relative block text-sm font-semibold p-2 text-sky-400 bg-gray-50 rounded-md"
+                onclick="changeAtiveTab(event, 'tab-grayscale')"
+                >グレースケール</a
+              >
+            </li>
+            <li class="">
+              <a
+                class="relative block text-sm font-semibold p-2 text-sky-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+                onclick="changeAtiveTab(event, 'tab-image')"
+              >
+                写真</a
+              >
+            </li>
+          </ul>
+        </div>
 
         <!-- Input Area -->
-        <div class="flex justify-between items-end mb-2 mx-3">
-          <textarea
-            class="block w-full py-2 px-4 mr-3 bg-gray-100 rounded-md outline-none focus:text-gray-700 resize-none"
-            id="input-message"
-            type="text"
-            rows="1"
-            placeholder="メッセージを入力"
-            oninput="inputText(this)"
-          ></textarea>
+        <div class="flex justify-between items-end mb-2 mx-3" id="input-area">
+          <div
+            class="tab-content relative mr-3 w-full break-words rounded-md border-2 border-gray-200 bg-white"
+          >
+            <div class="block" id="tab-grayscale">
+              <div
+                id="js-output-grayscale"
+                class="absolute z-10 h-full w-full pointer-events-none tracking-wider py-2 px-4"
+              ></div>
+            </div>
+            <div class="hidden" id="tab-image">
+              <div
+                id="js-output-image"
+                class="absolute z-10 h-full w-full pointer-events-none tracking-wider py-2 px-4"
+              ></div>
+            </div>
+            <textarea
+              class="block w-full h-auto tracking-wider py-2 px-4 bg-transparent overflow-hidden focus:outline-none focus:text-gray-700 resize-none"
+              id="js-textarea"
+              type="text"
+              rows="1"
+              placeholder="メッセージを入力"
+              oninput="inputText(this)"
+              disabled
+            ></textarea>
+          </div>
 
           <button
             class="w-20 h-10 rounded-md bg-sky-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
@@ -222,6 +267,10 @@
     </div>
 
     <script type="module" src="./js/main.js"></script>
+    <script src="./js/diff.min.js"></script>
+    <script src="./js/eventemitter3.umd.min.js"></script>
+    <script src="./js/Textarea.js"></script>
+    <script src="./js/Chat.js"></script>
     <script src="./js/script.js"></script>
   </body>
 </html>
