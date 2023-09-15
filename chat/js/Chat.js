@@ -190,7 +190,20 @@ class Chat extends Textarea {
 
       // チャットを表示する
       const messageOuter = document.createElement('div');
-      messageOuter.classList.add('w-auto', 'max-w-full');
+      messageOuter.classList.add(
+        'flex',
+        'justify-end',
+        'items-end',
+        'mb-3',
+        'mr-2'
+      );
+
+      const chatTime = entity[Object.keys(entity)[0]].imageData.timeString;
+      const chatTimeElement = document.createElement('div');
+      chatTimeElement.classList.add('mr-2', 'text-gray-800');
+      chatTimeElement.innerHTML = chatTime;
+      messageOuter.appendChild(chatTimeElement);
+
       const messageText = this.el.value;
       const messageElement = document.createElement('div');
       messageElement.classList.add(
@@ -199,15 +212,12 @@ class Chat extends Textarea {
         'rounded-bl-md',
         'p-2',
         'pr-3',
-        'mb-3',
-        'mr-2',
         'relative'
       );
 
       // オリジナルテキスト
       if (messageText.trim() !== '') {
         const originalElement = document.createElement('div');
-        originalElement.classList.add('opasity-0');
 
         originalElement.innerHTML = messageText
           .replace(/\n/g, '<br>')
