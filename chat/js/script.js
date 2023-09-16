@@ -78,39 +78,47 @@ const inputText = (textarea) => {
   textarea.style.height = textarea.scrollHeight + 'px';
 };
 
-// タブとタブのボタンを切り替える
+// 入力画面のタブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
   let element = event.target;
-  while (element.nodeName !== 'A') {
-    element = element.parentNode;
-  }
   let ulElement = element.parentNode.parentNode;
   let aElements = ulElement.querySelectorAll('li > a');
   tabContents = document
     .getElementById('input-area')
     .querySelectorAll('.tab-content > div');
+
   for (let i = 0; i < aElements.length; i++) {
+    // ボタンの見た目を変える
     aElements[i].classList.remove('bg-gray-50', 'cursor-default');
     aElements[i].classList.add(
       'hover:bg-gray-50',
       'underline',
       'underline-offset-2',
-      'cursor-pointer',
-      'toolBtn'
+      'cursor-pointer'
     );
-
+    // 表示されているものをhiddenにする
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
   }
+
+  // ボタンの見た目を変える
   element.classList.remove(
     'hover:bg-gray-50',
     'underline',
     'underline-offset-2',
-    'cursor-pointer',
-    'toolBtn'
+    'cursor-pointer'
   );
   element.classList.add('bg-gray-50', 'cursor-default');
-
+  // 隠されていた表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
+
+  const grayscaleElements = document.querySelectorAll('.chat-grayscale');
+  grayscaleElements.forEach((grayscaleElement) => {
+    grayscaleElement.classList.toggle('hidden');
+  });
+  const imageElemnts = document.querySelectorAll('.chat-image');
+  imageElemnts.forEach((imageElemnt) => {
+    imageElemnt.classList.toggle('hidden');
+  });
 };

@@ -227,9 +227,32 @@ class Chat extends Textarea {
 
       //グレースケールと写真に適応させる
       const grayscaleElement = document.createElement('div');
-      grayscaleElement.classList.add('absolute', 'top-2', 'z-10');
       const imageElemnt = document.createElement('div');
-      imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'hidden');
+      const tabGrayscaleElm = document.getElementById('tab-grayscale');
+      if (tabGrayscaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale',
+          'hidden'
+        );
+        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
+      } else {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale'
+        );
+        imageElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'hidden',
+          'chat-image'
+        );
+      }
 
       for (let j = 0; j < chatData[formattedDate].length; j++) {
         chatData[formattedDate][j].entityIds.forEach((entityId, i) => {
