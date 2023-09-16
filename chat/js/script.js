@@ -96,6 +96,7 @@ const changeAtiveTab = (event, tabID) => {
       'underline-offset-2',
       'cursor-pointer'
     );
+
     // 表示されているものをhiddenにする
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
@@ -109,6 +110,7 @@ const changeAtiveTab = (event, tabID) => {
     'cursor-pointer'
   );
   element.classList.add('bg-gray-50', 'cursor-default');
+
   // 隠されていた表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');

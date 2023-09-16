@@ -119,16 +119,16 @@ class Photo extends Textarea {
     }
 
     if (this.entityIds.length > 0) {
+      const entity = this.entity;
+      const entityIds = this.entityIds;
+
       // 文章を書いた日付を取得する
-      const timestamp = this.entity.c0i0.timestamp;
+      const timestamp = entity[Object.keys(entity)[0]].timestamp;
       const nowDate = new Date(timestamp);
       const year = nowDate.getFullYear();
       const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼロ埋め
       const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
       const formattedDate = `${year}-${month}-${day}`;
-
-      const entity = this.entity;
-      const entityIds = this.entityIds;
 
       // ローカルデータを取得する
       let textDataString = localStorage.getItem('textData');

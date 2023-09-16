@@ -190,15 +190,14 @@ if (textData && textData[formattedDate]) {
 // タブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
   let element = event.target;
-  while (element.nodeName !== 'A') {
-    element = element.parentNode;
-  }
   let ulElement = element.parentNode.parentNode;
   let aElements = ulElement.querySelectorAll('li > a');
   tabContents = document
     .getElementById('tabs-id')
     .querySelectorAll('.tab-content > div');
+
   for (let i = 0; i < aElements.length; i++) {
+    // ボタンの見た目を変える
     aElements[i].classList.remove('bg-gray-50', 'cursor-default');
     aElements[i].classList.add(
       'hover:bg-gray-50',
@@ -208,9 +207,12 @@ const changeAtiveTab = (event, tabID) => {
       'toolBtn'
     );
 
+    // 表示されているものをhiddenにする
     tabContents[i].classList.add('hidden');
     tabContents[i].classList.remove('block');
   }
+
+  // ボタンの見た目を変える
   element.classList.remove(
     'hover:bg-gray-50',
     'underline',
@@ -220,6 +222,7 @@ const changeAtiveTab = (event, tabID) => {
   );
   element.classList.add('bg-gray-50', 'cursor-default');
 
+  // 隠されていた表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
 };
