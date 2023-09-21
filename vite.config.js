@@ -1,3 +1,8 @@
+export default {
+  // config options
+  base: '/input-web/',
+};
+
 /*
 import { resolve } from "path";
 import { defineConfig } from "vite";
