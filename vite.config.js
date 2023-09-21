@@ -5,22 +5,17 @@ export default {
 };
 */
 
-/*
-import { resolve } from "path";
-import { defineConfig } from "vite";
-
-const root = resolve(__dirname, "src");
-const outDir = resolve(__dirname, "dist");
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   root,
   build: {
-    outDir,
     rollupOptions: {
       input: {
-        write: resolve(root, "sample1", "index.html"),
+        write: resolve(__dirname, 'write/index.html'),
+        main: resolve(__dirname, 'index.html'),
       },
     },
   },
 });
-*/
