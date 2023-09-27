@@ -13,6 +13,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         write: resolve(__dirname, 'write/index.html'),
+        look: resolve(__dirname, 'look/index.html'),
+        timeline: resolve(__dirname, 'look/timeline/index.html'),
+        chat: resolve(__dirname, 'chat/index.html'),
+        explanation: resolve(__dirname, 'explanation/index.html'),
         main: resolve(__dirname, 'index.html'),
       },
     },
