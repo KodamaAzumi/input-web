@@ -4,7 +4,7 @@ module.exports = {
   content: [
     'index.html',
     'write/index.html',
-    'write/js/script.js',
+    'public/write/js/script.js',
     'look/index.html',
     'look/js/script.js',
     'look/timeline/index.html',
