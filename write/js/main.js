@@ -1,4 +1,4 @@
-import "../index.css";
-import "/shared/scripts/index.js";
+import '../index.css';
+import '/shared/scripts/index.js';
 
-console.log("write");
+console.log('write');
