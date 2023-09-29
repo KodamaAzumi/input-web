@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+
+      #form {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background: #333;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #fff;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      #messages > li:nth-child(odd) {
+        background: #efefef;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+    <script>
+      const socket = new WebSocket(
+        'wss://c8rz9t1xyi.execute-api.ap-northeast-1.amazonaws.com/prod'
+      );
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
+
+      socket.addEventListener('open', function (event) {
+        // ここにチャットサーバーに接続した時の処理を書く
+        console.log('チャットサーバーに接続しました');
+      });
+
+      socket.addEventListener('message', function (event) {
+        // ここにチャットサーバーからメッセージを受信した時の処理を書く
+        console.log('送られてきたデータ', JSON.parse(event.data));
+
+        const item = document.createElement('li');
+        const text = JSON.parse(event.data).text;
+        
+        item.textContent = text;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      // フォームが送信されたらメッセージを送信する
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // 送信したいデータはJSON形式に変換する
+        // 送信するメッセージの内容は message object に自由に追加する
+        const message = JSON.stringify({
+          text: input.value,
+          // 送りたいデータを自由に追加する
+        });
+
+        // メッセージを送信する
+        const data = JSON.stringify({
+          action: 'sendmessage', // action は必ず 'sendmessage' にする
+          message: message,
+        });
+
+        socket.send(data);
+        input.value = '';
+      });
+    </script>
+  </body>
+</html>
