@@ -1,3 +1,5 @@
+//localStorage.clear();
+
 // ローカルデータを取得する
 let textDataString = localStorage.getItem('textData');
 // 文字列をオブジェクトに変換する
@@ -186,6 +188,24 @@ if (textData && textData[formattedDate]) {
   }
   window.requestAnimationFrame(loop);
 }
+
+// 破棄ボタンを押したときに日記を消去する
+const discardButton = document.getElementById('js-discardBtn');
+const onDeleted = () => {
+  // 日記をストレージから消去する
+  textData[formattedDate].splice(index, 1);
+  textDataString = JSON.stringify(textData);
+  localStorage.setItem('textData', textDataString);
+
+  // 消去した後は最新の日記を表示する
+  index = textData[formattedDate].length - 1;
+
+  // タイムラインを表示できるように番号を保存する
+  localStorage.setItem('savedNumber', index);
+
+  location.reload();
+};
+discardButton.addEventListener('click', onDeleted);
 
 // タブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
