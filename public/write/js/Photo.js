@@ -33,7 +33,7 @@ class Photo extends Textarea {
   // カメラを起動する関数
   startCamera = () => {
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia({ video: { facingMode: 'environment' } })
       .then((s) => {
         this.el.disabled = false;
         this.el.focus();
