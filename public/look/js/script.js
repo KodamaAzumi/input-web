@@ -200,17 +200,17 @@ const onDeleted = () => {
     //　その日のオブジェクトに日記が無い場合はキーごと消去する
     if (textData[formattedDate].length === 0) {
       delete textData[formattedDate];
+    } else {
+      // 消去した後は最新の日記を表示する
+      index = textData[formattedDate].length - 1;
+
+      // タイムラインを表示できるように番号を保存する
+      localStorage.setItem('savedNumber', index);
     }
 
     // ローカルストレージに保存する
     textDataString = JSON.stringify(textData);
     localStorage.setItem('textData', textDataString);
-
-    // 消去した後は最新の日記を表示する
-    index = textData[formattedDate].length - 1;
-
-    // タイムラインを表示できるように番号を保存する
-    localStorage.setItem('savedNumber', index);
 
     location.reload();
     console.log('delete data');
