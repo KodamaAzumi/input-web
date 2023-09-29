@@ -192,18 +192,29 @@ if (textData && textData[formattedDate]) {
 // 破棄ボタンを押したときに日記を消去する
 const discardButton = document.getElementById('js-discardBtn');
 const onDeleted = () => {
-  // 日記をストレージから消去する
-  textData[formattedDate].splice(index, 1);
-  textDataString = JSON.stringify(textData);
-  localStorage.setItem('textData', textDataString);
+  console.log('click deleteButton');
+  if (textData && textData[formattedDate]) {
+    // 日記をストレージから消去する
+    textData[formattedDate].splice(index, 1);
 
-  // 消去した後は最新の日記を表示する
-  index = textData[formattedDate].length - 1;
+    //　その日のオブジェクトに日記が無い場合はキーごと消去する
+    if (textData[formattedDate].length === 0) {
+      delete textData[formattedDate];
+    }
 
-  // タイムラインを表示できるように番号を保存する
-  localStorage.setItem('savedNumber', index);
+    // ローカルストレージに保存する
+    textDataString = JSON.stringify(textData);
+    localStorage.setItem('textData', textDataString);
 
-  location.reload();
+    // 消去した後は最新の日記を表示する
+    index = textData[formattedDate].length - 1;
+
+    // タイムラインを表示できるように番号を保存する
+    localStorage.setItem('savedNumber', index);
+
+    location.reload();
+    console.log('delete data');
+  }
 };
 discardButton.addEventListener('click', onDeleted);
 
