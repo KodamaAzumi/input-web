@@ -2,6 +2,7 @@ const textarea = new Chat('#js-textarea');
 const grayscale = document.querySelector('#js-output-grayscale');
 const imagePara = document.querySelector('#js-output-image');
 
+// チャットの入力部分に適応させるコード
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
@@ -111,7 +112,7 @@ const changeAtiveTab = (event, tabID) => {
   );
   element.classList.add('bg-gray-50', 'cursor-default');
 
-  // 隠されていた表示する
+  // 隠されていた内容を表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
 

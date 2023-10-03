@@ -2,6 +2,7 @@ class Chat extends Textarea {
   constructor(selectors) {
     super(selectors);
 
+    // カメラに関する変数
     this.video = document.getElementById('js-video');
     this.canvas = document.createElement('canvas');
     this.canvas.width = 320; // 幅を指定
@@ -11,8 +12,6 @@ class Chat extends Textarea {
     this.cameraButton = document.getElementById('js-cameraBtn');
     this.preview = document.getElementById('js-preview');
     this.stream = null;
-    this.sendButton = document.getElementById('send-button');
-    this.chatarea = document.getElementById('js-chatarea');
 
     // 書くボタン（カメラボタン）をクリックしたときの処理
     this.cameraButton.addEventListener('click', this.cameraFunctions);
@@ -23,8 +22,28 @@ class Chat extends Textarea {
 
     this.ee.on('added', this.onAdded);
 
+    // チャットに関する変数
+    this.socket = new WebSocket(
+      'wss://c8rz9t1xyi.execute-api.ap-northeast-1.amazonaws.com/prod'
+    );
+    this.inputArea = document.getElementById('input-area');
+    this.chatarea = document.getElementById('js-chatarea');
+
+    // チャットサーバーに接続したとき
+    this.socket.addEventListener('open', this.onOpened);
+
+    // チャットサーバーからメッセージを受信したとき
+    this.socket.addEventListener('message', this.onReceived);
+
+    // チャットが送信されたとき
+    this.inputArea.addEventListener('submit', this.OnSubmited);
+
+    /*
+    this.sendButton = document.getElementById('send-button');
+    
     // 送信ボタンをクリックしたとき
     this.sendButton.addEventListener('click', this.onSended);
+    */
   }
 
   // カメラを起動する関数
@@ -105,6 +124,7 @@ class Chat extends Textarea {
     }
   };
 
+  // 送信ボタンを押したときの処理
   onSended = () => {
     console.log('sendBtn clicked');
 
@@ -333,6 +353,53 @@ class Chat extends Textarea {
     this.entity = {};
     this.entityIds = [];
     this.el.style.height = '';
+  };
+
+  onOpened = (event) => {
+    // ここにチャットサーバーに接続した時の処理を書く
+    console.log('チャットサーバーに接続しました');
+  };
+
+  onReceived = (event) => {
+    // ここにチャットサーバーからメッセージを受信した時の処理を書く
+    console.log('送られてきたデータ', JSON.parse(event.data));
+
+    const item = document.createElement('li');
+    const text = JSON.parse(event.data).text;
+
+    item.textContent = text;
+    this.chatarea.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
+  // チャットが送信されたらメッセージを送信する
+  OnSubmited = (event) => {
+    event.preventDefault();
+
+    // 送信したいデータはJSON形式に変換する
+    // 送信するメッセージの内容は message object に自由に追加する
+    const message = JSON.stringify({
+      text: this.el.value,
+      // 送りたいデータを自由に追加する
+    });
+
+    // メッセージを送信する
+    const data = JSON.stringify({
+      action: 'sendmessage', // action は必ず 'sendmessage' にする
+      message: message,
+    });
+
+    // 自分側に自分の送信した内容を表示する
+    const item = document.createElement('li');
+    const text = this.el.value;
+
+    item.textContent = text;
+    this.chatarea.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+    console.log(this.el.value);
+
+    this.socket.send(data);
+    this.el.value = '';
   };
 }
 
