@@ -369,9 +369,11 @@ class Chat extends Textarea {
     console.log('チャットサーバーに接続しました');
   };
 
+  /*
   onReceived = (event) => {
     // ここにチャットサーバーからメッセージを受信した時の処理を書く
     const chatData = JSON.parse(event.data);
+    const messageId = `message-${chatData.messageId}`; // id が数字から始まるとエラーになるので、先頭に文字列を付ける
     console.log('送られてきたデータ', chatData);
 
     const entityId = Object.keys(chatData.entityOne)[0];
@@ -493,8 +495,6 @@ class Chat extends Textarea {
       diff = timestamp - this.entityOnes[prevEntityId].timestamp;
     }
 
-    /*
-
     // 入力された文字が改行コードか
     if ('\r\n' === value || '\r' === value || '\n' === value) {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
@@ -504,8 +504,6 @@ class Chat extends Textarea {
       imageElemnt.appendChild(brImg);
       return;
     }
-
-   
 
     // diffを適した値に変更する(diffはミリ秒)
     const calculatedDiff = (diff / 1000) * 100;
@@ -529,13 +527,50 @@ class Chat extends Textarea {
     spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     imageElemnt.appendChild(spanImg);
-    */
+    
 
     // スクロールバーを一番下に移動する
     this.chatarea.scrollTop = this.chatarea.scrollHeight;
 
     // 保存した文章をリセットする
     this.onCleared();
+  };
+  */
+
+  onReceived = (event) => {
+    // ここにチャットサーバーからメッセージを受信した時の処理を書く
+    const chatData = JSON.parse(event.data);
+    const messageId = `message-${chatData.messageId}`; // id が数字から始まるとエラーになるので、先頭に文字列を付ける
+    console.log('送られてきたデータ', chatData);
+
+    if (chatData.type === 'head') {
+      // メッセージの順番が送られてきた時の処理
+      const messageElement = document.createElement('div');
+
+      const entityIds = chatData.entityIds;
+
+      messageElement.id = messageId;
+
+      entityIds.forEach((entityId) => {
+        // 1文字が収まる要素を作る
+        const charElement = document.createElement('span');
+        charElement.classList.add(entityId);
+        messageElement.appendChild(charElement);
+      });
+
+      this.chatarea.appendChild(messageElement);
+    } else if (chatData.type === 'body') {
+      // メッセージの本文が送られてきた時の処理
+      // メッセージを入れる要素を取得する
+      const { body, entityId } = chatData;
+
+      const messageElement = document.querySelector('#' + messageId);
+      const charElement = messageElement.querySelector('.' + entityId);
+      console.log(charElement);
+      if (charElement) {
+        charElement.textContent = body.value;
+      }
+    }
   };
 
   // チャットが送信されたらメッセージを送信する
@@ -545,13 +580,17 @@ class Chat extends Textarea {
 
     event.preventDefault();
 
-    console.log(entityIds);
-
     // 文字を一つの文章にするためにidを付ける
     const messageId = this.uuidv4();
+    let message = JSON.stringify({
+      entityIds,
+      messageId,
+      type: 'head',
+    });
 
-    let message;
+    //let message;
     // メッセージを１文字ずつ送信する
+    /*
     for (let i = 0; i < entityIds.length; i++) {
       const entityOne = { [entityIds[i]]: entity[entityIds[i]] };
 
@@ -581,6 +620,32 @@ class Chat extends Textarea {
       });
 
       this.socket.send(data);
+    }
+    */
+
+    // 文字の順番を送信する
+    this.socket.send(
+      JSON.stringify({
+        action: 'sendmessage',
+        message,
+      })
+    );
+
+    for (const [entityId, body] of Object.entries(entity)) {
+      message = JSON.stringify({
+        entityId,
+        messageId,
+        body,
+        type: 'body',
+      });
+
+      // 1文字の情報を送信する
+      this.socket.send(
+        JSON.stringify({
+          action: 'sendmessage',
+          message,
+        })
+      );
     }
 
     // 自分側に自分の送信した内容を表示する
