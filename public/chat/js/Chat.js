@@ -7,7 +7,7 @@ class Chat extends Textarea {
     this.canvas = document.createElement('canvas');
     this.canvas.width = 320; // 幅を指定
     this.canvas.height = 240; // 高さを指定
-    this.quality = 0.85; // 画像の容量
+    this.quality = 0.9; // 画像の容量
     this.context = this.canvas.getContext('2d');
     this.cameraButton = document.getElementById('js-cameraBtn');
     this.preview = document.getElementById('js-preview');
@@ -28,9 +28,18 @@ class Chat extends Textarea {
     );
     this.inputArea = document.getElementById('input-area');
     this.chatarea = document.getElementById('js-chatarea');
+    this.entityOnes; // 1文字ずつ送ったentityをまとめる箱
 
     // チャットサーバーに接続したとき
     this.socket.addEventListener('open', this.onOpened);
+
+    this.socket.addEventListener('close', (e) => {
+      console.log('close', e);
+    });
+
+    this.socket.addEventListener('error', (e) => {
+      console.log('error', e);
+    });
 
     // チャットサーバーからメッセージを受信したとき
     this.socket.addEventListener('message', this.onReceived);
@@ -362,44 +371,235 @@ class Chat extends Textarea {
 
   onReceived = (event) => {
     // ここにチャットサーバーからメッセージを受信した時の処理を書く
-    console.log('送られてきたデータ', JSON.parse(event.data));
+    const chatData = JSON.parse(event.data);
+    console.log('送られてきたデータ', chatData);
 
-    const item = document.createElement('li');
-    const text = JSON.parse(event.data).text;
+    const entityId = Object.keys(chatData.entityOne)[0];
+    console.log(entityId);
 
-    item.textContent = text;
-    this.chatarea.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
+    // チャットの１番目の文字が送られてきたら;
+    if (chatData.count === 0) {
+      // 送られてきた１文字分のentityを配列に入れる
+      this.entityOnes = {};
+      this.entityOnes[entityId] = {
+        value: chatData.entityOne[entityId].value,
+        timestamp: chatData.entityOne[entityId].timestamp,
+        imageData: chatData.entityOne[entityId].imageData,
+      };
+
+      // チャットの時間と吹き出しの入れ物を作る
+      const messageOuter = document.createElement('div');
+      messageOuter.classList.add(
+        'flex',
+        'justify-end',
+        'items-end',
+        'mb-3',
+        'mr-2'
+      );
+
+      // チャットを送信した時間を作る
+      const chatTime = chatData.entityOne[entityId].imageData.timeString;
+      const chatTimeElement = document.createElement('div');
+      chatTimeElement.classList.add('mr-2', 'text-gray-800');
+      chatTimeElement.innerHTML = chatTime;
+      messageOuter.appendChild(chatTimeElement);
+
+      // チャットの吹き出しを作る
+      const messageElement = document.createElement('div');
+      messageElement.id = chatData.id;
+      messageElement.classList.add(
+        'bg-white',
+        'rounded-t-md',
+        'rounded-bl-md',
+        'p-2',
+        'pr-3',
+        'relative'
+      );
+
+      // オリジナルのテキストを作成する
+      const messageText = chatData.text;
+      console.log(messageText);
+      if (messageText.trim() !== '') {
+        const originalElement = document.createElement('p');
+
+        originalElement.innerHTML = messageText
+          .replace(/\n/g, '<br>')
+          .replace(/ /g, '&nbsp;');
+        messageElement.appendChild(originalElement);
+      }
+      messageOuter.appendChild(messageElement);
+
+      // グレースケールと写真を適応させる用の入れ物を作る
+      const grayscaleElement = document.createElement('div');
+      const imageElemnt = document.createElement('div');
+      // タブの切り替えを作る
+      const tabGrayscaleElm = document.getElementById('tab-grayscale');
+      if (tabGrayscaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale',
+          'hidden'
+        );
+        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
+      } else {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale'
+        );
+        imageElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'hidden',
+          'chat-image'
+        );
+      }
+
+      messageElement.appendChild(grayscaleElement);
+      messageElement.appendChild(imageElemnt);
+      messageOuter.appendChild(messageElement);
+      this.chatarea.appendChild(messageOuter);
+    } else {
+      this.entityOnes[entityId] = {
+        value: chatData.entityOne[entityId].value,
+        timestamp: chatData.entityOne[entityId].timestamp,
+        imageData: chatData.entityOne[entityId].imageData,
+      };
+    }
+
+    const grayscaleElement = document
+      .getElementById(`${chatData.id}`)
+      .querySelector('.chat-grayscale');
+    const imageElemnt = document
+      .getElementById(`${chatData.id}`)
+      .querySelector('.chat-image');
+
+    // グレースケールと写真を適応させる
+    const { timestamp, value } = chatData.entityOne[entityId];
+    console.log(timestamp, value);
+
+    // ひとつ前の ID を取得する
+    const prevEntityId = chatData.entityIds[chatData.count - 1];
+    // ひとつ前の文字情報との時差
+    let diff = 0;
+
+    // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
+    console.log(prevEntityId);
+    if (prevEntityId) {
+      diff = timestamp - this.entityOnes[prevEntityId].timestamp;
+    }
+
+    /*
+
+    // 入力された文字が改行コードか
+    if ('\r\n' === value || '\r' === value || '\n' === value) {
+      // 改行コードであれば br 要素を挿入して、以降の処理を中断する
+      const brGrayscale = document.createElement('br');
+      grayscaleElement.appendChild(brGrayscale);
+      const brImg = document.createElement('br');
+      imageElemnt.appendChild(brImg);
+      return;
+    }
+
+   
+
+    // diffを適した値に変更する(diffはミリ秒)
+    const calculatedDiff = (diff / 1000) * 100;
+
+    // calculatedDiffをグレースケールに適した値に変更する
+    const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
+    // グレースケールに適応させる
+    const span = document.createElement('span');
+    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
+    span.appendChild(document.createTextNode(value));
+    grayscaleElement.appendChild(span);
+    //console.log(diff, calculatedDiff, hslValue);
+
+    // 写真と文字を合成する
+    const spanImg = document.createElement('span');
+    if (this.entityOnes[entityId].imageData) {
+      spanImg.style.backgroundImage = `url(${this.entityOnes[entityId].imageData.imageUrl})`;
+    }
+    spanImg.style.backgroundClip = 'text';
+    spanImg.style.webkitBackgroundClip = 'text';
+    spanImg.style.color = 'transparent';
+    spanImg.appendChild(document.createTextNode(value));
+    imageElemnt.appendChild(spanImg);
+    */
+
+    // スクロールバーを一番下に移動する
+    this.chatarea.scrollTop = this.chatarea.scrollHeight;
+
+    // 保存した文章をリセットする
+    this.onCleared();
   };
 
   // チャットが送信されたらメッセージを送信する
   OnSubmited = (event) => {
+    const entity = this.entity;
+    const entityIds = this.entityIds;
+
     event.preventDefault();
 
-    // 送信したいデータはJSON形式に変換する
-    // 送信するメッセージの内容は message object に自由に追加する
-    const message = JSON.stringify({
-      text: this.el.value,
-      // 送りたいデータを自由に追加する
-    });
+    console.log(entityIds);
 
-    // メッセージを送信する
-    const data = JSON.stringify({
-      action: 'sendmessage', // action は必ず 'sendmessage' にする
-      message: message,
-    });
+    // 文字を一つの文章にするためにidを付ける
+    const messageId = this.uuidv4();
+
+    let message;
+    // メッセージを１文字ずつ送信する
+    for (let i = 0; i < entityIds.length; i++) {
+      const entityOne = { [entityIds[i]]: entity[entityIds[i]] };
+
+      if (i === 0) {
+        // 送信したいデータはJSON形式に変換する
+        // 送信するメッセージの内容は message object に自由に追加する
+        message = JSON.stringify({
+          text: this.el.value,
+          entityIds: entityIds,
+          entityOne: entityOne,
+          id: messageId,
+          count: i,
+        });
+      } else {
+        message = JSON.stringify({
+          entityIds: entityIds,
+          entityOne: entityOne,
+          id: messageId,
+          count: i,
+        });
+      }
+
+      // メッセージを送信する
+      const data = JSON.stringify({
+        action: 'sendmessage', // action は必ず 'sendmessage' にする
+        message: message,
+      });
+
+      this.socket.send(data);
+    }
 
     // 自分側に自分の送信した内容を表示する
     const item = document.createElement('li');
     const text = this.el.value;
-
     item.textContent = text;
     this.chatarea.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
     console.log(this.el.value);
 
-    this.socket.send(data);
     this.el.value = '';
+  };
+
+  uuidv4 = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   };
 }
 
