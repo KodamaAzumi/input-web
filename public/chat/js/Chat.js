@@ -476,6 +476,7 @@ class Chat extends Textarea {
       const { body, entityId } = chatData;
 
       const messageElement = document.querySelector('#' + messageId);
+      console.log(messageElement);
       const grayscaleElement = messageElement.querySelector('.chat-grayscale');
       const spanGrayscale = grayscaleElement.querySelector('.' + entityId);
 
@@ -537,7 +538,7 @@ class Chat extends Textarea {
     });
 
     // 文字の順番を送信する
-    if (entityIds.length > 0) {
+    if (entityIds.length > 0 && text) {
       this.socket.send(
         JSON.stringify({
           action: 'sendmessage',
@@ -547,7 +548,7 @@ class Chat extends Textarea {
     }
 
     // 自分側に自分の送信した内容を表示する
-    if (entityIds.length > 0) {
+    if (entityIds.length > 0 && text) {
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
       messageOuter.classList.add(
