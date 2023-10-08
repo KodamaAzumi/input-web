@@ -369,25 +369,14 @@ class Chat extends Textarea {
     console.log('チャットサーバーに接続しました');
   };
 
-  /*
   onReceived = (event) => {
     // ここにチャットサーバーからメッセージを受信した時の処理を書く
     const chatData = JSON.parse(event.data);
     const messageId = `message-${chatData.messageId}`; // id が数字から始まるとエラーになるので、先頭に文字列を付ける
     console.log('送られてきたデータ', chatData);
 
-    const entityId = Object.keys(chatData.entityOne)[0];
-    console.log(entityId);
-
-    // チャットの１番目の文字が送られてきたら;
-    if (chatData.count === 0) {
-      // 送られてきた１文字分のentityを配列に入れる
-      this.entityOnes = {};
-      this.entityOnes[entityId] = {
-        value: chatData.entityOne[entityId].value,
-        timestamp: chatData.entityOne[entityId].timestamp,
-        imageData: chatData.entityOne[entityId].imageData,
-      };
+    if (chatData.type === 'head') {
+      // メッセージの順番が送られてきた時の処理
 
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
@@ -400,15 +389,15 @@ class Chat extends Textarea {
       );
 
       // チャットを送信した時間を作る
-      const chatTime = chatData.entityOne[entityId].imageData.timeString;
       const chatTimeElement = document.createElement('div');
       chatTimeElement.classList.add('mr-2', 'text-gray-800');
+      const chatTime = this.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
 
       // チャットの吹き出しを作る
       const messageElement = document.createElement('div');
-      messageElement.id = chatData.id;
+      messageElement.id = messageId;
       messageElement.classList.add(
         'bg-white',
         'rounded-t-md',
@@ -420,7 +409,6 @@ class Chat extends Textarea {
 
       // オリジナルのテキストを作成する
       const messageText = chatData.text;
-      console.log(messageText);
       if (messageText.trim() !== '') {
         const originalElement = document.createElement('p');
 
@@ -431,9 +419,12 @@ class Chat extends Textarea {
       }
       messageOuter.appendChild(messageElement);
 
+      const entityIds = chatData.entityIds;
+
       // グレースケールと写真を適応させる用の入れ物を作る
       const grayscaleElement = document.createElement('div');
       const imageElemnt = document.createElement('div');
+
       // タブの切り替えを作る
       const tabGrayscaleElm = document.getElementById('tab-grayscale');
       if (tabGrayscaleElm.classList.contains('hidden')) {
@@ -461,114 +452,67 @@ class Chat extends Textarea {
         );
       }
 
+      entityIds.forEach((entityId) => {
+        // 1文字が収まる要素を作る
+        const spanGrayscale = document.createElement('span');
+        spanGrayscale.classList.add(entityId);
+        grayscaleElement.appendChild(spanGrayscale);
+
+        const spanImg = document.createElement('span');
+        spanImg.classList.add(entityId);
+        imageElemnt.appendChild(spanImg);
+      });
+
       messageElement.appendChild(grayscaleElement);
       messageElement.appendChild(imageElemnt);
       messageOuter.appendChild(messageElement);
       this.chatarea.appendChild(messageOuter);
-    } else {
-      this.entityOnes[entityId] = {
-        value: chatData.entityOne[entityId].value,
-        timestamp: chatData.entityOne[entityId].timestamp,
-        imageData: chatData.entityOne[entityId].imageData,
-      };
-    }
 
-    const grayscaleElement = document
-      .getElementById(`${chatData.id}`)
-      .querySelector('.chat-grayscale');
-    const imageElemnt = document
-      .getElementById(`${chatData.id}`)
-      .querySelector('.chat-image');
-
-    // グレースケールと写真を適応させる
-    const { timestamp, value } = chatData.entityOne[entityId];
-    console.log(timestamp, value);
-
-    // ひとつ前の ID を取得する
-    const prevEntityId = chatData.entityIds[chatData.count - 1];
-    // ひとつ前の文字情報との時差
-    let diff = 0;
-
-    // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
-    console.log(prevEntityId);
-    if (prevEntityId) {
-      diff = timestamp - this.entityOnes[prevEntityId].timestamp;
-    }
-
-    // 入力された文字が改行コードか
-    if ('\r\n' === value || '\r' === value || '\n' === value) {
-      // 改行コードであれば br 要素を挿入して、以降の処理を中断する
-      const brGrayscale = document.createElement('br');
-      grayscaleElement.appendChild(brGrayscale);
-      const brImg = document.createElement('br');
-      imageElemnt.appendChild(brImg);
-      return;
-    }
-
-    // diffを適した値に変更する(diffはミリ秒)
-    const calculatedDiff = (diff / 1000) * 100;
-
-    // calculatedDiffをグレースケールに適した値に変更する
-    const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
-    // グレースケールに適応させる
-    const span = document.createElement('span');
-    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
-    span.appendChild(document.createTextNode(value));
-    grayscaleElement.appendChild(span);
-    //console.log(diff, calculatedDiff, hslValue);
-
-    // 写真と文字を合成する
-    const spanImg = document.createElement('span');
-    if (this.entityOnes[entityId].imageData) {
-      spanImg.style.backgroundImage = `url(${this.entityOnes[entityId].imageData.imageUrl})`;
-    }
-    spanImg.style.backgroundClip = 'text';
-    spanImg.style.webkitBackgroundClip = 'text';
-    spanImg.style.color = 'transparent';
-    spanImg.appendChild(document.createTextNode(value));
-    imageElemnt.appendChild(spanImg);
-    
-
-    // スクロールバーを一番下に移動する
-    this.chatarea.scrollTop = this.chatarea.scrollHeight;
-
-    // 保存した文章をリセットする
-    this.onCleared();
-  };
-  */
-
-  onReceived = (event) => {
-    // ここにチャットサーバーからメッセージを受信した時の処理を書く
-    const chatData = JSON.parse(event.data);
-    const messageId = `message-${chatData.messageId}`; // id が数字から始まるとエラーになるので、先頭に文字列を付ける
-    console.log('送られてきたデータ', chatData);
-
-    if (chatData.type === 'head') {
-      // メッセージの順番が送られてきた時の処理
-      const messageElement = document.createElement('div');
-
-      const entityIds = chatData.entityIds;
-
-      messageElement.id = messageId;
-
-      entityIds.forEach((entityId) => {
-        // 1文字が収まる要素を作る
-        const charElement = document.createElement('span');
-        charElement.classList.add(entityId);
-        messageElement.appendChild(charElement);
-      });
-
-      this.chatarea.appendChild(messageElement);
+      // スクロールバーを一番下に移動する
+      this.chatarea.scrollTop = this.chatarea.scrollHeight;
     } else if (chatData.type === 'body') {
       // メッセージの本文が送られてきた時の処理
       // メッセージを入れる要素を取得する
       const { body, entityId } = chatData;
 
       const messageElement = document.querySelector('#' + messageId);
-      const charElement = messageElement.querySelector('.' + entityId);
-      console.log(charElement);
-      if (charElement) {
-        charElement.textContent = body.value;
+      const grayscaleElement = messageElement.querySelector('.chat-grayscale');
+      const spanGrayscale = grayscaleElement.querySelector('.' + entityId);
+
+      const imageElemnt = messageElement.querySelector('.chat-image');
+      const spanImg = imageElemnt.querySelector('.' + entityId);
+
+      if (spanGrayscale && spanImg) {
+        if (
+          '\r\n' === body.value ||
+          '\r' === body.value ||
+          '\n' === body.value
+        ) {
+          // 入力された文字が改行コードか
+          // 改行コードであれば br 要素を挿入して、以降の処理を中断する
+          const brGrayscale = document.createElement('br');
+          grayscaleElement.appendChild(brGrayscale);
+          const brImg = document.createElement('br');
+          imageElemnt.appendChild(brImg);
+          return;
+        }
+
+        // diffを適した値に変更する(diffはミリ秒)
+        const calculatedDiff = (chatData.diff / 1000) * 100;
+
+        // calculatedDiffをグレースケールに適した値に変更する
+        const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
+
+        // グレースケールを文字に合成する
+        spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
+        spanGrayscale.appendChild(document.createTextNode(body.value));
+
+        // 写真と文字を合成する
+        spanImg.style.backgroundImage = `url(${body.imageData.imageUrl})`;
+        spanImg.style.backgroundClip = 'text';
+        spanImg.style.webkitBackgroundClip = 'text';
+        spanImg.style.color = 'transparent';
+        spanImg.appendChild(document.createTextNode(body.value));
       }
     }
   };
@@ -577,69 +521,23 @@ class Chat extends Textarea {
   OnSubmited = (event) => {
     const entity = this.entity;
     const entityIds = this.entityIds;
+    const text = this.el.value;
 
     event.preventDefault();
 
     // 文字を一つの文章にするためにidを付ける
     const messageId = this.uuidv4();
+
+    // 文字の順番だけの情報
     let message = JSON.stringify({
+      text,
       entityIds,
       messageId,
       type: 'head',
     });
 
-    //let message;
-    // メッセージを１文字ずつ送信する
-    /*
-    for (let i = 0; i < entityIds.length; i++) {
-      const entityOne = { [entityIds[i]]: entity[entityIds[i]] };
-
-      if (i === 0) {
-        // 送信したいデータはJSON形式に変換する
-        // 送信するメッセージの内容は message object に自由に追加する
-        message = JSON.stringify({
-          text: this.el.value,
-          entityIds: entityIds,
-          entityOne: entityOne,
-          id: messageId,
-          count: i,
-        });
-      } else {
-        message = JSON.stringify({
-          entityIds: entityIds,
-          entityOne: entityOne,
-          id: messageId,
-          count: i,
-        });
-      }
-
-      // メッセージを送信する
-      const data = JSON.stringify({
-        action: 'sendmessage', // action は必ず 'sendmessage' にする
-        message: message,
-      });
-
-      this.socket.send(data);
-    }
-    */
-
     // 文字の順番を送信する
-    this.socket.send(
-      JSON.stringify({
-        action: 'sendmessage',
-        message,
-      })
-    );
-
-    for (const [entityId, body] of Object.entries(entity)) {
-      message = JSON.stringify({
-        entityId,
-        messageId,
-        body,
-        type: 'body',
-      });
-
-      // 1文字の情報を送信する
+    if (entityIds.length > 0) {
       this.socket.send(
         JSON.stringify({
           action: 'sendmessage',
@@ -648,13 +546,55 @@ class Chat extends Textarea {
       );
     }
 
+    // 1文字分の情報
+    entityIds.forEach((entityId, i) => {
+      // 1文字分の情報をbodyに入れる
+      const body = entity[entityId];
+
+      // 文字を打った時の時間
+      const timestamp = entity[entityId].timestamp;
+
+      // ひとつ前の ID を取得する
+      const prevEntityId = entityIds[i - 1];
+
+      // ひとつ前の文字情報との時差
+      let diff = 0;
+
+      // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
+      if (prevEntityId) {
+        diff = timestamp - entity[prevEntityId].timestamp;
+        console.log(diff);
+      }
+
+      message = JSON.stringify({
+        entityId,
+        messageId,
+        body,
+        diff,
+        type: 'body',
+      });
+
+      // 1文字の情報を送信する
+      if (entityIds.length > 0) {
+        this.socket.send(
+          JSON.stringify({
+            action: 'sendmessage',
+            message,
+          })
+        );
+        console.log('sended');
+      }
+    });
+
     // 自分側に自分の送信した内容を表示する
-    const item = document.createElement('li');
-    const text = this.el.value;
-    item.textContent = text;
-    this.chatarea.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
-    console.log(this.el.value);
+    if (entityIds.length > 0) {
+      const item = document.createElement('li');
+      //const text = this.el.value;
+      item.textContent = text;
+      this.chatarea.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+      console.log(this.el.value);
+    }
 
     this.el.value = '';
   };
@@ -665,6 +605,15 @@ class Chat extends Textarea {
       const v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  };
+
+  createTimeStr = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    return timeString;
   };
 }
 
