@@ -15,12 +15,11 @@ const timelineBtnHandler = (e) => {
   e.preventDefault();
 };
 
+// 時間を作るクラス
+const createTime = new Time();
+
 // 今日の日付
-const nowDate = new Date();
-const year = nowDate.getFullYear();
-const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼロ埋め
-const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
-const formattedDate = `${year}-${month}-${day}`;
+const formattedDate = createTime.createDateStr();
 
 // 最後に表示していた日記のインデックス
 const savedNum = localStorage.getItem('savedNumber');
@@ -37,10 +36,9 @@ if (textData && textData[formattedDate]) {
   // その日に書かれた日記の数だけリストを作る
   for (let i = textData[formattedDate].length - 1; i >= 0; i--) {
     // 日記が書かれた時間を取得する
-    const atTheTime = new Date(textData[formattedDate][i].timestamp);
-    const hours = atTheTime.getHours().toString().padStart(2, '0');
-    const minutes = atTheTime.getMinutes().toString().padStart(2, '0');
-    const seconds = atTheTime.getSeconds().toString().padStart(2, '0');
+    const timeString = createTime.createTimeStr(
+      textData[formattedDate][i].timestamp
+    );
 
     const targetLists = document.querySelectorAll('.sidebar-list');
     targetLists.forEach((targetList) => {
@@ -55,7 +53,7 @@ if (textData && textData[formattedDate]) {
             class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
             onclick="changeAtivePara(event, ${i})"
           >
-            ${hours}:${minutes}:${seconds}
+            ${timeString}
           </li>`;
         const newListItem = document
           .createRange()
@@ -66,7 +64,7 @@ if (textData && textData[formattedDate]) {
                       class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
                       onclick="changeAtivePara(event, ${i})"
                     >
-                      ${hours}:${minutes}:${seconds}
+                      ${timeString}
                     </li>`;
         const newListItem = document
           .createRange()

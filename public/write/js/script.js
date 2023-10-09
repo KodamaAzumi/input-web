@@ -1,4 +1,4 @@
-const textarea = new Photo('#js-textarea');
+const textarea = new Write('#js-textarea');
 const grayscale = document.querySelector('#js-output-grayscale');
 const imagePara = document.querySelector('#js-output-image');
 

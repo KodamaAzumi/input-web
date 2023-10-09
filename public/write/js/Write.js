@@ -1,27 +1,11 @@
-class Photo extends Textarea {
+class Write extends Photo {
   constructor(selectors) {
     super(selectors);
 
-    this.video = document.getElementById('js-video');
-    this.canvas = document.createElement('canvas');
-    this.canvas.width = 320; // 幅を指定
-    this.canvas.height = 240; // 高さを指定
-    this.quality = 0.85; // 画像の容量
-    this.context = this.canvas.getContext('2d');
-    this.cameraButton = document.getElementById('js-cameraBtn');
-    this.preview = document.getElementById('js-preview');
-    this.stream = null;
+    // 保存ボタン
     this.saveButton = document.getElementById('js-saveBtn');
+    // 破棄ボタン
     this.discardButton = document.getElementById('js-discardBtn');
-
-    // 書くボタン（カメラボタン）をクリックしたときの処理
-    this.cameraButton.addEventListener('click', this.cameraFunctions);
-    this.isStartCameraActive = false;
-
-    // 写真の情報を保持するオブジェクト
-    this.imageData = {};
-
-    this.ee.on('added', this.onAdded);
 
     // 保存ボタンをクリックしたとき
     this.saveButton.addEventListener('click', this.onSaved);
@@ -29,84 +13,6 @@ class Photo extends Textarea {
     //破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
   }
-
-  // カメラを起動する関数
-  startCamera = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: 'environment' } })
-      .then((s) => {
-        this.el.disabled = false;
-        this.el.focus();
-        this.stream = s;
-        this.video.srcObject = this.stream;
-      })
-      .catch((error) => {
-        console.error('Media device error:', error);
-      });
-    console.log('camera start');
-  };
-
-  // カメラを停止する関数
-  stopCamera = () => {
-    if (this.stream) {
-      this.el.disabled = true;
-      this.stream.getTracks().forEach((track) => track.stop());
-      this.stream = null;
-      this.video.srcObject = null;
-      console.log('camera stop');
-    }
-  };
-
-  // カメラのオンオフを切り替える関数
-  cameraFunctions = () => {
-    if (this.isStartCameraActive) {
-      this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
-    } else {
-      this.startCamera();
-      this.isStartCameraActive = true;
-      console.log('camera true');
-    }
-  };
-
-  // 写真を取るときの処理
-  onAdded = (event) => {
-    const { entityId } = event;
-
-    // 写真を撮った時の時刻
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const timeString = `${hours}:${minutes}:${seconds}`;
-
-    if (this.stream) {
-      // キャンバスにビデオ画像を描画する
-      this.context.drawImage(
-        this.video,
-        0,
-        0,
-        this.canvas.width,
-        this.canvas.height
-      );
-
-      // 画像の容量を変更する
-      const imageUrl = this.canvas.toDataURL('image/jpeg', this.quality);
-
-      // キャプチャした画像をプレビューする
-      this.preview.src = imageUrl;
-
-      // 画像をオブジェクトに追加する
-      this.imageData = {
-        imageUrl,
-        timeString,
-      };
-
-      // entityにimageDataを追加
-      this.entity[entityId].imageData = this.imageData;
-    }
-  };
 
   onSaved = () => {
     console.log('saveBtn clicked');
@@ -124,11 +30,7 @@ class Photo extends Textarea {
 
       // 文章を書いた日付を取得する
       const timestamp = entity[Object.keys(entity)[0]].timestamp;
-      const nowDate = new Date(timestamp);
-      const year = nowDate.getFullYear();
-      const month = (nowDate.getMonth() + 1).toString().padStart(2, '0'); // 月をゼロ埋め
-      const day = nowDate.getDate().toString().padStart(2, '0'); // 日をゼロ埋め
-      const formattedDate = `${year}-${month}-${day}`;
+      const formattedDate = this.time.createDateStr(timestamp);
 
       // ローカルデータを取得する
       let textDataString = localStorage.getItem('textData');
@@ -216,5 +118,3 @@ class Photo extends Textarea {
     this.entityIds = [];
   };
 }
-
-//localStorage.clear();
