@@ -43,15 +43,16 @@ class Chat extends Photo {
       const messageOuter = document.createElement('div');
       messageOuter.classList.add(
         'flex',
-        'justify-end',
+        'justify-start',
         'items-end',
         'mb-3',
-        'mr-2'
+        'ml-2',
+        'w-full'
       );
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('div');
-      chatTimeElement.classList.add('mr-2', 'text-gray-800');
+      chatTimeElement.classList.add('ml-2', 'text-gray-800');
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
@@ -62,10 +63,11 @@ class Chat extends Photo {
       messageElement.classList.add(
         'bg-white',
         'rounded-t-md',
-        'rounded-bl-md',
+        'rounded-br-md',
         'p-2',
-        'pr-3',
-        'relative'
+        'pl-3',
+        'relative',
+        'order-first'
       );
 
       // オリジナルのテキストを作成する
@@ -361,7 +363,8 @@ class Chat extends Photo {
     // スクロールバーを一番下に移動する
     this.chatarea.scrollTop = this.chatarea.scrollHeight;
 
-    this.el.value = '';
+    // 送信後、テキストエリアのテキストを消去する
+    this.onCleared();
   };
 
   uuidv4 = () => {
@@ -370,6 +373,16 @@ class Chat extends Photo {
       const v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  };
+
+  onCleared = () => {
+    console.log('oncleared');
+
+    // 保存した文章をリセットする
+    this.el.value = '';
+    this.count = 0;
+    this.entity = {};
+    this.entityIds = [];
   };
 }
 
