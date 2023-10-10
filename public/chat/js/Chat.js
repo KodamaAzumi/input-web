@@ -51,8 +51,8 @@ class Chat extends Photo {
       );
 
       // チャットを送信した時間を作る
-      const chatTimeElement = document.createElement('div');
-      chatTimeElement.classList.add('ml-2', 'text-gray-800');
+      const chatTimeElement = document.createElement('p');
+      chatTimeElement.classList.add('ml-2', 'text-sky-800');
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
@@ -74,6 +74,7 @@ class Chat extends Photo {
       const messageText = chatData.text;
       if (messageText.trim() !== '') {
         const originalElement = document.createElement('p');
+        originalElement.classList.add('text-transparent');
 
         originalElement.innerHTML = messageText
           .replace(/\n/g, '<br>')
@@ -139,7 +140,13 @@ class Chat extends Photo {
       const { body, entityId } = chatData;
 
       const messageElement = document.querySelector('#' + messageId);
-      console.log(messageElement);
+
+      // messageElementがないとき、処理を中断する
+      if (!messageElement) {
+        console.log('messageElementがないよ');
+        return;
+      }
+
       const grayscaleElement = messageElement.querySelector('.chat-grayscale');
       const spanGrayscale = grayscaleElement.querySelector('.' + entityId);
 
@@ -223,8 +230,8 @@ class Chat extends Photo {
       );
 
       // チャットを送信した時間を作る
-      const chatTimeElement = document.createElement('div');
-      chatTimeElement.classList.add('mr-2', 'text-gray-800');
+      const chatTimeElement = document.createElement('p');
+      chatTimeElement.classList.add('mr-2', 'text-sky-800');
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
@@ -242,7 +249,8 @@ class Chat extends Photo {
 
       // オリジナルテキスト
       if (messageText.trim() !== '') {
-        const originalElement = document.createElement('div');
+        const originalElement = document.createElement('p');
+        originalElement.classList.add('text-transparent');
 
         originalElement.innerHTML = messageText
           .replace(/\n/g, '<br>')
@@ -301,23 +309,24 @@ class Chat extends Photo {
           console.log(diff);
         }
 
-        message = JSON.stringify({
-          entityId,
-          messageId,
-          body,
-          diff,
-          type: 'body',
-        });
+        setTimeout(() => {
+          message = JSON.stringify({
+            entityId,
+            messageId,
+            body,
+            diff,
+            type: 'body',
+          });
 
-        // 1文字の情報を送信する
-
-        this.socket.send(
-          JSON.stringify({
-            action: 'sendmessage',
-            message,
-          })
-        );
-        console.log('sended');
+          // 1文字の情報を送信する
+          this.socket.send(
+            JSON.stringify({
+              action: 'sendmessage',
+              message,
+            })
+          );
+          console.log('sended');
+        }, 10);
 
         // 入力された文字が改行コードか
         if ('\r\n' === value || '\r' === value || '\n' === value) {
@@ -365,6 +374,9 @@ class Chat extends Photo {
 
     // 送信後、テキストエリアのテキストを消去する
     this.onCleared();
+
+    // テキストエリアの高さを元に戻す
+    this.onResizedHeight();
   };
 
   uuidv4 = () => {

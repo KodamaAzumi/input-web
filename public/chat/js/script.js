@@ -73,12 +73,6 @@ const loop = () => {
 
 window.requestAnimationFrame(loop);
 
-// 入力エリアの高さをスクロールの高さと合わせる。
-const inputText = (textarea) => {
-  textarea.style.height = 'auto';
-  textarea.style.height = textarea.scrollHeight + 'px';
-};
-
 // 入力画面のタブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
   let element = event.target;

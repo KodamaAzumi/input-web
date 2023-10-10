@@ -31,8 +31,8 @@ class Textarea {
     this.onInput = this.onInput.bind(this);
 
     // ウィンドウのサイズを変更したとき内容に合わせてテキストエリアのサイズを変更する
-    this.onResize = this.onResize.bind(this);
-    window.addEventListener('resize', this.onResize);
+    this.onResizedHeight = this.onResizedHeight.bind(this);
+    window.addEventListener('resize', this.onResizedHeight);
 
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
@@ -45,7 +45,7 @@ class Textarea {
     );
   }
 
-  onResize(e) {
+  onResizedHeight(e) {
     if (this.autoResize) {
       this.el.style.height = 'auto';
       this.el.style.height = `${this.el.scrollHeight}px`;
@@ -58,7 +58,8 @@ class Textarea {
     let caretCoord = 0;
     let isntCounted = true;
 
-    this.onResize();
+    // テキストエリアの高さを元に戻す
+    this.onResizedHeight();
 
     diff.forEach((part, i) => {
       // 新しく挿入された文字列があるか
