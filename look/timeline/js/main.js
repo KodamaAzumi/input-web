@@ -1,4 +1,4 @@
 import '../index.css';
 import '/shared/scripts/index.js';
 
-console.log('timeline');
+console.log('look timeline');

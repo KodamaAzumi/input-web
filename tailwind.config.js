@@ -7,6 +7,8 @@ module.exports = {
     'public/write/js/script.js',
     'look/index.html',
     'public/look/js/script.js',
+    'look/sentence/index.html',
+    'public/sentence/js/script.js',
     'look/timeline/index.html',
     'public/timeline/js/script.js',
     'chat/index.html',

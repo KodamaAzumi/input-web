@@ -1,4 +1,4 @@
 import '../index.css';
 import '/shared/scripts/index.js';
 
-console.log('look calender');
+console.log('look sentence');

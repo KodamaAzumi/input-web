@@ -1,11 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.toolBtn:hover .toolBtn-tooltip {
-  @apply opacity-100 inline-block;
-}
-
-.helpBtn:hover .helpBtn-tooltip {
-  @apply opacity-100 inline-block;
-}
