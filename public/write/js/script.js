@@ -1,13 +1,16 @@
 const textarea = new Write('#js-textarea');
 const grayscale = document.querySelector('#js-output-grayscale');
 const imagePara = document.querySelector('#js-output-image');
+const scaleOutput = document.querySelector('#js-output-scale');
 
 const loop = () => {
   const fragment = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
+  const fragmentScale = document.createDocumentFragment();
 
   grayscale.innerHTML = '';
   imagePara.innerHTML = '';
+  scaleOutput.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -27,6 +30,7 @@ const loop = () => {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
       const br = document.createElement('br');
       fragment.appendChild(br);
+      fragmentScale.appendChild(br);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
       grayscale.appendChild(fragment);
@@ -63,6 +67,28 @@ const loop = () => {
     spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
+
+    (() => {
+      const char = document.createElement('span');
+      const charBody = document.createElement('span');
+      // 1 文字目は時差なし、なので必ず 1.0 になる
+      // 1 文字目以降は時差に応じて文字の大きさを変える
+      // 4000 ミリ秒で最大の 10 倍になる
+      const sx = 1.0 + Math.min((diff / 4000) * 9, 9);
+
+      char.style.display = 'inline-block';
+      charBody.style.transform = `scaleX(${sx})`;
+      charBody.style.transformOrigin = `top left`;
+      charBody.style.display = 'inline-block';
+
+      charBody.appendChild(document.createTextNode(value));
+      char.appendChild(charBody);
+      fragmentScale.appendChild(char);
+      scaleOutput.appendChild(fragmentScale);
+
+      const charBodyDOMRect = charBody.getBoundingClientRect();
+      char.style.width = `${charBodyDOMRect.width}px`;
+    })();
   });
 
   grayscale.appendChild(fragment);
