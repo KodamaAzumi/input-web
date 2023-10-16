@@ -157,7 +157,7 @@ const changeActiveDate = (event, element) => {
   const activeDate = eventElement.parentElement.getAttribute('data-date');
   localStorage.setItem('dateData', String(activeDate));
 
-  // 日記のインデックスを初期化しておく
+  // 日記のインデックスを初期化（最新の文章に）しておく
   const savedNum = textData[activeDate].length - 1;
   localStorage.setItem('savedNumber', savedNum);
   console.log(savedNum);

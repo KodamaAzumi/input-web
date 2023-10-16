@@ -37,10 +37,11 @@ class Write extends Photo {
 
       // 文章を保存する
       // ローカルストレージにデータがあるかどうか
+      let textData;
       if (textDataString !== null) {
         console.log('ローカルストレージにデータが保存されています');
         // 文字列をオブジェクトに変換する
-        let textData = JSON.parse(textDataString);
+        textData = JSON.parse(textDataString);
         // 今日の日付のデータがあるかどうか
         if (textData[formattedDate]) {
           textData[formattedDate].push({
@@ -58,14 +59,6 @@ class Write extends Photo {
             },
           ];
         }
-        // オブジェクトを文字列に変換する
-        textDataString = JSON.stringify(textData);
-        // データを保存する
-        localStorage.setItem('textData', textDataString);
-
-        // 保存されたデータを確認する
-        textData = JSON.parse(textDataString);
-        console.log(textData);
 
         // 新しく文章を保存したときは、見るページで最初に表示する文章を最新の文章にする
         const savedNum = textData[formattedDate].length - 1;
@@ -73,7 +66,7 @@ class Write extends Photo {
       } else {
         console.log('ローカルストレージにデータは保存されていません');
         // 文章を保存するデータを新しく作る
-        let textData = {
+        textData = {
           [formattedDate]: [
             {
               timestamp,
@@ -82,15 +75,19 @@ class Write extends Photo {
             },
           ],
         };
-        // オブジェクトを文字列に変換する
-        textDataString = JSON.stringify(textData);
-        // データを保存する
-        localStorage.setItem('textData', textDataString);
-
-        // 保存されたデータを確認する
-        textData = JSON.parse(textDataString);
-        console.log(textData);
       }
+
+      // モーダルのために保存した日を保存しておく
+      localStorage.setItem('dateData', String(formattedDate));
+
+      // オブジェクトを文字列に変換する
+      textDataString = JSON.stringify(textData);
+      // データを保存する
+      localStorage.setItem('textData', textDataString);
+
+      // 保存されたデータを確認する
+      textData = JSON.parse(textDataString);
+      console.log(textData);
 
       // 保存した文章をリセットする
       this.onCleared();
