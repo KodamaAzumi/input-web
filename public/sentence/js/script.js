@@ -18,8 +18,8 @@ const timelineBtnHandler = (e) => {
 // 時間を作るクラス
 const createTime = new Time();
 
-// 今日の日付
-const formattedDate = createTime.createDateStr();
+// 表示したい文章の日付
+const formattedDate = localStorage.getItem('dateData');
 
 // 最後に表示していた日記のインデックス
 const savedNum = localStorage.getItem('savedNumber');

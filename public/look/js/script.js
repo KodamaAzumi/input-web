@@ -7,8 +7,8 @@ let textData = JSON.parse(textDataString);
 console.log(textData);
 
 if (textData) {
-  //const dateKeys = Object.keys(textData);
-  const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
+  const dateKeys = Object.keys(textData);
+  //const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
 
   // 配列を日付の文字列から日付オブジェクトに変換
   const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
@@ -100,7 +100,7 @@ if (textData) {
           // 文章のある日付に色を付ける
           if (dateKeys.includes(dataDate)) {
             console.log(dataDate);
-            calendarHtml += `<td data-date="${dataDate}" class="pb-2"><a href="/look/sentence/index.html" class="bg-yellow-400 text-yellow-800 px-3 rounded-full">${dayCount}</a></td>`;
+            calendarHtml += `<td data-date="${dataDate}" class="pb-2"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 px-3 rounded-full">${dayCount}</a></td>`;
             dayCount++;
           } else {
             calendarHtml += `<td data-date="${dataDate}" class="pb-2">${dayCount}</td>`;
@@ -149,3 +149,16 @@ if (textData) {
   calendarElement.appendChild(para);
   document.querySelector('#js-calendar').appendChild(calendarElement);
 }
+
+// クリックした日付を保存する
+const changeActiveDate = (event, element) => {
+  //event.preventDefault();
+  const eventElement = element;
+  const activeDate = eventElement.parentElement.getAttribute('data-date');
+  localStorage.setItem('dateData', String(activeDate));
+
+  // 日記のインデックスを初期化しておく
+  const savedNum = textData[activeDate].length - 1;
+  localStorage.setItem('savedNumber', savedNum);
+  console.log(savedNum);
+};
