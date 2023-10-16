@@ -152,20 +152,6 @@
 
     <!-- Look -->
     <div class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
-      <!-- 写真を確認するためのビデオとプレビュー -->
-      <div class="bg-pink-300 hidden justify-between col-start-4 col-span-6">
-        <!-- video -->
-        <video id="js-video" width="320" height="240" autoplay></video>
-        <!-- preview -->
-        <img
-          id="js-preview"
-          width="320"
-          height="240"
-          src="#"
-          alt="写真のプレビュー"
-        />
-      </div>
-
       <!-- Sidebar -->
       <aside
         class="hidden col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 md:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
@@ -184,7 +170,7 @@
           id="submenu-openButton"
         >
           <span class="sr-only">Open sidebar</span>
-          <img src="\look\images\arrowIcon.svg" alt="矢印アイコン" />
+          <img src="/sentence/images/arrowIcon.svg" alt="矢印アイコン" />
         </button>
       </div>
 
@@ -254,7 +240,7 @@
               </span>
               <span class="sr-only">go to timeline</span>
               <img
-                src="/look/images/clockIcon.svg"
+                src="/sentence/images/clockIcon.svg"
                 alt="タイムラインアイコン"
               />
             </a>
@@ -270,7 +256,7 @@
               </span>
               <span class="sr-only">download</span>
               <img
-                src="\look\images\downloadIcon.svg"
+                src="/sentence/images/downloadIcon.svg"
                 alt="ダウンロードアイコン"
               />
             </button>
@@ -487,6 +473,6 @@
 
     <script type="module" src="./js/main.js"></script>
     <script src="/shared/js/Time.js"></script>
-    <script src="/look/js/script.js"></script>
+    <script src="/sentence/js/script.js"></script>
   </body>
 </html>
