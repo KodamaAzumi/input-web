@@ -8,7 +8,7 @@ console.log(textData);
 
 if (textData) {
   //const dateKeys = Object.keys(textData);
-  const dateKeys = ['2021-12-03', '2023-01-09', '2022-11-04'];
+  const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
 
   // 配列を日付の文字列から日付オブジェクトに変換
   const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
@@ -48,37 +48,41 @@ if (textData) {
 
   // カレンダーを作る
   const weeks = ['日', '月', '火', '水', '木', '金', '土'];
-  const year = splitDate(newestDateStr)[0];
-  const month = splitDate(newestDateStr)[1];
+  const year = parseInt(splitDate(newestDateStr)[0]);
+  const month = parseInt(splitDate(newestDateStr)[1]);
   const config = {
     show: countMonth(oldestDateStr, newestDateStr),
   };
 
   const createCalendar = (year, month) => {
-    const startDate = new Date(year, month - 1, 1); // 月の最初の日を取得
-    const endDate = new Date(year, month, 0); // 月の最後の日を取得
-    const endDayCount = endDate.getDate(); // 月の末日
-    const startDay = startDate.getDay(); // 月の最初の日の曜日を取得
-    let dayCount = 1; // 日にちのカウント
-    let calendarHtml = ''; // HTMLを組み立てる変数
+    // 月の最初の日を取得（Dateコンストラクタの月は0から始まるので-1をする）
+    const startDate = new Date(year, month - 1, 1);
+    // 月の最後の日を取得（0にすると0日となり、前月の最後の日になる）
+    const endDate = new Date(year, month, 0);
+    const endDayCount = endDate.getDate();
+    // 月の最初の日の曜日を取得（0は日曜日、1は月曜日）
+    const startDay = startDate.getDay();
+
+    // 日にちのカウント
+    let dayCount = 1;
+    let calendarHtml = '';
+
+    calendarHtml += `<h1 class="text-xl md:text-2xl font-bold text-gray-800">
+        ${year} / ${String(month).padStart(2, '0')} 
+      </h1>`;
 
     calendarHtml +=
-      '<h1 class="text-xl md:text-2xl font-bold text-gray-800">' +
-      year +
-      '/' +
-      String(month).padStart(2, '0') +
-      '</h1>';
-    calendarHtml += '<table class="w-full mt-3 text-lg text-center ">';
+      '<table class="w-full mt-3 text-lg text-center"><thead><tr>';
 
     // 曜日の行を作成
     for (let i = 0; i < weeks.length; i++) {
-      calendarHtml +=
-        '<td class="pb-2 first:text-red-400 last:text-blue-400 ">' +
-        weeks[i] +
-        '</td>';
+      calendarHtml += `<th class="pb-2 first:text-red-400 last:text-blue-400 ">
+        ${weeks[i]} 
+        </th>`;
     }
+    calendarHtml += '</tr></thead><tbody>';
 
-    for (let w = 0; w < 5; w++) {
+    for (let w = 0; w < 6; w++) {
       calendarHtml += '<tr class="text-center">';
 
       for (let d = 0; d < 7; d++) {
@@ -89,25 +93,42 @@ if (textData) {
           // 末尾の日数を超えた
           calendarHtml += '<td class="pb-2"></td>';
         } else {
-          calendarHtml += '<td class="pb-2">' + dayCount + '</td>';
-          dayCount++;
+          const dataDate = `${year}-${String(month).padStart(2, '0')}-${String(
+            dayCount
+          ).padStart(2, '0')}`;
+
+          // 文章のある日付に色を付ける
+          if (dateKeys.includes(dataDate)) {
+            console.log(dataDate);
+            calendarHtml += `<td data-date="${dataDate}" class="pb-2"><a href="/look/sentence/index.html" class="bg-yellow-400 text-yellow-800 px-3 rounded-full">${dayCount}</a></td>`;
+            dayCount++;
+          } else {
+            calendarHtml += `<td data-date="${dataDate}" class="pb-2">${dayCount}</td>`;
+            dayCount++;
+          }
         }
       }
       calendarHtml += '</tr>';
     }
-    calendarHtml += '</table>';
+    calendarHtml += '</tbody></table>';
 
-    //console.log(calendarHtml);
     return calendarHtml;
   };
 
   showCalendar = (year, month) => {
+    // データの初めの月から終わりの月までカレンダーを作る
     for (i = 0; i < config.show; i++) {
       const calendarHtml = createCalendar(year, month);
-      const sec = document.createElement('section');
-      sec.classList.add('w-full', 'md:w-1/2', 'mb-5', 'md:mb-8', 'sm:p-2');
-      sec.innerHTML = calendarHtml;
-      document.querySelector('#js-calendar').appendChild(sec);
+      const calendarElement = document.createElement('div');
+      calendarElement.classList.add(
+        'w-full',
+        'md:w-1/2',
+        'mb-5',
+        'md:mb-8',
+        'sm:p-2'
+      );
+      calendarElement.innerHTML = calendarHtml;
+      document.querySelector('#js-calendar').appendChild(calendarElement);
 
       month--;
       if (month < 1) {
@@ -119,12 +140,12 @@ if (textData) {
 
   showCalendar(year, month);
 } else {
-  const div = document.createElement('div');
-  div.classList.add('h-screen');
+  const calendarElement = document.createElement('div');
+  calendarElement.classList.add('h-screen');
   const para = document.createElement('p');
   para.classList.add('font-bold');
   para.innerHTML =
     '文章を一度も書いていません。<br>「書く」ページで文章を書いて見ましょう。';
-  div.appendChild(para);
-  document.querySelector('#js-calendar').appendChild(div);
+  calendarElement.appendChild(para);
+  document.querySelector('#js-calendar').appendChild(calendarElement);
 }
