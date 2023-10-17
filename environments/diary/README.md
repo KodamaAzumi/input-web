@@ -39,3 +39,9 @@ $ serverless offline start
 # 関数のみのデプロイ
 $ serverless deploy functions -f [関数名]
 ```
+
+# S3 　について
+
+IAM ユーザーの親 AWS アカウントがバケット所有者の場合、IAM ユーザーのポリシーとバケットポリシーどちらかで明示的な許可を持っているとき、アクセスできる。（https://dev.classmethod.jp/articles/summarize-principal-settings-in-s3-bucket-policy/）
+
+https://www.serverless.com/plugins/serverless-s3-local

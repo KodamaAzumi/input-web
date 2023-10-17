@@ -1,16 +1,41 @@
 'use strict';
 
-const AWS = require('aws-sdk');
-const options = {};
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+} = require('@aws-sdk/client-s3');
+
+const dynamoDBClientConfig = {};
+const s3ClientConfig = {};
 
 if (process.env.IS_OFFLINE) {
-  options.region = 'localhost';
-  options.endpoint = 'http://localhost:8000';
+  dynamoDBClientConfig.region = 'localhost';
+  dynamoDBClientConfig.endpoint = 'http://localhost:8000';
+
+  s3ClientConfig.forcePathStyle = true;
+  s3ClientConfig.credentials = {
+    accessKeyId: 'S3RVER', // This specific key is required when working offline
+    secretAccessKey: 'S3RVER',
+  };
+  s3ClientConfig.endpoint = 'http://localhost:4569';
 }
 
-const documentClient = new AWS.DynamoDB.DocumentClient(options);
+const dynamoDBClient = new DynamoDBClient(dynamoDBClientConfig);
+const s3Client = new S3Client(s3ClientConfig);
 
 module.exports.hello = async (event) => {
+  s3Client
+    .send(
+      new PutObjectCommand({
+        Bucket: 'diary-dev',
+        Key: '1234',
+        Body: Buffer.from('abcd'),
+      })
+    )
+    .then(() => console.log('ok'));
+
   return {
     statusCode: 200,
     body: JSON.stringify(
