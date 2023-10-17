@@ -8,7 +8,7 @@ console.log(textData);
 
 if (textData) {
   //const dateKeys = Object.keys(textData);
-  const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
+  const dateKeys = ['2023-05-03', '2023-01-09', '2023-11-04'];
 
   // 配列を日付の文字列から日付オブジェクトに変換
   const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
@@ -99,7 +99,9 @@ if (textData) {
           if (dateKeys.includes(dataDate)) {
             console.log(dataDate);
             if (w == 0 && d === startDay) {
-              calendarHtml += `<li class="col-start-${startDay}" data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
+              calendarHtml += `<li class="col-start-${
+                startDay + 1
+              }" data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
               console.log('first-day');
             } else {
               calendarHtml += `<li data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
@@ -107,7 +109,9 @@ if (textData) {
             dayCount++;
           } else {
             if (w == 0 && d === startDay) {
-              calendarHtml += `<li class="col-start-${startDay}" data-date="${dataDate}">${dayCount}</li>`;
+              calendarHtml += `<li class="col-start-${
+                startDay + 1
+              }" data-date="${dataDate}">${dayCount}</li>`;
             } else {
               calendarHtml += `<li data-date="${dataDate}">${dayCount}</li>`;
             }
