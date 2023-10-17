@@ -7,8 +7,8 @@ let textData = JSON.parse(textDataString);
 console.log(textData);
 
 if (textData) {
-  //const dateKeys = Object.keys(textData);
-  const dateKeys = ['2023-05-03', '2023-01-09', '2023-11-04'];
+  const dateKeys = Object.keys(textData);
+  //const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
 
   // 配列を日付の文字列から日付オブジェクトに変換
   const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
@@ -72,7 +72,7 @@ if (textData) {
       </h1>`;
 
     calendarHtml +=
-      '<ul class="text-lg text-center list-none grid grid-cols-7">';
+      '<ul class="text-lg text-center list-none grid grid-cols-7 gap-y-2">';
 
     // 曜日の行を作成
     for (let i = 0; i < weeks.length; i++) {
@@ -81,9 +81,20 @@ if (textData) {
         </li>`;
     }
 
+    calendarHtml += '</ul>';
+
+    calendarHtml +=
+      '<ul class="text-lg text-center list-none grid grid-cols-7 gap-y-2">';
+
     for (let w = 0; w < 6; w++) {
       for (let d = 0; d < 7; d++) {
-        if (!((w == 0 && d < startDay) || dayCount > endDayCount)) {
+        if (w == 0 && d < startDay) {
+          // 1行目で1日の曜日の前
+          calendarHtml += '<li></li>';
+        } else if (dayCount > endDayCount) {
+          // 末尾の日数を超えた
+          calendarHtml += '<li></li>';
+        } else {
           const dataDate = `${year}-${String(month).padStart(2, '0')}-${String(
             dayCount
           ).padStart(2, '0')}`;
@@ -91,23 +102,10 @@ if (textData) {
           // 文章のある日付に色を付ける
           if (dateKeys.includes(dataDate)) {
             console.log(dataDate);
-            if (w == 0 && d === startDay) {
-              calendarHtml += `<li class="col-start-${
-                startDay + 1
-              }" data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
-              console.log('first-day');
-            } else {
-              calendarHtml += `<li data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
-            }
+            calendarHtml += `<li data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full inline-block w-7 h-7">${dayCount}</a></li>`;
             dayCount++;
           } else {
-            if (w == 0 && d === startDay) {
-              calendarHtml += `<li class="col-start-${
-                startDay + 1
-              }" data-date="${dataDate}">${dayCount}</li>`;
-            } else {
-              calendarHtml += `<li data-date="${dataDate}">${dayCount}</li>`;
-            }
+            calendarHtml += `<li data-date="${dataDate}">${dayCount}</li>`;
             dayCount++;
           }
         }
