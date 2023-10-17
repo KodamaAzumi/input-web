@@ -7,8 +7,8 @@ let textData = JSON.parse(textDataString);
 console.log(textData);
 
 if (textData) {
-  const dateKeys = Object.keys(textData);
-  //const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
+  //const dateKeys = Object.keys(textData);
+  const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
 
   // 配列を日付の文字列から日付オブジェクトに変換
   const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
@@ -71,27 +71,26 @@ if (textData) {
         ${year} / ${String(month).padStart(2, '0')} 
       </h1>`;
 
-    calendarHtml +=
-      '<table class="w-full mt-3 text-lg text-center"><thead><tr>';
+    calendarHtml += '<table class="text-lg text-center"><thead><tr>';
 
     // 曜日の行を作成
     for (let i = 0; i < weeks.length; i++) {
-      calendarHtml += `<th class="pb-2 first:text-red-400 last:text-blue-400 ">
+      calendarHtml += `<th class="first:text-red-400 last:text-blue-400 ">
         ${weeks[i]} 
         </th>`;
     }
     calendarHtml += '</tr></thead><tbody>';
 
     for (let w = 0; w < 6; w++) {
-      calendarHtml += '<tr class="text-center">';
+      calendarHtml += '<tr>';
 
       for (let d = 0; d < 7; d++) {
         if (w == 0 && d < startDay) {
           // 1行目で1日の曜日の前
-          calendarHtml += '<td class="pb-2"></td>';
+          calendarHtml += '<td></td>';
         } else if (dayCount > endDayCount) {
           // 末尾の日数を超えた
-          calendarHtml += '<td class="pb-2"></td>';
+          calendarHtml += '<td></td>';
         } else {
           const dataDate = `${year}-${String(month).padStart(2, '0')}-${String(
             dayCount
@@ -100,10 +99,10 @@ if (textData) {
           // 文章のある日付に色を付ける
           if (dateKeys.includes(dataDate)) {
             console.log(dataDate);
-            calendarHtml += `<td data-date="${dataDate}" class="pb-2"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 px-3 rounded-full">${dayCount}</a></td>`;
+            calendarHtml += `<td data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></td>`;
             dayCount++;
           } else {
-            calendarHtml += `<td data-date="${dataDate}" class="pb-2">${dayCount}</td>`;
+            calendarHtml += `<td data-date="${dataDate}">${dayCount}</td>`;
             dayCount++;
           }
         }
@@ -120,13 +119,7 @@ if (textData) {
     for (i = 0; i < config.show; i++) {
       const calendarHtml = createCalendar(year, month);
       const calendarElement = document.createElement('div');
-      calendarElement.classList.add(
-        'w-full',
-        'md:w-1/2',
-        'mb-5',
-        'md:mb-8',
-        'sm:p-2'
-      );
+      calendarElement.classList.add('grid', 'gap-4');
       calendarElement.innerHTML = calendarHtml;
       document.querySelector('#js-calendar').appendChild(calendarElement);
 
