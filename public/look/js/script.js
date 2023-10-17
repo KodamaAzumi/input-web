@@ -67,30 +67,29 @@ if (textData) {
     let dayCount = 1;
     let calendarHtml = '';
 
-    calendarHtml += `<h1 class="text-xl md:text-2xl font-bold text-gray-800">
+    calendarHtml += `<h1 class="text-xl md:text-2xl font-bold text-center text-gray-800">
         ${year} / ${String(month).padStart(2, '0')} 
       </h1>`;
 
-    calendarHtml += '<table class="text-lg text-center"><thead><tr>';
+    calendarHtml +=
+      '<ul class="text-lg text-center list-none grid grid-cols-7"><tr>';
 
     // 曜日の行を作成
     for (let i = 0; i < weeks.length; i++) {
-      calendarHtml += `<th class="first:text-red-400 last:text-blue-400 ">
+      calendarHtml += `<li class="first:text-red-400 last:text-blue-400 ">
         ${weeks[i]} 
-        </th>`;
+        </li>`;
     }
-    calendarHtml += '</tr></thead><tbody>';
+    calendarHtml += '</li>';
 
     for (let w = 0; w < 6; w++) {
-      calendarHtml += '<tr>';
-
       for (let d = 0; d < 7; d++) {
         if (w == 0 && d < startDay) {
           // 1行目で1日の曜日の前
-          calendarHtml += '<td></td>';
+          //calendarHtml += '<li></li>';
         } else if (dayCount > endDayCount) {
           // 末尾の日数を超えた
-          calendarHtml += '<td></td>';
+          //calendarHtml += '<li></li>';
         } else {
           const dataDate = `${year}-${String(month).padStart(2, '0')}-${String(
             dayCount
@@ -99,17 +98,25 @@ if (textData) {
           // 文章のある日付に色を付ける
           if (dateKeys.includes(dataDate)) {
             console.log(dataDate);
-            calendarHtml += `<td data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></td>`;
+            if (w == 0 && d === startDay) {
+              calendarHtml += `<li class="col-start-${startDay}" data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
+              console.log('first-day');
+            } else {
+              calendarHtml += `<li data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full">${dayCount}</a></li>`;
+            }
             dayCount++;
           } else {
-            calendarHtml += `<td data-date="${dataDate}">${dayCount}</td>`;
+            if (w == 0 && d === startDay) {
+              calendarHtml += `<li class="col-start-${startDay}" data-date="${dataDate}">${dayCount}</li>`;
+            } else {
+              calendarHtml += `<li data-date="${dataDate}">${dayCount}</li>`;
+            }
             dayCount++;
           }
         }
       }
-      calendarHtml += '</tr>';
     }
-    calendarHtml += '</tbody></table>';
+    calendarHtml += '</ul>';
 
     return calendarHtml;
   };
