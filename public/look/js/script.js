@@ -83,13 +83,7 @@ if (textData) {
 
     for (let w = 0; w < 6; w++) {
       for (let d = 0; d < 7; d++) {
-        if (w == 0 && d < startDay) {
-          // 1行目で1日の曜日の前
-          //calendarHtml += '<li></li>';
-        } else if (dayCount > endDayCount) {
-          // 末尾の日数を超えた
-          //calendarHtml += '<li></li>';
-        } else {
+        if (!((w == 0 && d < startDay) || dayCount > endDayCount)) {
           const dataDate = `${year}-${String(month).padStart(2, '0')}-${String(
             dayCount
           ).padStart(2, '0')}`;
