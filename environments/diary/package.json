@@ -1,0 +1,17 @@
+{
+  "name": "diary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "dev": "npx sls offline start",
+    "dynamodb-start": "npx sls dynamodb start",
+    "dynamodb-admin": "npx dynamodb-admin"
+  },
+  "author": "Hiroki Kajiya",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-dynamodb": "^0.2.43",
+    "serverless-offline": "^13.2.0"
+  }
+}
