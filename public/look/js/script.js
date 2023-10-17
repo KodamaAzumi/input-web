@@ -72,7 +72,7 @@ if (textData) {
       </h1>`;
 
     calendarHtml +=
-      '<ul class="text-lg text-center list-none grid grid-cols-7"><tr>';
+      '<ul class="text-lg text-center list-none grid grid-cols-7">';
 
     // 曜日の行を作成
     for (let i = 0; i < weeks.length; i++) {
@@ -80,7 +80,6 @@ if (textData) {
         ${weeks[i]} 
         </li>`;
     }
-    calendarHtml += '</li>';
 
     for (let w = 0; w < 6; w++) {
       for (let d = 0; d < 7; d++) {
