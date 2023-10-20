@@ -97,7 +97,7 @@ functions:
     handler: diaries/delete.delete
     events:
       - http:
-          path: diaries/{id}
+          path: diaries/{id}/{timestamp}
           method: delete
           cors: true
   get:
@@ -118,7 +118,7 @@ functions:
     handler: diaries/update.update
     events:
       - http:
-          path: diaries/{id}
+          path: diaries/{id}/{timestamp}
           method: put
           cors: true
 
