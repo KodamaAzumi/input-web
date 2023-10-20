@@ -9,6 +9,7 @@ const {
 const { marshall } = require('@aws-sdk/util-dynamodb');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
+const { DateTime } = require('luxon');
 
 const dynamoDBClientConfig = {};
 const s3ClientConfig = {};
@@ -78,7 +79,8 @@ const schema = {
 const validate = ajv.compile(schema);
 
 module.exports.create = async (event) => {
-  const timestamp = new Date().getTime();
+  const timestamp = DateTime.now().setZone('Asia/Tokyo').toFormat('yyyy-MM-dd');
+  const version = 0;
   const { id, entityIds, entities } = JSON.parse(event.body);
 
   const valid = validate(JSON.parse(event.body));
