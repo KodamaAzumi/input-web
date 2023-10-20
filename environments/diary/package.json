@@ -13,8 +13,12 @@
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.429.0",
     "@aws-sdk/client-s3": "^3.429.0",
+    "@aws-sdk/util-dynamodb": "^3.431.0",
     "serverless-dynamodb": "^0.2.43",
     "serverless-offline": "^13.2.0",
     "serverless-s3-local": "^0.8.1"
+  },
+  "dependencies": {
+    "luxon": "^3.4.3"
   }
 }

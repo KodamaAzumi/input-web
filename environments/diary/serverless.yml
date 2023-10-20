@@ -25,8 +25,9 @@ provider:
   runtime: nodejs18.x
   environment:
     # ${sls:stage} は ${opt:stage, self:provider.stage, "dev"} のショートカット
-    S3_BUCKET: ${self:service}-${sls:stage}
     DYNAMODB_TABLE: ${self:service}-${sls:stage}
+    S3_BUCKET: ${self:service}-${sls:stage}
+    TZ: Asia/Tokyo
   iam:
     role:
       statements:
@@ -85,12 +86,43 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  create:
+    handler: diaries/create.create
     events:
-      - httpApi:
-          path: /
+      - http:
+          path: diaries
+          method: post
+          cors: true
+  delete:
+    handler: diaries/delete.delete
+    events:
+      - http:
+          path: diaries/{id}
+          method: delete
+          cors: true
+  get:
+    handler: diaries/get.get
+    events:
+      - http:
+          path: diaries/{id}/{timestamp}
           method: get
+          cors: true
+  list:
+    handler: diaries/list.list
+    events:
+      - http:
+          path: diaries/{id}
+          method: get
+          cors: true
+  update:
+    handler: diaries/update.update
+    events:
+      - http:
+          path: diaries/{id}
+          method: put
+          cors: true
+
+  
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
