@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "8c910490-9b85-4cb6-830f-8e9af2868e4c",
+		"name": "kodama23",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "272263"
+	},
+	"item": [
+		{
+			"name": "diaries",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "7ed26a5c-a20c-af8d-8f86-f6388424cc71",
+							"description": "ユーザーの識別子",
+							"type": "text"
+						},
+						{
+							"key": "entityIds",
+							"value": "[\"c0i0\",\"c0i1\",\"c0i2\"]",
+							"description": "日記の文字情報のインデックス",
+							"type": "text"
+						},
+						{
+							"key": "entities",
+							"value": "{\"c0i0\":{\"timestamp\":1697775432074,\"value\":\"い\",\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==\"},\"c0i1\":{\"timestamp\":1697775432075,\"value\":\"ろ\",\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==\"},\"c0i2\":{\"timestamp\":1697775432076,\"value\":\"は\",\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==\"}}",
+							"description": "日記の文字情報",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/dev/diaries",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"diaries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "diaries/{id}/{timestamp}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dev/diaries/?id=7ed26a5c-a20c-af8d-8f86-f6388424cc71&timestamp=2023-04-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"diaries",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "7ed26a5c-a20c-af8d-8f86-f6388424cc71",
+							"description": "ユーザーの識別子"
+						},
+						{
+							"key": "timestamp",
+							"value": "2023-04-01",
+							"description": "日付の文字列"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "diaries/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dev/diaries/?id=7ed26a5c-a20c-af8d-8f86-f6388424cc71",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"diaries",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "7ed26a5c-a20c-af8d-8f86-f6388424cc71",
+							"description": "ユーザーの識別子"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "diaries/{id}/{timestamp}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dev/diaries/?id=7ed26a5c-a20c-af8d-8f86-f6388424cc71&timestamp=2023-04-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"diaries",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "7ed26a5c-a20c-af8d-8f86-f6388424cc71",
+							"description": "ユーザーの識別子"
+						},
+						{
+							"key": "timestamp",
+							"value": "2023-04-01",
+							"description": "日付の文字列"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "diaries/{id}/{timestamp}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "7ed26a5c-a20c-af8d-8f86-f6388424cc71",
+							"description": "ユーザーの識別子",
+							"type": "text"
+						},
+						{
+							"key": "timestamp",
+							"value": "2023-04-01",
+							"description": "日付の文字列",
+							"type": "text"
+						},
+						{
+							"key": "entityIds",
+							"value": "[\"c0i0\",\"c0i1\",\"c0i2\"]",
+							"description": "日記の文字情報のインデックス",
+							"type": "text"
+						},
+						{
+							"key": "entities",
+							"value": "{\"c0i0\":{\"timestamp\":1697775432074,\"value\":\"い\",\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==\"},\"c0i1\":{\"timestamp\":1697775432075,\"value\":\"ろ\",\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==\"},\"c0i2\":{\"timestamp\":1697775432076,\"value\":\"は\",\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==\"}}",
+							"description": "日記の文字情報",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/dev/diaries",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"diaries"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
