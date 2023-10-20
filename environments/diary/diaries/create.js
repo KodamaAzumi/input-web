@@ -26,46 +26,6 @@ if (process.env.IS_OFFLINE) {
 const dynamoDBClient = new DynamoDBClient(dynamoDBClientConfig);
 const s3Client = new S3Client(s3ClientConfig);
 
-/**
- * parse
- */
-// const parse = (body) => {
-//   const params = Buffer.from(body, 'base64').toString();
-//   const result = {};
-
-//   console.log(JSON.stringify(body));
-//   console.log(JSON.stringify(params));
-  
-//   // params.split(/\&/g).forEach((param) => {
-//   //   const [key, value] = decodeURIComponent(param).split(/\=/);
-
-//   //   try {
-//   //     result[key] = JSON.parse(value);
-//   //   } catch (e) {
-//   //     result[key] = value;
-//   //   }
-//   // });
-
-//   // return result;
-// }
-
-// let getParamsFromBase64EncodedPOSTParams = (input) => {
-//   let output = {};
-//   // Decode the base64
-//   let decoded = atob(input);
-
-//   // Split the params by "&"
-//   let params = decoded.split('&');
-//   // Turn the params into an object and url decode the values
-//   params.forEach((keyAndValue) => {
-//     let keyValueArray = keyAndValue.split('=');
-//     let key = keyValueArray[0];
-//     let value = keyValueArray[1];
-//     output[key] = decodeURIComponent((value + '').replace(/\+/g, '%20'));;
-//   });
-//   return output;
-// };
-
 module.exports.create = async (event) => {
   const timestamp = new Date().getTime();
   const { id, entityIds, entities } = JSON.parse(event.body);
