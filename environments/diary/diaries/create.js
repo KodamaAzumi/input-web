@@ -14,11 +14,8 @@ const { marshall, unmarshall } = require('@aws-sdk/util-dynamodb');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const { DateTime } = require('luxon');
-
 	
-const ALLOWED_ORIGINS = [
-  'http://localhost:3000'
-];
+const ALLOWED_ORIGINS = ['http://localhost:3000'];
 
 const dynamoDBClientConfig = {};
 const s3ClientConfig = {};
@@ -197,6 +194,9 @@ module.exports.create = async (event) => {
         const versionedEntityId = `${entityId}v${version}`;
         const entity = entities[entityId];
 
+        // 画像を持つ文字情報かどうかの情報を付与
+        entity.hasImage = entity.hasOwnProperty('image');
+
         // バージョンを付与した文字情報の実態を追加
         entities[versionedEntityId] = entity;
 
@@ -253,7 +253,10 @@ module.exports.create = async (event) => {
     console.error(error);
     return {
       statusCode: 400,
-      body: JSON.stringify(error),
+      body: JSON.stringify({
+        status: 'ERROR',
+        error,
+      }),
       headers,
     };
   }
