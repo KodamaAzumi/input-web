@@ -1,39 +1,26 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
-service: diary
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
+service: kodama23-diary
 frameworkVersion: '3'
-
 provider:
   name: aws
+  profile: nzu
+  region: ap-northeast-1
   runtime: nodejs18.x
   environment:
     # ${sls:stage} は ${opt:stage, self:provider.stage, "dev"} のショートカット
-    DYNAMODB_TABLE: ${self:service}-${sls:stage}
-    S3_BUCKET: ${self:service}-${sls:stage}
+    DYNAMODB_TABLE: ${self:service}-${sls:stage}-table
+    S3_BUCKET: ${self:service}-${sls:stage}-bucket
     TZ: Asia/Tokyo
+  # これいらないかもしれない
   iam:
     role:
       statements:
         - Effect: 'Allow'
           Action:
-            - 's3:PutObject'
+            - 's3:*'
+            # - 's3:GetObject'
+            # - 's3:GetEncryptionConfiguration'
+            # - 's3:PutEncryptionConfiguration'
+            # - 's3:PutObject'
           Resource:
             Fn::Join:
               - ''
@@ -50,41 +37,6 @@ provider:
             - dynamodb:DeleteItem
           # ${aws:region} は ${opt:region, self:provider.region, "us-east-1"} のショートカット
           Resource: 'arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_TABLE}'
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
-#  iam:
-#    role:
-#      statements:
-#        - Effect: "Allow"
-#          Action:
-#            - "s3:ListBucket"
-#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#        - Effect: "Allow"
-#          Action:
-#            - "s3:PutObject"
-#          Resource:
-#            Fn::Join:
-#              - ""
-#              - - "arn:aws:s3:::"
-#                - "Ref" : "ServerlessDeploymentBucket"
-#                - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  patterns:
-#    - '!exclude-me.js'
-#    - '!exclude-me-dir/**'
-#    - include-me.js
-#    - include-me-dir/**
-
 functions:
   create:
     handler: diaries/create.create
@@ -93,14 +45,14 @@ functions:
           path: diaries
           method: post
           cors: true
-    timeout: 60
-  delete:
-    handler: diaries/delete.delete
-    events:
-      - http:
-          path: diaries/{id}/{timestamp}
-          method: delete
-          cors: true
+    timeout: 30
+  # delete:
+  #   handler: diaries/delete.delete
+  #   events:
+  #     - http:
+  #         path: diaries/{id}/{timestamp}
+  #         method: delete
+  #         cors: true
   get:
     handler: diaries/get.get
     events:
@@ -122,83 +74,46 @@ functions:
           path: diaries/{id}/{timestamp}
           method: put
           cors: true
-
-  
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - httpApi:
-#          path: /users/create
-#          method: get
-#      - websocket: $connect
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-#      - alb:
-#          listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXXX:listener/app/my-load-balancer/50dc6c495c0c9188/
-#          priority: 1
-#          conditions:
-#            host: example.com
-#            path: /hello
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
-
+    timeout: 30
 resources:
   Resources:
     S3Bucket:
       Type: AWS::S3::Bucket
       Properties:
+        # AccessControl: PublicRead
         BucketName: ${self:provider.environment.S3_BUCKET}
-    S3BucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      DependsOn:
-        - S3Bucket
-      Properties:
-        Bucket:
-          Ref: S3Bucket
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Sid: PublicReadGetObject
-              Effect: Allow
-              Principal: '*'
-              Action:
-                - s3:GetObject
-              Resource:
-                - Fn::Join: ['', ['arn:aws:s3:::', { 'Ref': 'S3Bucket' }, '/*']]
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          IgnorePublicAcls: true
+          BlockPublicPolicy: true
+          RestrictPublicBuckets: true
+    # S3BucketPolicy:
+    #   Type: AWS::S3::BucketPolicy
+    #   # DependsOn:
+    #   #   - S3Bucket
+    #   Properties:
+    #     Bucket: !Ref S3Bucket
+    #     PolicyDocument:
+    #       # Version: '2012-10-17'
+    #       Statement:
+    #         # - Sid: PublicReadGetObject
+    #         - Action:
+    #             - s3:GetObject
+    #           Effect: Allow
+    #           Principal: '*'
+    #           Resource: !Sub arn:aws:s3:::${S3Bucket}/*
+    #             # Fn::Join:
+    #             #   - "/"
+    #             #   - - Fn::GetAtt:
+    #             #         - S3Bucket
+    #             #         - Arn
+    #             #     - "*"
+    #             # Fn::Sub: ${S3Bucket.Arn}/*
+    #             # Fn::Join:
+    #             #   - ''
+    #             #   - - 'arn:aws:s3:::'
+    #             #     - 'Ref': 'S3Bucket'
+    #             #     - '/*'
     DiaryDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # スタックが削除された際にリソースを保持する
@@ -236,7 +151,7 @@ custom:
       port: 8000
       migrate: true
       dbPath: .dynamodb
-plugins:
-  - serverless-dynamodb
-  - serverless-s3-local
-  - serverless-offline
+# plugins:
+#   - serverless-dynamodb
+#   - serverless-s3-local
+#   - serverless-offline
