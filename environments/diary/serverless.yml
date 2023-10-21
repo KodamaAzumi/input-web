@@ -16,11 +16,11 @@ provider:
       statements:
         - Effect: 'Allow'
           Action:
-            - 's3:*'
-            # - 's3:GetObject'
+            # - 's3:*'
+            - 's3:GetObject'
             # - 's3:GetEncryptionConfiguration'
             # - 's3:PutEncryptionConfiguration'
-            # - 's3:PutObject'
+            - 's3:PutObject'
           Resource:
             Fn::Join:
               - ''
@@ -117,7 +117,7 @@ resources:
     DiaryDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # スタックが削除された際にリソースを保持する
-      DeletionPolicy: Retain
+      # DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           # パーティションキー
