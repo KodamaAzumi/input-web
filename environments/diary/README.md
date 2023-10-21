@@ -45,3 +45,10 @@ $ serverless deploy functions -f [関数名]
 IAM ユーザーの親 AWS アカウントがバケット所有者の場合、IAM ユーザーのポリシーとバケットポリシーどちらかで明示的な許可を持っているとき、アクセスできる。（https://dev.classmethod.jp/articles/summarize-principal-settings-in-s3-bucket-policy/）
 
 https://www.serverless.com/plugins/serverless-s3-local
+
+スキーマ確認
+
+画像パス
+id/YYYY-MM-DD/n.jpg
+
+`serverless-s3-local` で put された画像ファイルの末尾には `_S3rver_object` という文字列が追加される。これを削除すると正常に開くことができる。  
