@@ -1,12 +1,16 @@
 'use strict';
 
-const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
+const {
+  DynamoDBClient,
+  PutItemCommand,
+  QueryCommand,
+} = require('@aws-sdk/client-dynamodb');
 const {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
 } = require('@aws-sdk/client-s3');
-const { marshall } = require('@aws-sdk/util-dynamodb');
+const { marshall, unmarshall } = require('@aws-sdk/util-dynamodb');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const { DateTime } = require('luxon');
@@ -84,13 +88,41 @@ const base64RegExp = /^data:(.+\/(.+));base64,(.*)$/;
  * putObject
  */
 const putObject = (body, contentType, key) => {
-  console.log(key);
   return s3Client.send(new PutObjectCommand({
     Body: body,
     Bucket: process.env.S3_BUCKET,
     ContentType: contentType,
     Key: key,
   }));
+};
+
+/**
+ * getItem - DynamoDB からすでに投稿されている日記情報を取得する関数
+ * @param {string} id - ユーザーの識別子
+ * @param {string} timestamp - 日記の日付の文字列
+ * @returns {Promise<QueryCommandOutput>} - DynamoDB から取得したアイテム
+ */
+const getItem = (id, timestamp) => {
+  const queryCommand = new QueryCommand({
+    ExpressionAttributeNames: {
+      '#id': 'id',
+      '#timestamp': 'timestamp',
+    },
+    ExpressionAttributeValues: {
+      ':id': {
+        S: id,
+      },
+      ':timestamp': {
+        S: timestamp,
+      },
+    },
+    KeyConditionExpression: '#id = :id AND #timestamp = :timestamp',
+    Limit: 1,
+    ProjectionExpression: 'version',
+    TableName: process.env.DYNAMODB_TABLE,
+  });
+
+  return dynamoDBClient.send(queryCommand);
 };
 
 /**
@@ -125,8 +157,8 @@ const putItem = (item) => {
 module.exports.create = async (event) => {
   const timestamp = DateTime.now().setZone('Asia/Tokyo').toFormat('yyyy-MM-dd');
   const { id, entityIds, entities } = JSON.parse(event.body);
-
   const valid = validate(JSON.parse(event.body));
+  let version = 0;
 
   try {
     // クライアントから送られた値にバリデーションエラーがあればエラーを返して終了
@@ -135,13 +167,41 @@ module.exports.create = async (event) => {
     }
 
     // バージョンの取得
+    const response = await getItem(id, timestamp);
+
+    if (response.Items.length > 0) {
+      // 取得したデータを処理しやすいフォーマットに変換する
+      const [unmarshalledItem] = response.Items.map((item) => unmarshall(item));
+      // すでに日記が存在している場合は、バージョンを更新する
+      version = unmarshalledItem.version + 1;
+    }
+
+    // 文字情報にバージョンを付与する処理
+    const versionedEntityIds = entityIds.map((entityId) => {
+      // 文字情報にバージョンが付与されていない場合は、バージョンを付与する
+      if (!entityId.includes('v')) {
+        const versionedEntityId = `${entityId}v${version}`;
+        const entity = entities[entityId];
+
+        // バージョンを付与した文字情報の実態を追加
+        entities[versionedEntityId] = entity;
+
+        // バージョンを付与した文字情報の実態を追加したので、元の文字情報は削除
+        delete entities[entityId];
+
+        return versionedEntityId;
+      }
+
+      // すでにバージョンが付与されている場合は、そのまま返す
+      return entityId;
+    });
 
     //画像を保存する手続きを行う
-    const putObjectCommandOutputs = entityIds.map((entityId) => {
-      // 画像を保存したことない文字列かどうかを判定（本来このAPIには不要だがPUTで流用するために記述）
+    const putObjectCommandOutputs = versionedEntityIds.map((entityId) => {
       const entity = entities[entityId];
 
-      if (!entityId.includes('v') && entity.hasOwnProperty('image')) {
+      // 画像を持つ保存したことない文字列かどうかを判定（本来このAPIには不要だがPUTで流用するために記述）
+      if (entityId.includes(`v${version}`) && entity.hasOwnProperty('image')) {
         const { image } = entity;
         const [_, contentType, extension, base64String] =
           image.match(base64RegExp);
@@ -163,11 +223,11 @@ module.exports.create = async (event) => {
 
     // DynamoDB をアイテムに保存する
     await putItem({
-      entityIds,
+      entityIds: versionedEntityIds,
       entities,
       id,
       timestamp,
-      version: 0,
+      version,
     });
 
     return {
