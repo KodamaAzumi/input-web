@@ -15,6 +15,11 @@ const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const { DateTime } = require('luxon');
 
+	
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000'
+];
+
 const dynamoDBClientConfig = {};
 const s3ClientConfig = {};
 
@@ -155,10 +160,19 @@ const putItem = (item) => {
 };
 
 module.exports.create = async (event) => {
+  const origin = event.headers.origin;
   const timestamp = DateTime.now().setZone('Asia/Tokyo').toFormat('yyyy-MM-dd');
   const { id, entityIds, entities } = JSON.parse(event.body);
   const valid = validate(JSON.parse(event.body));
   let version = 0;
+  let headers = {
+    'Access-Control-Allow-Origin': '*',
+  };
+
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    headers['Access-Control-Allow-Origin'] = origin;
+    headers['Access-Control-Allow-Credentials'] = true;
+  }
 
   try {
     // クライアントから送られた値にバリデーションエラーがあればエラーを返して終了
@@ -232,20 +246,15 @@ module.exports.create = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(
-        {
-          message: 'Go Serverless v1.0! Your function executed successfully!',
-          input: event,
-        },
-        null,
-        2
-      ),
+      body: JSON.stringify({ status: 'OK' }),
+      headers,
     };
   } catch (error) {
     console.error(error);
     return {
       statusCode: 400,
       body: JSON.stringify(error),
+      headers,
     };
   }
 };
