@@ -73,8 +73,6 @@ module.exports.get = async (event) => {
 
     const response = await getItem(id, timestamp);
 
-    console.log(response);
-
     if (!response.hasOwnProperty('Item')) {
       return {
         statusCode: 200,
