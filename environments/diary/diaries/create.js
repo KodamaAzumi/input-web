@@ -93,55 +93,99 @@ const putObject = (body, contentType, key) => {
   }));
 };
 
+/**
+ * @typedef {Object} DiaryEntity
+ * @property {string} id - 日記の実態データの ID
+ * @property {number} timestamp - UNIX タイムスタンプ
+ */
+
+/**
+ * @typedef {Object} DiaryItem - 日記のアイテム
+ * @property {Array<string>} entityIds - 日記の実態データのインデックス
+ * @property {Object.<string, DiaryEntity>} entities - 日記の実態データ
+ * @property {string} id - ユーザーの識別子
+ * @property {string} timestamp - 日記の日付の文字列
+ * @property {number} version - 日記が更新された回数
+ */
+
+/**
+ * putItem - DynamoDB にアイテムを保存する関数
+ * @param {DiaryItem} item - DynamoDB に保存するアイテム
+ * @returns {Promise<PutItemCommandOutput>} - DynamoDB に保存したアイテム
+ */
+const putItem = (item) => {
+  const putItemCommand = new PutItemCommand({
+    Item: marshall(item),
+    TableName: process.env.DYNAMODB_TABLE,
+  });
+
+  return dynamoDBClient.send(putItemCommand);
+};
+
 module.exports.create = async (event) => {
   const timestamp = DateTime.now().setZone('Asia/Tokyo').toFormat('yyyy-MM-dd');
-  const version = 0;
   const { id, entityIds, entities } = JSON.parse(event.body);
 
   const valid = validate(JSON.parse(event.body));
 
-  // クライアントから送られた値にバリデーションエラーがあればエラーを返す
-  if (!valid) {
+  try {
+    // クライアントから送られた値にバリデーションエラーがあればエラーを返して終了
+    if (!valid) {
+      throw validate.errors;
+    }
+
+    // バージョンの取得
+
+    //画像を保存する手続きを行う
+    const putObjectCommandOutputs = entityIds.map((entityId) => {
+      // 画像を保存したことない文字列かどうかを判定（本来このAPIには不要だがPUTで流用するために記述）
+      const entity = entities[entityId];
+
+      if (!entityId.includes('v') && entity.hasOwnProperty('image')) {
+        const { image } = entity;
+        const [_, contentType, extension, base64String] =
+          image.match(base64RegExp);
+        // 画像が保存されるパス
+        const key = `${id}/${timestamp}/${entityId}.${extension}`;
+        // リクエストボディに設定された画像データはBase64エンコードされているので、デコードする
+        const body = Buffer.from(base64String, 'base64');
+        // image キーはデータベースに保存する必要はないので削除
+        delete entity.image;
+        // 画像を保存する手続きを行う
+        return putObject(body, contentType, key);
+      }
+    });
+
+    // 保存する画像があれば、保存が完了してから次の処理に進む
+    if (putObjectCommandOutputs.length > 0) {
+      await Promise.all(putObjectCommandOutputs);
+    }
+
+    // DynamoDB をアイテムに保存する
+    await putItem({
+      entityIds,
+      entities,
+      id,
+      timestamp,
+      version: 0,
+    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: 'Go Serverless v1.0! Your function executed successfully!',
+          input: event,
+        },
+        null,
+        2
+      ),
+    };
+  } catch (error) {
+    console.error(error);
     return {
       statusCode: 400,
-      body: JSON.stringify(validate.errors),
+      body: JSON.stringify(error),
     };
   }
-
-  // バージョンの取得
-
-  //画像を保存する手続きを行う
-  const putObjectCommandOutputs = entityIds.map((entityId) => {
-    // 画像を保存したことない文字列かどうかを判定（本来このAPIには不要だがPUTで流用するために記述）
-    const entity = entities[entityId];
-
-    if (!entityId.includes('v') && entity.hasOwnProperty('image')) {
-      const { image } = entity;
-      const [_, contentType, extension, base64String] =
-        image.match(base64RegExp);
-      // 画像が保存されるパス
-      const key = `${id}/${timestamp}/${entityId}.${extension}`;
-      // リクエストボディに設定された画像データはBase64エンコードされているので、デコードする
-      const body = Buffer.from(base64String, 'base64');
-      // 画像を保存する手続きを行う
-      return putObject(body, contentType, key);
-    }
-  });
-
-  // 保存する画像があれば、保存が完了してから次の処理に進む
-  if (putObjectCommandOutputs.length > 0) {
-    await Promise.all(putObjectCommandOutputs);
-  }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
 };
