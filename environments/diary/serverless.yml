@@ -83,10 +83,13 @@ resources:
         # AccessControl: PublicRead
         BucketName: ${self:provider.environment.S3_BUCKET}
         PublicAccessBlockConfiguration:
-          BlockPublicAcls: true
-          IgnorePublicAcls: true
-          BlockPublicPolicy: true
-          RestrictPublicBuckets: true
+          BlockPublicAcls: false
+          IgnorePublicAcls: false
+          BlockPublicPolicy: false
+          RestrictPublicBuckets: false
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
     # S3BucketPolicy:
     #   Type: AWS::S3::BucketPolicy
     #   # DependsOn:

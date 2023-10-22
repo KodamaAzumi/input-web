@@ -3,6 +3,8 @@
 
 https://www.npmjs.com/package/serverless-dynamodb のインストールは https://zenn.dev/ishimura/articles/910ef8ec1bcc64 を参考にした
 
+`dev` コマンドで開発をする
+
 serverless.yml で aws からはじまるプロパティを使えなかったので sls をアップデートした。  
 アップデート前の情報は以下の通り。
 
@@ -52,3 +54,17 @@ https://www.serverless.com/plugins/serverless-s3-local
 id/YYYY-MM-DD/n.jpg
 
 `serverless-s3-local` で put された画像ファイルの末尾には `_S3rver_object` という文字列が追加される。これを削除すると正常に開くことができる。  
+
+```
+{
+ "Version": "2012-10-17",
+ "Statement": [
+  {
+      "Action": ["s3:GetObject"],
+   "Effect": "Allow",
+   "Principal": "*",
+   "Resource": "arn:aws:s3:::kodama23-diary-dev-bucket/*"
+  }
+ ]
+}
+```
