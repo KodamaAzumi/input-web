@@ -219,6 +219,53 @@ class Chat extends Photo {
 
     // 自分側に自分の送信した内容を表示する
     if (entityIds.length > 0 && text) {
+      //写真のプレビューとメッセージの入れ物を作る
+      const chatElement = document.createElement('div');
+      chatElement.classList.add('flex', 'flex-col');
+
+      // プレビューしたときに画像をだすための入れ物を作る
+      const previewElement = document.createElement('div');
+      previewElement.classList.add(
+        'bg-white',
+        'rounded-md',
+        'p-5',
+        'mb-3',
+        'grid',
+        'justify-items-stretch',
+        'hidden'
+      );
+
+      // プレビューを消すための×ボタンを作る
+      const previewCloseBtn = ` 
+        <button
+          type="button"
+          class="preview-closeBtn mb-2 justify-self-end text-sky-400 bg-transparent hover:text-sky-200 text-sm w-8 h-8 inline-flex justify-center items-center"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span class="sr-only">Close preview</span>
+        </button>
+      `;
+      previewElement.innerHTML = previewCloseBtn;
+
+      // プレビューを閉じるボタン
+      const previewBtn = previewElement.querySelector('.preview-closeBtn');
+      previewBtn.addEventListener('click', (e) => {
+        previewElement.classList.add('hidden');
+      });
+
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
       messageOuter.classList.add(
@@ -354,6 +401,7 @@ class Chat extends Photo {
 
         // 写真と文字を合成する
         const spanImg = document.createElement('span');
+        spanImg.classList.add(entityId);
         if (textarea.entity[entityId].imageData) {
           spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
         }
@@ -362,11 +410,39 @@ class Chat extends Photo {
         spanImg.style.color = 'transparent';
         spanImg.appendChild(document.createTextNode(value));
         imageElemnt.appendChild(spanImg);
+
+        spanImg.addEventListener('click', (e) => {
+          if (previewElement.classList.contains('hidden')) {
+            previewElement.classList.remove('hidden');
+          }
+          entityIds.forEach((thisEntityId) => {
+            if (
+              !previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.contains('hidden')
+            ) {
+              previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.add('hidden');
+            }
+          });
+          previewElement
+            .querySelector('.' + entityId)
+            .classList.remove('hidden');
+        });
+
+        // プレビューするための写真を用意する
+        const previewImg = document.createElement('img');
+        previewImg.classList.add(entityId);
+        previewImg.src = `${textarea.entity[entityId].imageData.imageUrl}`;
+        previewElement.appendChild(previewImg);
       });
       messageElement.appendChild(grayscaleElement);
       messageElement.appendChild(imageElemnt);
       messageOuter.appendChild(messageElement);
-      this.chatarea.appendChild(messageOuter);
+      chatElement.appendChild(messageOuter);
+      chatElement.appendChild(previewElement);
+      this.chatarea.appendChild(chatElement);
     }
 
     // スクロールバーを一番下に移動する
