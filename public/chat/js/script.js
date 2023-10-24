@@ -110,12 +110,29 @@ const changeAtiveTab = (event, tabID) => {
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
 
+  // チャットのタイムラインの切り替え
   const grayscaleElements = document.querySelectorAll('.chat-grayscale');
-  grayscaleElements.forEach((grayscaleElement) => {
-    grayscaleElement.classList.toggle('hidden');
-  });
   const imageElemnts = document.querySelectorAll('.chat-image');
-  imageElemnts.forEach((imageElemnt) => {
-    imageElemnt.classList.toggle('hidden');
-  });
+  const previewElements = document.querySelectorAll('.preview-image');
+
+  if (tabID === 'tab-grayscale') {
+    grayscaleElements.forEach((grayscaleElement) => {
+      grayscaleElement.classList.remove('hidden');
+    });
+    imageElemnts.forEach((imageElemnt) => {
+      imageElemnt.classList.add('hidden');
+    });
+    previewElements.forEach((previewElement) => {
+      if (!previewElement.classList.contains('hidden')) {
+        previewElement.classList.add('hidden');
+      }
+    });
+  } else if (tabID === 'tab-image') {
+    imageElemnts.forEach((imageElemnt) => {
+      imageElemnt.classList.remove('hidden');
+    });
+    grayscaleElements.forEach((grayscaleElement) => {
+      grayscaleElement.classList.add('hidden');
+    });
+  }
 };

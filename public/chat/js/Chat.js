@@ -232,7 +232,8 @@ class Chat extends Photo {
         'mb-3',
         'grid',
         'justify-items-stretch',
-        'hidden'
+        'hidden',
+        'preview-image'
       );
 
       // プレビューを消すための×ボタンを作る
