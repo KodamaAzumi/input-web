@@ -34,10 +34,67 @@ class Chat extends Photo {
     // ここにチャットサーバーからメッセージを受信した時の処理を書く
     const chatData = JSON.parse(event.data);
     const messageId = `message-${chatData.messageId}`; // id が数字から始まるとエラーになるので、先頭に文字列を付ける
+    const previewId = `preview-${chatData.messageId}`;
     console.log('送られてきたデータ', chatData);
 
     if (chatData.type === 'head') {
       // メッセージの順番が送られてきた時の処理
+
+      //写真のプレビューとメッセージの入れ物を作る
+      const chatElement = document.createElement('div');
+      chatElement.classList.add(
+        'flex',
+        'flex-col',
+        'w-full',
+        'sm:w-4/5',
+        'md:w-3/5',
+        'justify-self-start'
+      );
+
+      // プレビューしたときに画像をだすための入れ物を作る
+      const previewElement = document.createElement('div');
+      previewElement.id = previewId;
+      previewElement.classList.add(
+        'bg-white',
+        'rounded-md',
+        'p-5',
+        'mb-3',
+        'grid',
+        'justify-items-stretch',
+        'hidden',
+        'preview-image'
+      );
+
+      // プレビューを消すための×ボタンを作る
+      const previewCloseBtn = ` 
+        <button
+          type="button"
+          class="preview-closeBtn mb-2 justify-self-end text-sky-400 bg-transparent hover:text-sky-200 text-sm w-8 h-8 inline-flex justify-center items-center"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span class="sr-only">Close preview</span>
+        </button>
+      `;
+      previewElement.innerHTML = previewCloseBtn;
+
+      // プレビューを閉じるボタン
+      const previewBtn = previewElement.querySelector('.preview-closeBtn');
+      previewBtn.addEventListener('click', (e) => {
+        previewElement.classList.add('hidden');
+      });
 
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
@@ -46,8 +103,7 @@ class Chat extends Photo {
         'justify-start',
         'items-end',
         'mb-3',
-        'ml-2',
-        'w-full'
+        'ml-2'
       );
 
       // チャットを送信した時間を作る
@@ -125,12 +181,40 @@ class Chat extends Photo {
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
         imageElemnt.appendChild(spanImg);
+
+        // プレビューするための写真の入れ物を用意する
+        const previewImg = document.createElement('img');
+        previewImg.classList.add(entityId);
+        previewElement.appendChild(previewImg);
+
+        // プレビューを表示するためのクリックイベント
+        spanImg.addEventListener('click', (e) => {
+          if (previewElement.classList.contains('hidden')) {
+            previewElement.classList.remove('hidden');
+          }
+          entityIds.forEach((thisEntityId) => {
+            if (
+              !previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.contains('hidden')
+            ) {
+              previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.add('hidden');
+            }
+          });
+          previewElement
+            .querySelector('.' + entityId)
+            .classList.remove('hidden');
+        });
       });
 
       messageElement.appendChild(grayscaleElement);
       messageElement.appendChild(imageElemnt);
       messageOuter.appendChild(messageElement);
-      this.chatarea.appendChild(messageOuter);
+      chatElement.appendChild(messageOuter);
+      chatElement.appendChild(previewElement);
+      this.chatarea.appendChild(chatElement);
 
       // スクロールバーを一番下に移動する
       this.chatarea.scrollTop = this.chatarea.scrollHeight;
@@ -140,6 +224,7 @@ class Chat extends Photo {
       const { body, entityId } = chatData;
 
       const messageElement = document.querySelector('#' + messageId);
+      const previewElement = document.querySelector('#' + previewId);
 
       // messageElementがないとき、処理を中断する
       if (!messageElement) {
@@ -152,6 +237,8 @@ class Chat extends Photo {
 
       const imageElemnt = messageElement.querySelector('.chat-image');
       const spanImg = imageElemnt.querySelector('.' + entityId);
+
+      const previewImg = previewElement.querySelector('.' + entityId);
 
       if (spanGrayscale && spanImg) {
         if (
@@ -184,6 +271,9 @@ class Chat extends Photo {
         spanImg.style.webkitBackgroundClip = 'text';
         spanImg.style.color = 'transparent';
         spanImg.appendChild(document.createTextNode(body.value));
+
+        // プレビューに写真を追加する
+        previewImg.src = `${body.imageData.imageUrl}`;
       }
     }
   };
@@ -221,7 +311,14 @@ class Chat extends Photo {
     if (entityIds.length > 0 && text) {
       //写真のプレビューとメッセージの入れ物を作る
       const chatElement = document.createElement('div');
-      chatElement.classList.add('flex', 'flex-col');
+      chatElement.classList.add(
+        'flex',
+        'flex-col',
+        'w-full',
+        'sm:w-4/5',
+        'md:w-3/5',
+        'justify-self-end'
+      );
 
       // プレビューしたときに画像をだすための入れ物を作る
       const previewElement = document.createElement('div');
@@ -412,6 +509,7 @@ class Chat extends Photo {
         spanImg.appendChild(document.createTextNode(value));
         imageElemnt.appendChild(spanImg);
 
+        // プレビューを表示するためのクリックイベント
         spanImg.addEventListener('click', (e) => {
           if (previewElement.classList.contains('hidden')) {
             previewElement.classList.remove('hidden');
@@ -438,6 +536,7 @@ class Chat extends Photo {
         previewImg.src = `${textarea.entity[entityId].imageData.imageUrl}`;
         previewElement.appendChild(previewImg);
       });
+
       messageElement.appendChild(grayscaleElement);
       messageElement.appendChild(imageElemnt);
       messageOuter.appendChild(messageElement);
