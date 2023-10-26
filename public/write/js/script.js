@@ -1,13 +1,16 @@
 const textarea = new Write('#js-textarea');
-const grayscale = document.querySelector('#js-output-grayscale');
-const imagePara = document.querySelector('#js-output-image');
+const grayscaleOutput = document.querySelector('#js-output-grayscale');
+const imgOutput = document.querySelector('#js-output-image');
+const scaleOutput = document.querySelector('#js-output-scale');
 
 const loop = () => {
-  const fragment = document.createDocumentFragment();
+  const fragmentGrayscale = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
+  const fragmentScale = document.createDocumentFragment();
 
-  grayscale.innerHTML = '';
-  imagePara.innerHTML = '';
+  grayscaleOutput.innerHTML = '';
+  imgOutput.innerHTML = '';
+  scaleOutput.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -25,12 +28,15 @@ const loop = () => {
     // 入力された文字が改行コードか
     if ('\r\n' === value || '\r' === value || '\n' === value) {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
-      const br = document.createElement('br');
-      fragment.appendChild(br);
+      const brGrayscale = document.createElement('br');
+      fragmentGrayscale.appendChild(brGrayscale);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
-      grayscale.appendChild(fragment);
-      imagePara.appendChild(fragmentImg);
+      const brScale = document.createElement('br');
+      fragmentScale.appendChild(brScale);
+      grayscaleOutput.appendChild(fragmentGrayscale);
+      imgOutput.appendChild(fragmentImg);
+      scaleOutput.appendChild(fragmentScale);
       return;
     }
 
@@ -50,7 +56,7 @@ const loop = () => {
     const spanGrayscale = document.createElement('span');
     spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
     spanGrayscale.appendChild(document.createTextNode(value));
-    fragment.appendChild(spanGrayscale);
+    fragmentGrayscale.appendChild(spanGrayscale);
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
@@ -77,10 +83,33 @@ const loop = () => {
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
     */
+
+    // 文字の幅に適応させる
+    (() => {
+      const char = document.createElement('span');
+      const charBody = document.createElement('span');
+      // 1 文字目は時差なし、なので必ず 1.0 になる
+      // 1 文字目以降は時差に応じて文字の大きさを変える
+      // 4000 ミリ秒で最大の 10 倍になる
+      const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
+
+      char.style.display = 'inline-block';
+      charBody.style.transform = `scaleX(${sx})`;
+      charBody.style.transformOrigin = `top left`;
+      charBody.style.display = 'inline-block';
+
+      charBody.appendChild(document.createTextNode(value));
+      char.appendChild(charBody);
+      fragmentScale.appendChild(char);
+      scaleOutput.appendChild(fragmentScale);
+
+      const charBodyDOMRect = charBody.getBoundingClientRect();
+      char.style.width = `${charBodyDOMRect.width}px`;
+    })();
   });
 
-  grayscale.appendChild(fragment);
-  imagePara.appendChild(fragmentImg);
+  grayscaleOutput.appendChild(fragmentGrayscale);
+  imgOutput.appendChild(fragmentImg);
   window.requestAnimationFrame(loop);
 };
 
@@ -124,6 +153,9 @@ const changeAtiveTab = (event, tabID) => {
   // 隠されていた表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
+
+  // テキストエリアにフォーカスを当てる
+  textarea.el.focus();
 };
 
 // ヘルプのオンオフ

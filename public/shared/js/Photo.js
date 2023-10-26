@@ -30,6 +30,9 @@ class Photo extends Textarea {
       .getUserMedia({ video: { facingMode: 'environment' } })
       .then((s) => {
         this.el.disabled = false;
+        document.querySelectorAll('.caret').forEach((caret) => {
+          caret.classList.add('onCaret');
+        });
         this.el.focus();
         this.stream = s;
         this.video.srcObject = this.stream;
@@ -44,6 +47,9 @@ class Photo extends Textarea {
   stopCamera = () => {
     if (this.stream) {
       this.el.disabled = true;
+      document.querySelectorAll('.caret').forEach((caret) => {
+        caret.classList.remove('onCaret');
+      });
       this.stream.getTracks().forEach((track) => track.stop());
       this.stream = null;
       this.video.srcObject = null;

@@ -219,7 +219,7 @@
               </span>
             </a>
           </li>
-          <li class="">
+          <li>
             <a
               class="toolBtn relative block text-sm font-medium text-orange-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
               onclick="changeAtiveTab(event, 'tab-image')"
@@ -228,6 +228,19 @@
               <span
                 class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
                 >写真と文字を合成する
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="toolBtn relative block text-sm font-medium text-orange-400 px-3.5 py-3 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+              onclick="changeAtiveTab(event, 'tab-scale')"
+            >
+              文字の幅
+              <span
+                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
+                >キーボード入力速度を<br />
+                文字の幅に適応させる
               </span>
             </a>
           </li>
@@ -243,21 +256,30 @@
           class="break-words text-xl lg:text-2xl leading-normal px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
         >
           <div class="tab-content relative w-full h-full">
-            <div class="block" id="tab-grayscale">
-              <div
-                id="js-output-grayscale"
-                class="absolute z-10 h-full w-full pointer-events-none tracking-wider"
-              ></div>
+            <div
+              class="block absolute z-10 h-full w-full pointer-events-none"
+              id="tab-grayscale"
+            >
+              <span id="js-output-grayscale" class="tracking-wider"></span>
+              <span class="caret"></span>
             </div>
-            <div class="hidden" id="tab-image">
-              <div
-                id="js-output-image"
-                class="absolute z-10 h-full w-full pointer-events-none tracking-wider"
-              ></div>
+            <div
+              class="hidden absolute z-10 h-full w-full pointer-events-none"
+              id="tab-image"
+            >
+              <span id="js-output-image" class="tracking-wider"></span>
+              <span class="caret"></span>
+            </div>
+            <div
+              class="hidden absolute z-10 h-full w-full pointer-events-none"
+              id="tab-scale"
+            >
+              <span id="js-output-scale" class="tracking-wider"></span>
+              <span class="caret"></span>
             </div>
             <textarea
               id="js-textarea"
-              class="h-auto w-full bg-transparent overflow-hidden focus:outline-none resize-none tracking-wider"
+              class="opacity-0 h-auto w-full bg-transparent overflow-hidden focus:outline-none resize-none tracking-wider"
               type="text"
               rows="10"
               disabled
