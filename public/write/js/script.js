@@ -47,13 +47,26 @@ const loop = () => {
     // calculatedDiffをグレースケールに適した値に変更する
     const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
     // グレースケールに適応させる
-    const span = document.createElement('span');
-    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
-    span.appendChild(document.createTextNode(value));
-    fragment.appendChild(span);
+    const spanGrayscale = document.createElement('span');
+    spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
+    spanGrayscale.appendChild(document.createTextNode(value));
+    fragment.appendChild(spanGrayscale);
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
+    const spanImgOuter = document.createElement('span');
+    const spanImg = document.createElement('span');
+    if (textarea.entity[entityId].imageData) {
+      spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+      spanImgOuter.style.backgroundSize = 'cover';
+      spanImg.style.color = '#fff';
+      spanImg.style.mixBlendMode = 'difference';
+      spanImg.appendChild(document.createTextNode(value));
+      spanImgOuter.appendChild(spanImg);
+      fragmentImg.appendChild(spanImgOuter);
+    }
+
+    /*
     const spanImg = document.createElement('span');
     if (textarea.entity[entityId].imageData) {
       spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
@@ -63,6 +76,7 @@ const loop = () => {
     spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
+    */
   });
 
   grayscale.appendChild(fragment);
