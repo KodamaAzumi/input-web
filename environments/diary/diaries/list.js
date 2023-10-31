@@ -61,7 +61,6 @@ const getItems = (id, beginTimestamp, endTimestamp) => {
     },
     KeyConditionExpression:
       '#id = :id AND ( #timestamp BETWEEN :begin AND :end )',
-    Limit: 1,
     ProjectionExpression: '#timestamp',
     TableName: process.env.DYNAMODB_TABLE,
   });
@@ -71,11 +70,13 @@ const getItems = (id, beginTimestamp, endTimestamp) => {
 
 module.exports.list = async (event) => {
   const origin = event.headers.origin;
-  const timestamp = DateTime.now().setZone('Asia/Tokyo');
-  const beginTimestamp = timestamp.minus({ years: 1 }).toFormat('yyyy-MM-dd');
-  const endTimestamp = timestamp.toFormat('yyyy-MM-dd');
+  const dateTime = DateTime.now().setZone('Asia/Tokyo');
+  const beginTimestamp = dateTime.minus({ years: 1 }).toISO();
+  const endTimestamp = dateTime.toISO();
   const { id } = event.pathParameters;
   const valid = validate({ id });
+  const dates = [];
+  const timestamps = {};
   let headers = {
     'Access-Control-Allow-Origin': '*',
   };
@@ -101,14 +102,33 @@ module.exports.list = async (event) => {
 
     // 取得したデータを処理しやすいフォーマットに変換する
     const items = response.Items.map((item) => unmarshall(item));
-    const posts = items.map((item) => item.timestamp);
+    
+    items.map((item) => item.timestamp).forEach((timestamp) => {
+      const date = timestamp.split('T')[0];
+      
+      if (!dates.includes(date)) {
+        dates.push(date);
+      }
+
+      if (!timestamps[date]) {
+        timestamps[date] = [];
+      }
+      
+      timestamps[date].push(timestamp);
+    });
+
+    // 新しい順に並び替える
+    dates.forEach((date) => {
+      timestamps[date].sort().reverse();
+    });
 
     return {
       statusCode: 200,
       body: JSON.stringify({
+        dates,
         status: 'OK',
+        timestamps,
         lastEvaluatedKey: response.LastEvaluatedKey,
-        posts,
       }),
       headers,
     };

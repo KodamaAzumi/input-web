@@ -27,7 +27,7 @@ const schema = {
       type: 'string',
     },
     timestamp: {
-      format: 'date',
+      format: 'date-time',
       type: 'string',
     },
   },

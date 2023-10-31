@@ -84,7 +84,7 @@ const pathParamsSchema = {
       type: 'string',
     },
     timestamp: {
-      format: 'date',
+      format: 'date-time',
       type: 'string',
     },
   },
@@ -205,6 +205,7 @@ module.exports.update = async (event) => {
       };
     }
 
+    const dir = DateTime.fromISO(timestamp).toFormat('yyyy-MM-dd-HH-mm-ss');
     // 取得したデータを処理しやすいフォーマットに変換する
     const [unmarshalledItem] = response.Items.map((item) => unmarshall(item));
     // すでに日記が存在している場合は、バージョンを更新する
@@ -260,6 +261,7 @@ module.exports.update = async (event) => {
 
     // DynamoDB をアイテムに保存する
     await putItem({
+      dir,
       entityIds: versionedEntityIds,
       entities,
       id,
@@ -270,10 +272,11 @@ module.exports.update = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        status: 'OK',
+        dir,
         entityIds: versionedEntityIds,
         entities,
         id,
+        status: 'OK',
         timestamp,
         version,
       }),

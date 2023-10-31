@@ -158,7 +158,9 @@ const putItem = (item) => {
 
 module.exports.create = async (event) => {
   const origin = event.headers.origin;
-  const timestamp = DateTime.now().setZone('Asia/Tokyo').toFormat('yyyy-MM-dd');
+  const dateTime = DateTime.now().setZone('Asia/Tokyo');
+  const timestamp = dateTime.toISO();
+  const dir = dateTime.toFormat('yyyy-MM-dd-HH-mm-ss');
   const { id, entityIds, entities } = JSON.parse(event.body);
   const valid = validate(JSON.parse(event.body));
   let version = 0;
@@ -220,7 +222,7 @@ module.exports.create = async (event) => {
         const [_, contentType, extension, base64String] =
           image.match(base64RegExp);
         // 画像が保存されるパス
-        const key = `${id}/${timestamp}/${entityId}.${extension}`;
+        const key = `${id}/${dir}/${entityId}.${extension}`;
         // リクエストボディに設定された画像データはBase64エンコードされているので、デコードする
         const body = Buffer.from(base64String, 'base64');
         // image キーはデータベースに保存する必要はないので削除
@@ -237,6 +239,7 @@ module.exports.create = async (event) => {
 
     // DynamoDB をアイテムに保存する
     await putItem({
+      dir,
       entityIds: versionedEntityIds,
       entities,
       id,
