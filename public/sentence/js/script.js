@@ -6,8 +6,8 @@ let textDataString = localStorage.getItem('textData');
 let textData = JSON.parse(textDataString);
 console.log(textData);
 
-const grayscale = document.querySelector('#js-output-grayscale');
-const imagePara = document.querySelector('#js-output-image');
+const grayscaleOutput = document.querySelector('#js-output-grayscale');
+const imgOutput = document.querySelector('#js-output-image');
 
 // 文章を書いていないときはタイムラインに飛ばないようにする
 const timelineBtn = document.getElementById('js-timelineBtn');
@@ -111,11 +111,11 @@ const changeAtivePara = (event, num) => {
 
 // 本文を表示する
 const loop = () => {
-  const fragment = document.createDocumentFragment();
+  const fragmentGrayscale = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
 
-  grayscale.innerHTML = '';
-  imagePara.innerHTML = '';
+  grayscaleOutput.innerHTML = '';
+  imgOutput.innerHTML = '';
 
   textData[formattedDate][index].entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -136,12 +136,12 @@ const loop = () => {
     // 入力された文字が改行コードか
     if ('\r\n' === value || '\r' === value || '\n' === value) {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
-      const br = document.createElement('br');
-      fragment.appendChild(br);
+      const brGrayscale = document.createElement('br');
+      fragmentGrayscale.appendChild(brGrayscale);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
-      grayscale.appendChild(fragment);
-      imagePara.appendChild(fragmentImg);
+      grayscaleOutput.appendChild(fragmentGrayscale);
+      imgOutput.appendChild(fragmentImg);
       return;
     }
 
@@ -151,10 +151,10 @@ const loop = () => {
     // calculatedDiffをグレースケールに適した値に変更する
     const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
     // グレースケールに適応させる
-    const span = document.createElement('span');
-    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
-    span.appendChild(document.createTextNode(value));
-    fragment.appendChild(span);
+    const spanGrayscale = document.createElement('span');
+    spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
+    spanGrayscale.appendChild(document.createTextNode(value));
+    fragmentGrayscale.appendChild(spanGrayscale);
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
@@ -169,8 +169,8 @@ const loop = () => {
     fragmentImg.appendChild(spanImg);
   });
 
-  grayscale.appendChild(fragment);
-  imagePara.appendChild(fragmentImg);
+  grayscaleOutput.appendChild(fragmentGrayscale);
+  imgOutput.appendChild(fragmentImg);
   window.requestAnimationFrame(loop);
 };
 
