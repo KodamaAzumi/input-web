@@ -1,14 +1,14 @@
 const textarea = new Chat('#js-textarea');
-const grayscale = document.querySelector('#js-output-grayscale');
-const imagePara = document.querySelector('#js-output-image');
+const grayscaleOutput = document.querySelector('#js-output-grayscale');
+const imgOutput = document.querySelector('#js-output-image');
 
 // チャットの入力部分に適応させるコード
 const loop = () => {
-  const fragment = document.createDocumentFragment();
+  const fragmentGrayscale = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
 
-  grayscale.innerHTML = '';
-  imagePara.innerHTML = '';
+  grayscaleOutput.innerHTML = '';
+  imgOutput.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -26,12 +26,12 @@ const loop = () => {
     // 入力された文字が改行コードか
     if ('\r\n' === value || '\r' === value || '\n' === value) {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
-      const br = document.createElement('br');
-      fragment.appendChild(br);
+      const brGrayscale = document.createElement('br');
+      fragmentGrayscale.appendChild(brGrayscale);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
-      grayscale.appendChild(fragment);
-      imagePara.appendChild(fragmentImg);
+      grayscaleOutput.appendChild(fragmentGrayscale);
+      imgOutput.appendChild(fragmentImg);
       return;
     }
 
@@ -48,10 +48,11 @@ const loop = () => {
     // calculatedDiffをグレースケールに適した値に変更する
     const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
     // グレースケールに適応させる
-    const span = document.createElement('span');
-    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
-    span.appendChild(document.createTextNode(value));
-    fragment.appendChild(span);
+    const spanGrayscale = document.createElement('span');
+    spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
+    spanGrayscale.appendChild(document.createTextNode(value));
+    fragmentGrayscale.appendChild(spanGrayscale);
+    grayscaleOutput.appendChild(fragmentGrayscale);
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
@@ -64,10 +65,9 @@ const loop = () => {
     spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
+    imgOutput.appendChild(fragmentImg);
   });
 
-  grayscale.appendChild(fragment);
-  imagePara.appendChild(fragmentImg);
   window.requestAnimationFrame(loop);
 };
 
