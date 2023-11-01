@@ -8,6 +8,7 @@ console.log(textData);
 
 const grayscaleOutput = document.querySelector('#js-output-grayscale');
 const imgOutput = document.querySelector('#js-output-image');
+const scaleOutput = document.querySelector('#js-output-scale');
 
 // 文章を書いていないときはタイムラインに飛ばないようにする
 const timelineBtn = document.getElementById('js-timelineBtn');
@@ -113,9 +114,11 @@ const changeAtivePara = (event, num) => {
 const loop = () => {
   const fragmentGrayscale = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
+  const fragmentScale = document.createDocumentFragment();
 
   grayscaleOutput.innerHTML = '';
   imgOutput.innerHTML = '';
+  scaleOutput.innerHTML = '';
 
   textData[formattedDate][index].entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -140,8 +143,11 @@ const loop = () => {
       fragmentGrayscale.appendChild(brGrayscale);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
+      const brScale = document.createElement('br');
+      fragmentScale.appendChild(brScale);
       grayscaleOutput.appendChild(fragmentGrayscale);
       imgOutput.appendChild(fragmentImg);
+      scaleOutput.appendChild(fragmentScale);
       return;
     }
 
@@ -155,6 +161,7 @@ const loop = () => {
     spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
     spanGrayscale.appendChild(document.createTextNode(value));
     fragmentGrayscale.appendChild(spanGrayscale);
+    grayscaleOutput.appendChild(fragmentGrayscale);
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
@@ -167,10 +174,32 @@ const loop = () => {
     spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
     fragmentImg.appendChild(spanImg);
+    imgOutput.appendChild(fragmentImg);
+
+    // 文字の幅に適応させる
+    (() => {
+      const char = document.createElement('span');
+      const charBody = document.createElement('span');
+      // 1 文字目は時差なし、なので必ず 1.0 になる
+      // 1 文字目以降は時差に応じて文字の大きさを変える
+      // 4000 ミリ秒で最大の 10 倍になる
+      const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
+
+      char.style.display = 'inline-block';
+      charBody.style.transform = `scaleX(${sx})`;
+      charBody.style.transformOrigin = `top left`;
+      charBody.style.display = 'inline-block';
+
+      charBody.appendChild(document.createTextNode(value));
+      char.appendChild(charBody);
+      fragmentScale.appendChild(char);
+      scaleOutput.appendChild(fragmentScale);
+
+      const charBodyDOMRect = charBody.getBoundingClientRect();
+      char.style.width = `${charBodyDOMRect.width}px`;
+    })();
   });
 
-  grayscaleOutput.appendChild(fragmentGrayscale);
-  imgOutput.appendChild(fragmentImg);
   window.requestAnimationFrame(loop);
 };
 

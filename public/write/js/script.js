@@ -57,6 +57,7 @@ const loop = () => {
     spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
     spanGrayscale.appendChild(document.createTextNode(value));
     fragmentGrayscale.appendChild(spanGrayscale);
+    grayscaleOutput.appendChild(fragmentGrayscale);
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
@@ -70,6 +71,7 @@ const loop = () => {
       spanImg.appendChild(document.createTextNode(value));
       spanImgOuter.appendChild(spanImg);
       fragmentImg.appendChild(spanImgOuter);
+      imgOutput.appendChild(fragmentImg);
     }
 
     /*
@@ -108,8 +110,6 @@ const loop = () => {
     })();
   });
 
-  grayscaleOutput.appendChild(fragmentGrayscale);
-  imgOutput.appendChild(fragmentImg);
   window.requestAnimationFrame(loop);
 };
 
