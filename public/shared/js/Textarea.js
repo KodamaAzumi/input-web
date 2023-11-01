@@ -31,8 +31,24 @@ class Textarea {
     this.onInput = this.onInput.bind(this);
 
     // ウィンドウのサイズを変更したとき内容に合わせてテキストエリアのサイズを変更する
-    this.onResizedHeight = this.onResizedHeight.bind(this);
-    window.addEventListener('resize', this.onResizedHeight);
+    //this.onResizedHeight = this.onResizedHeight.bind(this);
+    //window.addEventListener('resize', this.onResizedHeight);
+
+    // テキストエリアがフォーカスされたらキャレットを付ける
+    this.el.addEventListener('focus', (e) => {
+      console.log('textareaにフォーカスした', e);
+      document.querySelectorAll('.caret').forEach((caret) => {
+        caret.classList.add('onCaret');
+      });
+    });
+
+    // テキストエリアからフォーカスが外れたらキャレットを隠す
+    this.el.addEventListener('blur', (e) => {
+      console.log('textareaからフォーカスが外れた', e);
+      document.querySelectorAll('.caret').forEach((caret) => {
+        caret.classList.remove('onCaret');
+      });
+    });
 
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {

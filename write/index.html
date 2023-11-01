@@ -255,33 +255,32 @@
         <div
           class="break-words text-xl lg:text-2xl leading-normal px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
         >
-          <div class="tab-content relative w-full h-full">
-            <div
-              class="block absolute z-10 h-full w-full pointer-events-none"
-              id="tab-grayscale"
-            >
-              <span id="js-output-grayscale" class="tracking-wider"></span>
+          <div class="tab-content h-[50vh]">
+            <div class="block" id="tab-grayscale">
+              <span
+                id="js-output-grayscale"
+                class="tracking-wider pointer-events-none"
+              ></span>
               <span class="caret"></span>
             </div>
-            <div
-              class="hidden absolute z-10 h-full w-full pointer-events-none"
-              id="tab-image"
-            >
-              <span id="js-output-image" class="tracking-wider"></span>
+            <div class="hidden" id="tab-image">
+              <span
+                id="js-output-image"
+                class="tracking-wider pointer-events-none"
+              ></span>
               <span class="caret"></span>
             </div>
-            <div
-              class="hidden absolute z-10 h-full w-full pointer-events-none"
-              id="tab-scale"
-            >
-              <span id="js-output-scale" class="tracking-wider"></span>
+            <div class="hidden" id="tab-scale">
+              <span
+                id="js-output-scale"
+                class="tracking-wider pointer-events-none"
+              ></span>
               <span class="caret"></span>
             </div>
             <textarea
               id="js-textarea"
-              class="opacity-0 h-auto w-full bg-transparent overflow-hidden focus:outline-none resize-none tracking-wider"
+              class="opacity-0 fixed h-auto resize-none pointer-events-none"
               type="text"
-              rows="10"
               disabled
             ></textarea>
           </div>

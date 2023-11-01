@@ -115,6 +115,11 @@ const loop = () => {
 
 window.requestAnimationFrame(loop);
 
+// タブをクリックしたときにテキストエリアにフォーカスさせる
+document.getElementById('tabs-id').addEventListener('click', (e) => {
+  textarea.el.focus();
+});
+
 // タブとタブのボタンを切り替える
 const changeAtiveTab = (event, tabID) => {
   let element = event.target;
