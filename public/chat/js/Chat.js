@@ -50,6 +50,7 @@ class Chat extends Photo {
         'md:w-3/5',
         'justify-self-start'
       );
+      this.chatarea.appendChild(chatElement);
 
       // プレビューしたときに画像をだすための入れ物を作る
       const previewElement = document.createElement('div');
@@ -64,6 +65,7 @@ class Chat extends Photo {
         'hidden',
         'preview-image'
       );
+      chatElement.appendChild(previewElement);
 
       // プレビューを消すための×ボタンを作る
       const previewCloseBtn = ` 
@@ -105,6 +107,7 @@ class Chat extends Photo {
         'mb-3',
         'ml-2'
       );
+      chatElement.appendChild(messageOuter);
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('p');
@@ -125,6 +128,7 @@ class Chat extends Photo {
         'relative',
         'order-first'
       );
+      messageOuter.appendChild(messageElement);
 
       // オリジナルのテキストを作成する
       const messageText = chatData.text;
@@ -137,26 +141,23 @@ class Chat extends Photo {
           .replace(/ /g, '&nbsp;');
         messageElement.appendChild(originalElement);
       }
-      messageOuter.appendChild(messageElement);
 
       const entityIds = chatData.entityIds;
 
       // グレースケールと写真を適応させる用の入れ物を作る
       const grayscaleElement = document.createElement('div');
+      messageElement.appendChild(grayscaleElement);
       const imageElemnt = document.createElement('div');
+      messageElement.appendChild(imageElemnt);
+      const scaleElemnt = document.createElement('div');
+      messageElement.appendChild(scaleElemnt);
 
       // タブの切り替えを作る
       const tabGrayscaleElm = document.getElementById('tab-grayscale');
-      if (tabGrayscaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
-      } else {
+      const tabImageElm = document.getElementById('tab-image');
+      const tabScaleElm = document.getElementById('tab-scale');
+
+      if (!tabGrayscaleElm.classList.contains('hidden')) {
         grayscaleElement.classList.add(
           'absolute',
           'top-2',
@@ -170,6 +171,45 @@ class Chat extends Photo {
           'hidden',
           'chat-image'
         );
+        scaleElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-scale',
+          'hidden'
+        );
+      } else if (!tabImageElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale',
+          'hidden'
+        );
+        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
+        scaleElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-scale',
+          'hidden'
+        );
+      } else if (!tabScaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale',
+          'hidden'
+        );
+        imageElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'hidden',
+          'chat-image'
+        );
+        scaleElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-scale');
       }
 
       entityIds.forEach((entityId) => {
@@ -181,6 +221,10 @@ class Chat extends Photo {
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
         imageElemnt.appendChild(spanImg);
+
+        const spanScale = document.createElement('span');
+        spanScale.classList.add(entityId);
+        scaleElemnt.appendChild(spanScale);
 
         // プレビューするための写真の入れ物を用意する
         const previewImg = document.createElement('img');
@@ -209,13 +253,6 @@ class Chat extends Photo {
         });
       });
 
-      messageElement.appendChild(grayscaleElement);
-      messageElement.appendChild(imageElemnt);
-      messageOuter.appendChild(messageElement);
-      chatElement.appendChild(messageOuter);
-      chatElement.appendChild(previewElement);
-      this.chatarea.appendChild(chatElement);
-
       // スクロールバーを一番下に移動する
       this.chatarea.scrollTop = this.chatarea.scrollHeight;
     } else if (chatData.type === 'body') {
@@ -237,10 +274,12 @@ class Chat extends Photo {
 
       const imageElemnt = messageElement.querySelector('.chat-image');
       const spanImg = imageElemnt.querySelector('.' + entityId);
-
       const previewImg = previewElement.querySelector('.' + entityId);
 
-      if (spanGrayscale && spanImg) {
+      const scaleElemnt = messageElement.querySelector('.chat-scale');
+      const char = scaleElemnt.querySelector('.' + entityId);
+
+      if (spanGrayscale && spanImg && char) {
         if (
           '\r\n' === body.value ||
           '\r' === body.value ||
@@ -274,6 +313,26 @@ class Chat extends Photo {
 
         // プレビューに写真を追加する
         previewImg.src = `${body.imageData.imageUrl}`;
+
+        // 文字の幅に適応させる
+        (() => {
+          const charBody = document.createElement('span');
+          // 1 文字目は時差なし、なので必ず 1.0 になる
+          // 1 文字目以降は時差に応じて文字の大きさを変える
+          // 4000 ミリ秒で最大の 10 倍になる
+          const sx = Math.abs(1.0 + Math.min((chatData.diff / 4000) * 9, 9));
+
+          char.style.display = 'inline-block';
+          charBody.style.transform = `scaleX(${sx})`;
+          charBody.style.transformOrigin = `top left`;
+          charBody.style.display = 'inline-block';
+
+          charBody.appendChild(document.createTextNode(body.value));
+          char.appendChild(charBody);
+
+          const charBodyDOMRect = charBody.getBoundingClientRect();
+          char.style.width = `${charBodyDOMRect.width}px`;
+        })();
       }
     }
   };
@@ -313,12 +372,13 @@ class Chat extends Photo {
       const chatElement = document.createElement('div');
       chatElement.classList.add(
         'flex',
-        'flex-col',
+        'flex-col-reverse',
         'w-full',
         'sm:w-4/5',
         'md:w-3/5',
         'justify-self-end'
       );
+      this.chatarea.appendChild(chatElement);
 
       // プレビューしたときに画像をだすための入れ物を作る
       const previewElement = document.createElement('div');
@@ -332,6 +392,7 @@ class Chat extends Photo {
         'hidden',
         'preview-image'
       );
+      chatElement.appendChild(previewElement);
 
       // プレビューを消すための×ボタンを作る
       const previewCloseBtn = ` 
@@ -373,6 +434,7 @@ class Chat extends Photo {
         'mb-3',
         'mr-2'
       );
+      chatElement.appendChild(messageOuter);
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('p');
@@ -391,6 +453,7 @@ class Chat extends Photo {
         'pr-3',
         'relative'
       );
+      messageOuter.appendChild(messageElement);
 
       // オリジナルテキスト
       if (messageText.trim() !== '') {
@@ -406,19 +469,14 @@ class Chat extends Photo {
       // グレースケールと写真を適応させる用の入れ物を作る
       const grayscaleElement = document.createElement('div');
       const imageElemnt = document.createElement('div');
+      const scaleElemnt = document.createElement('div');
 
       // タブの切り替えを作る
       const tabGrayscaleElm = document.getElementById('tab-grayscale');
-      if (tabGrayscaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
-      } else {
+      const tabImageElm = document.getElementById('tab-image');
+      const tabScaleElm = document.getElementById('tab-scale');
+
+      if (!tabGrayscaleElm.classList.contains('hidden')) {
         grayscaleElement.classList.add(
           'absolute',
           'top-2',
@@ -432,6 +490,45 @@ class Chat extends Photo {
           'hidden',
           'chat-image'
         );
+        scaleElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-scale',
+          'hidden'
+        );
+      } else if (!tabImageElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale',
+          'hidden'
+        );
+        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
+        scaleElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-scale',
+          'hidden'
+        );
+      } else if (!tabScaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'chat-grayscale',
+          'hidden'
+        );
+        imageElemnt.classList.add(
+          'absolute',
+          'top-2',
+          'z-10',
+          'hidden',
+          'chat-image'
+        );
+        scaleElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-scale');
       }
 
       // 1文字分の情報
@@ -480,8 +577,8 @@ class Chat extends Photo {
           grayscaleElement.appendChild(brGrayscale);
           const brImg = document.createElement('br');
           imageElemnt.appendChild(brImg);
-          messageElement.appendChild(grayscaleElement);
-          messageElement.appendChild(imageElemnt);
+          const brScale = document.createElement('br');
+          scaleElemnt.appendChild(brScale);
           return;
         }
 
@@ -495,6 +592,7 @@ class Chat extends Photo {
         spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
         spanGrayscale.appendChild(document.createTextNode(value));
         grayscaleElement.appendChild(spanGrayscale);
+        messageElement.appendChild(grayscaleElement);
         //console.log(diff, calculatedDiff, hslValue);
 
         // 写真と文字を合成する
@@ -508,6 +606,7 @@ class Chat extends Photo {
         spanImg.style.color = 'transparent';
         spanImg.appendChild(document.createTextNode(value));
         imageElemnt.appendChild(spanImg);
+        messageElement.appendChild(imageElemnt);
 
         // プレビューを表示するためのクリックイベント
         spanImg.addEventListener('click', (e) => {
@@ -535,14 +634,30 @@ class Chat extends Photo {
         previewImg.classList.add(entityId);
         previewImg.src = `${textarea.entity[entityId].imageData.imageUrl}`;
         previewElement.appendChild(previewImg);
-      });
 
-      messageElement.appendChild(grayscaleElement);
-      messageElement.appendChild(imageElemnt);
-      messageOuter.appendChild(messageElement);
-      chatElement.appendChild(messageOuter);
-      chatElement.appendChild(previewElement);
-      this.chatarea.appendChild(chatElement);
+        // 文字の幅に適応させる
+        (() => {
+          const char = document.createElement('span');
+          const charBody = document.createElement('span');
+          // 1 文字目は時差なし、なので必ず 1.0 になる
+          // 1 文字目以降は時差に応じて文字の大きさを変える
+          // 4000 ミリ秒で最大の 10 倍になる
+          const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
+
+          char.style.display = 'inline-block';
+          charBody.style.transform = `scaleX(${sx})`;
+          charBody.style.transformOrigin = `top left`;
+          charBody.style.display = 'inline-block';
+
+          charBody.appendChild(document.createTextNode(value));
+          char.appendChild(charBody);
+          scaleElemnt.appendChild(char);
+          messageElement.appendChild(scaleElemnt);
+
+          const charBodyDOMRect = charBody.getBoundingClientRect();
+          char.style.width = `${charBodyDOMRect.width}px`;
+        })();
+      });
     }
 
     // スクロールバーを一番下に移動する

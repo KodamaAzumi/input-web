@@ -148,6 +148,7 @@ const changeAtiveTab = (event, tabID) => {
   const grayscaleElements = document.querySelectorAll('.chat-grayscale');
   const imageElemnts = document.querySelectorAll('.chat-image');
   const previewElements = document.querySelectorAll('.preview-image');
+  const scaleElements = document.querySelectorAll('.chat-scale');
 
   if (tabID === 'tab-grayscale') {
     grayscaleElements.forEach((grayscaleElement) => {
@@ -161,6 +162,9 @@ const changeAtiveTab = (event, tabID) => {
         previewElement.classList.add('hidden');
       }
     });
+    scaleElements.forEach((scaleElement) => {
+      scaleElement.classList.add('hidden');
+    });
   } else if (tabID === 'tab-image') {
     imageElemnts.forEach((imageElemnt) => {
       imageElemnt.classList.remove('hidden');
@@ -168,5 +172,26 @@ const changeAtiveTab = (event, tabID) => {
     grayscaleElements.forEach((grayscaleElement) => {
       grayscaleElement.classList.add('hidden');
     });
+    scaleElements.forEach((scaleElement) => {
+      scaleElement.classList.add('hidden');
+    });
+  } else if (tabID === 'tab-scale') {
+    scaleElements.forEach((scaleElement) => {
+      scaleElement.classList.remove('hidden');
+    });
+    grayscaleElements.forEach((grayscaleElement) => {
+      grayscaleElement.classList.add('hidden');
+    });
+    imageElemnts.forEach((imageElemnt) => {
+      imageElemnt.classList.add('hidden');
+    });
+    previewElements.forEach((previewElement) => {
+      if (!previewElement.classList.contains('hidden')) {
+        previewElement.classList.add('hidden');
+      }
+    });
   }
+
+  // テキストエリアにフォーカスを当てる
+  textarea.el.focus();
 };
