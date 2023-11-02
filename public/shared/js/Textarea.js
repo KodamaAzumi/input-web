@@ -36,7 +36,6 @@ class Textarea {
 
     // テキストエリアがフォーカスされたらキャレットを付ける
     this.el.addEventListener('focus', (e) => {
-      console.log('textareaにフォーカスした', e);
       document.querySelectorAll('.caret').forEach((caret) => {
         caret.classList.add('onCaret');
       });
@@ -44,7 +43,6 @@ class Textarea {
 
     // テキストエリアからフォーカスが外れたらキャレットを隠す
     this.el.addEventListener('blur', (e) => {
-      console.log('textareaからフォーカスが外れた', e);
       document.querySelectorAll('.caret').forEach((caret) => {
         caret.classList.remove('onCaret');
       });
