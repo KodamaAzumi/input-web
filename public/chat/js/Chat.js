@@ -44,7 +44,7 @@ class Chat extends Photo {
       const chatElement = document.createElement('div');
       chatElement.classList.add(
         'flex',
-        'flex-col',
+        'flex-col-reverse',
         'w-full',
         'sm:w-4/5',
         'md:w-3/5',
@@ -130,18 +130,6 @@ class Chat extends Photo {
       );
       messageOuter.appendChild(messageElement);
 
-      // オリジナルのテキストを作成する
-      const messageText = chatData.text;
-      if (messageText.trim() !== '') {
-        const originalElement = document.createElement('p');
-        originalElement.classList.add('text-transparent');
-
-        originalElement.innerHTML = messageText
-          .replace(/\n/g, '<br>')
-          .replace(/ /g, '&nbsp;');
-        messageElement.appendChild(originalElement);
-      }
-
       const entityIds = chatData.entityIds;
 
       // グレースケールと写真を適応させる用の入れ物を作る
@@ -158,58 +146,17 @@ class Chat extends Photo {
       const tabScaleElm = document.getElementById('tab-scale');
 
       if (!tabGrayscaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale'
-        );
-        imageElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'hidden',
-          'chat-image'
-        );
-        scaleElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-scale',
-          'hidden'
-        );
+        grayscaleElement.classList.add('chat-grayscale');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
       } else if (!tabImageElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
-        scaleElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-scale',
-          'hidden'
-        );
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
       } else if (!tabScaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'hidden',
-          'chat-image'
-        );
-        scaleElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-scale');
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale');
       }
 
       entityIds.forEach((entityId) => {
@@ -291,6 +238,8 @@ class Chat extends Photo {
           grayscaleElement.appendChild(brGrayscale);
           const brImg = document.createElement('br');
           imageElemnt.appendChild(brImg);
+          const brScale = document.createElement('br');
+          scaleElemnt.appendChild(brScale);
           return;
         }
 
@@ -330,8 +279,16 @@ class Chat extends Photo {
           charBody.appendChild(document.createTextNode(body.value));
           char.appendChild(charBody);
 
-          const charBodyDOMRect = charBody.getBoundingClientRect();
-          char.style.width = `${charBodyDOMRect.width}px`;
+          // 要素がdisplay:noneになっていると幅が取得できないので一瞬表示してから取得する
+          if (scaleElemnt.classList.contains('hidden')) {
+            scaleElemnt.classList.remove('hidden');
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+            scaleElemnt.classList.add('hidden');
+          } else {
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+          }
         })();
       }
     }
@@ -455,17 +412,6 @@ class Chat extends Photo {
       );
       messageOuter.appendChild(messageElement);
 
-      // オリジナルテキスト
-      if (messageText.trim() !== '') {
-        const originalElement = document.createElement('p');
-        originalElement.classList.add('text-transparent');
-
-        originalElement.innerHTML = messageText
-          .replace(/\n/g, '<br>')
-          .replace(/ /g, '&nbsp;');
-        messageElement.appendChild(originalElement);
-      }
-
       // グレースケールと写真を適応させる用の入れ物を作る
       const grayscaleElement = document.createElement('div');
       const imageElemnt = document.createElement('div');
@@ -477,58 +423,17 @@ class Chat extends Photo {
       const tabScaleElm = document.getElementById('tab-scale');
 
       if (!tabGrayscaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale'
-        );
-        imageElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'hidden',
-          'chat-image'
-        );
-        scaleElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-scale',
-          'hidden'
-        );
+        grayscaleElement.classList.add('chat-grayscale');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
       } else if (!tabImageElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
-        scaleElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-scale',
-          'hidden'
-        );
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
       } else if (!tabScaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'hidden',
-          'chat-image'
-        );
-        scaleElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-scale');
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale');
       }
 
       // 1文字分の情報
@@ -568,7 +473,7 @@ class Chat extends Photo {
             })
           );
           console.log('sended');
-        }, 10);
+        }, 20);
 
         // 入力された文字が改行コードか
         if ('\r\n' === value || '\r' === value || '\n' === value) {
@@ -654,8 +559,16 @@ class Chat extends Photo {
           scaleElemnt.appendChild(char);
           messageElement.appendChild(scaleElemnt);
 
-          const charBodyDOMRect = charBody.getBoundingClientRect();
-          char.style.width = `${charBodyDOMRect.width}px`;
+          // 要素がdisplay:noneになっていると幅が取得できないので一瞬表示してから取得する
+          if (scaleElemnt.classList.contains('hidden')) {
+            scaleElemnt.classList.remove('hidden');
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+            scaleElemnt.classList.add('hidden');
+          } else {
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+          }
         })();
       });
     }
