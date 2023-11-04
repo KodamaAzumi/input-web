@@ -11,7 +11,7 @@
 }
 
 .onCaret {
-  @apply bg-black inline-block w-px h-6 relative top-1;
+  @apply bg-black inline-block w-px h-6 xs:h-7 md:h-9 relative top-1;
   animation: blink 1s step-end infinite;
 }
 

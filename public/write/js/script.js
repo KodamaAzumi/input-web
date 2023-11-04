@@ -69,6 +69,7 @@ const loop = () => {
       if (!(value === ' ' || value === '　')) {
         spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
         spanImgOuter.style.backgroundSize = 'cover';
+        spanImgOuter.style.backgroundPosition = 'center';
         spanImg.style.color = '#fff';
         spanImg.style.mixBlendMode = 'difference';
       }
