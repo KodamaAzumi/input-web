@@ -55,6 +55,7 @@ const loop = () => {
     const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
     // グレースケールに適応させる
     const spanGrayscale = document.createElement('span');
+    spanGrayscale.classList.add('inline-block', 'm-[0.0625rem]');
     spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
     spanGrayscale.appendChild(document.createTextNode(value));
     fragmentGrayscale.appendChild(spanGrayscale);
@@ -62,16 +63,22 @@ const loop = () => {
     //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
+    const spanImgOuter = document.createElement('span');
+    spanImgOuter.classList.add('inline-block', 'px-2');
     const spanImg = document.createElement('span');
     if (textarea.entity[entityId].imageData) {
-      spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+      if (!(value === ' ' || value === '　')) {
+        spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+        spanImgOuter.style.backgroundSize = 'cover';
+        spanImgOuter.style.backgroundPosition = 'center';
+        spanImg.style.color = '#fff';
+        spanImg.style.mixBlendMode = 'difference';
+      }
+      spanImg.appendChild(document.createTextNode(value));
+      spanImgOuter.appendChild(spanImg);
+      fragmentImg.appendChild(spanImgOuter);
+      imgOutput.appendChild(fragmentImg);
     }
-    spanImg.style.backgroundClip = 'text';
-    spanImg.style.webkitBackgroundClip = 'text';
-    spanImg.style.color = 'transparent';
-    spanImg.appendChild(document.createTextNode(value));
-    fragmentImg.appendChild(spanImg);
-    imgOutput.appendChild(fragmentImg);
 
     // 文字の幅に適応させる
     (() => {
@@ -82,7 +89,8 @@ const loop = () => {
       // 4000 ミリ秒で最大の 10 倍になる
       const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
 
-      char.style.display = 'inline-block';
+      char.classList.add('inline-block', 'm-[0.0625rem]');
+
       charBody.style.transform = `scaleX(${sx})`;
       charBody.style.transformOrigin = `top left`;
       charBody.style.display = 'inline-block';

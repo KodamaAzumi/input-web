@@ -226,26 +226,20 @@
         <!-- Input Area -->
         <form class="flex justify-between items-end mb-2 mx-3" id="input-area">
           <div
-            class="tab-content py-2 px-4 min-h-[2.5rem] mr-3 w-full break-words rounded-md border-2 border-gray-200 bg-white"
+            class="tab-content text-lg md:text-xl py-2 md:py-3 px-4 mr-3 min-h-[3.25rem] md:min-h-[3.75rem] w-full rounded-md border-2 border-gray-200 bg-white flex items-center"
           >
             <div class="block" id="tab-grayscale">
-              <span
-                id="js-output-grayscale"
-                class="tracking-wider pointer-events-none"
-              ></span>
+              <span id="js-output-grayscale" class="pointer-events-none"></span>
               <span class="caret"></span>
             </div>
             <div class="hidden" id="tab-image">
-              <span
-                id="js-output-image"
-                class="tracking-wider pointer-events-none"
-              ></span>
+              <span id="js-output-image" class="pointer-events-none"></span>
               <span class="caret"></span>
             </div>
             <div class="hidden" id="tab-scale">
               <span
                 id="js-output-scale"
-                class="tracking-wider pointer-events-none text-gray-700"
+                class="pointer-events-none text-gray-700"
               ></span>
               <span class="caret"></span>
             </div>
@@ -253,8 +247,6 @@
               class="opacity-0 fixed h-auto resize-none pointer-events-none"
               id="js-textarea"
               type="text"
-              rows="1"
-              placeholder="メッセージを入力"
               disabled
             ></textarea>
           </div>
