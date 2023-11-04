@@ -47,7 +47,6 @@ class Chat extends Photo {
         'flex-col-reverse',
         'w-full',
         'sm:w-4/5',
-        'md:w-3/5',
         'justify-self-start'
       );
       this.chatarea.appendChild(chatElement);
@@ -123,10 +122,12 @@ class Chat extends Photo {
         'bg-white',
         'rounded-t-md',
         'rounded-br-md',
-        'p-2',
-        'pl-3',
+        'p-3',
+        'pl-7',
         'relative',
-        'order-first'
+        'order-first',
+        'text-lg',
+        'md:text-xl'
       );
       messageOuter.appendChild(messageElement);
 
@@ -162,12 +163,15 @@ class Chat extends Photo {
       entityIds.forEach((entityId) => {
         // 1文字が収まる要素を作る
         const spanGrayscale = document.createElement('span');
-        spanGrayscale.classList.add(entityId);
+        spanGrayscale.classList.add(entityId, 'inline-block', 'm-[0.0625rem]');
         grayscaleElement.appendChild(spanGrayscale);
 
+        const spanImgOuter = document.createElement('span');
+        spanImgOuter.classList.add('inline-block', 'px-2');
+        imageElemnt.appendChild(spanImgOuter);
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
-        imageElemnt.appendChild(spanImg);
+        spanImgOuter.appendChild(spanImg);
 
         const spanScale = document.createElement('span');
         spanScale.classList.add(entityId);
@@ -221,6 +225,7 @@ class Chat extends Photo {
 
       const imageElemnt = messageElement.querySelector('.chat-image');
       const spanImg = imageElemnt.querySelector('.' + entityId);
+      const spanImgOuter = spanImg.parentElement;
       const previewImg = previewElement.querySelector('.' + entityId);
 
       const scaleElemnt = messageElement.querySelector('.chat-scale');
@@ -254,10 +259,13 @@ class Chat extends Photo {
         spanGrayscale.appendChild(document.createTextNode(body.value));
 
         // 写真と文字を合成する
-        spanImg.style.backgroundImage = `url(${body.imageData.imageUrl})`;
-        spanImg.style.backgroundClip = 'text';
-        spanImg.style.webkitBackgroundClip = 'text';
-        spanImg.style.color = 'transparent';
+        if (!(body.value === ' ' || body.value === '　')) {
+          spanImgOuter.style.backgroundImage = `url(${body.imageData.imageUrl})`;
+          spanImgOuter.style.backgroundSize = 'cover';
+          spanImgOuter.style.backgroundPosition = 'center';
+          spanImg.style.color = '#fff';
+          spanImg.style.mixBlendMode = 'difference';
+        }
         spanImg.appendChild(document.createTextNode(body.value));
 
         // プレビューに写真を追加する
@@ -271,7 +279,8 @@ class Chat extends Photo {
           // 4000 ミリ秒で最大の 10 倍になる
           const sx = Math.abs(1.0 + Math.min((chatData.diff / 4000) * 9, 9));
 
-          char.style.display = 'inline-block';
+          char.classList.add('inline-block', 'm-[0.0625rem]');
+
           charBody.style.transform = `scaleX(${sx})`;
           charBody.style.transformOrigin = `top left`;
           charBody.style.display = 'inline-block';
@@ -332,7 +341,6 @@ class Chat extends Photo {
         'flex-col-reverse',
         'w-full',
         'sm:w-4/5',
-        'md:w-3/5',
         'justify-self-end'
       );
       this.chatarea.appendChild(chatElement);
@@ -400,15 +408,16 @@ class Chat extends Photo {
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
 
-      const messageText = this.el.value;
       const messageElement = document.createElement('div');
       messageElement.classList.add(
         'bg-white',
         'rounded-t-md',
         'rounded-bl-md',
-        'p-2',
-        'pr-3',
-        'relative'
+        'p-3',
+        'pr-7',
+        'relative',
+        'text-lg',
+        'md:text-xl'
       );
       messageOuter.appendChild(messageElement);
 
@@ -494,6 +503,7 @@ class Chat extends Photo {
         const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
         // グレースケールに適応させる
         const spanGrayscale = document.createElement('span');
+        spanGrayscale.classList.add('inline-block', 'm-[0.0625rem]');
         spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
         spanGrayscale.appendChild(document.createTextNode(value));
         grayscaleElement.appendChild(spanGrayscale);
@@ -501,17 +511,23 @@ class Chat extends Photo {
         //console.log(diff, calculatedDiff, hslValue);
 
         // 写真と文字を合成する
+        const spanImgOuter = document.createElement('span');
+        spanImgOuter.classList.add('inline-block', 'px-2');
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
         if (textarea.entity[entityId].imageData) {
-          spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+          if (!(value === ' ' || value === '　')) {
+            spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+            spanImgOuter.style.backgroundSize = 'cover';
+            spanImgOuter.style.backgroundPosition = 'center';
+            spanImg.style.color = '#fff';
+            spanImg.style.mixBlendMode = 'difference';
+          }
+          spanImg.appendChild(document.createTextNode(value));
+          spanImgOuter.appendChild(spanImg);
+          imageElemnt.appendChild(spanImgOuter);
+          messageElement.appendChild(imageElemnt);
         }
-        spanImg.style.backgroundClip = 'text';
-        spanImg.style.webkitBackgroundClip = 'text';
-        spanImg.style.color = 'transparent';
-        spanImg.appendChild(document.createTextNode(value));
-        imageElemnt.appendChild(spanImg);
-        messageElement.appendChild(imageElemnt);
 
         // プレビューを表示するためのクリックイベント
         spanImg.addEventListener('click', (e) => {
@@ -549,7 +565,8 @@ class Chat extends Photo {
           // 4000 ミリ秒で最大の 10 倍になる
           const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
 
-          char.style.display = 'inline-block';
+          char.classList.add('inline-block', 'm-[0.0625rem]');
+
           charBody.style.transform = `scaleX(${sx})`;
           charBody.style.transformOrigin = `top left`;
           charBody.style.display = 'inline-block';
