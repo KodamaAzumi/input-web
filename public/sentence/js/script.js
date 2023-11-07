@@ -342,4 +342,32 @@ window.addEventListener('resize', () => {
   overlay.classList.add('hidden');
 });
 
+const imgDownloaded = (e) => {
+  console.log('ダウンロードボタンをクリックした', e);
+
+  const node = document.getElementById('tabs-text');
+  node.classList.remove(
+    'rounded-md',
+    'border-2',
+    'border-gray-200',
+    'shadow-sm'
+  );
+
+  htmlToImage.toPng(node).then((dataUrl) => {
+    download(dataUrl, 'image.png');
+  });
+
+  setTimeout(() => {
+    node.classList.add(
+      'rounded-md',
+      'border-2',
+      'border-gray-200',
+      'shadow-sm'
+    );
+  }, 10);
+};
+
+const downloadBtn = document.getElementById('js-downloadBtn');
+downloadBtn.addEventListener('click', imgDownloaded);
+
 //localStorage.clear();
