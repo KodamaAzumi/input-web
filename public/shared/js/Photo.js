@@ -16,9 +16,6 @@ class Photo extends Textarea {
     this.cameraButton.addEventListener('click', this.cameraFunctions);
     this.isStartCameraActive = false;
 
-    // 写真の情報を保持するオブジェクト
-    this.imageData = {};
-
     this.ee.on('added', this.onAdded);
 
     this.time = new Time();
@@ -87,14 +84,8 @@ class Photo extends Textarea {
       // キャプチャした画像をプレビューする
       this.preview.src = imageUrl;
 
-      // 画像をオブジェクトに追加する
-      this.imageData = {
-        imageUrl,
-        timeString,
-      };
-
-      // entityにimageDataを追加
-      this.entity[entityId].imageData = this.imageData;
+      // entityにimageを追加
+      this.entity[entityId].image = imageUrl;
     }
   };
 }

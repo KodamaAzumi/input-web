@@ -66,19 +66,17 @@ const loop = () => {
     const spanImgOuter = document.createElement('span');
     spanImgOuter.classList.add('inline-block', 'px-2');
     const spanImg = document.createElement('span');
-    if (textarea.entity[entityId].imageData) {
-      if (!(value === ' ' || value === '　')) {
-        spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
-        spanImgOuter.style.backgroundSize = 'cover';
-        spanImgOuter.style.backgroundPosition = 'center';
-        spanImg.style.color = '#fff';
-        spanImg.style.mixBlendMode = 'difference';
-      }
-      spanImg.appendChild(document.createTextNode(value));
-      spanImgOuter.appendChild(spanImg);
-      fragmentImg.appendChild(spanImgOuter);
-      imgOutput.appendChild(fragmentImg);
+    if (!(value === ' ' || value === '　')) {
+      spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].image})`;
+      spanImgOuter.style.backgroundSize = 'cover';
+      spanImgOuter.style.backgroundPosition = 'center';
+      spanImg.style.color = '#fff';
+      spanImg.style.mixBlendMode = 'difference';
     }
+    spanImg.appendChild(document.createTextNode(value));
+    spanImgOuter.appendChild(spanImg);
+    fragmentImg.appendChild(spanImgOuter);
+    imgOutput.appendChild(fragmentImg);
 
     // 文字の幅に適応させる
     (() => {

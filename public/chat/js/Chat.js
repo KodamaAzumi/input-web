@@ -260,7 +260,7 @@ class Chat extends Photo {
 
         // 写真と文字を合成する
         if (!(body.value === ' ' || body.value === '　')) {
-          spanImgOuter.style.backgroundImage = `url(${body.imageData.imageUrl})`;
+          spanImgOuter.style.backgroundImage = `url(${body.image})`;
           spanImgOuter.style.backgroundSize = 'cover';
           spanImgOuter.style.backgroundPosition = 'center';
           spanImg.style.color = '#fff';
@@ -269,7 +269,7 @@ class Chat extends Photo {
         spanImg.appendChild(document.createTextNode(body.value));
 
         // プレビューに写真を追加する
-        previewImg.src = `${body.imageData.imageUrl}`;
+        previewImg.src = `${body.image}`;
 
         // 文字の幅に適応させる
         (() => {
@@ -515,19 +515,17 @@ class Chat extends Photo {
         spanImgOuter.classList.add('inline-block', 'px-2');
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
-        if (textarea.entity[entityId].imageData) {
-          if (!(value === ' ' || value === '　')) {
-            spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
-            spanImgOuter.style.backgroundSize = 'cover';
-            spanImgOuter.style.backgroundPosition = 'center';
-            spanImg.style.color = '#fff';
-            spanImg.style.mixBlendMode = 'difference';
-          }
-          spanImg.appendChild(document.createTextNode(value));
-          spanImgOuter.appendChild(spanImg);
-          imageElemnt.appendChild(spanImgOuter);
-          messageElement.appendChild(imageElemnt);
+        if (!(value === ' ' || value === '　')) {
+          spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].image})`;
+          spanImgOuter.style.backgroundSize = 'cover';
+          spanImgOuter.style.backgroundPosition = 'center';
+          spanImg.style.color = '#fff';
+          spanImg.style.mixBlendMode = 'difference';
         }
+        spanImg.appendChild(document.createTextNode(value));
+        spanImgOuter.appendChild(spanImg);
+        imageElemnt.appendChild(spanImgOuter);
+        messageElement.appendChild(imageElemnt);
 
         // プレビューを表示するためのクリックイベント
         spanImg.addEventListener('click', (e) => {
@@ -553,7 +551,7 @@ class Chat extends Photo {
         // プレビューするための写真を用意する
         const previewImg = document.createElement('img');
         previewImg.classList.add(entityId);
-        previewImg.src = `${textarea.entity[entityId].imageData.imageUrl}`;
+        previewImg.src = `${textarea.entity[entityId].image}`;
         previewElement.appendChild(previewImg);
 
         // 文字の幅に適応させる
