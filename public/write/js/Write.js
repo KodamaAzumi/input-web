@@ -6,23 +6,11 @@ class Write extends Photo {
     this.saveButton = document.getElementById('js-saveBtn');
     // 破棄ボタン
     this.discardButton = document.getElementById('js-discardBtn');
+
     // 保存ボタンをクリックしたとき
     this.saveButton.addEventListener('click', this.onSaveButtonClicked);
     //破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
-
-    // サイトを利用するユーザー特有のid
-    const uuidDataString = localStorage.getItem('uuidData');
-    const uuidData = JSON.parse(uuidDataString);
-    this.uuid = uuidData.uuid;
-    // 取得・更新する日記の日付
-    this.timestamp;
-    // API の URL
-    this.API_BASE_URL =
-      'https://hdvihzbggg.execute-api.ap-northeast-1.amazonaws.com/dev';
-    // 画像の URL
-    this.IMG_BASE_URL =
-      'https://kodama23-diary-dev-bucket.s3.ap-northeast-1.amazonaws.com';
   }
 
   onSaveButtonClicked = () => {
@@ -42,10 +30,10 @@ class Write extends Photo {
       // 文章を書いた日付を取得する
       const entity = this.entity;
       const timestamp = entity[Object.keys(entity)[0]].timestamp;
-      const formattedDate = this.time.createDateStr(timestamp);
+      const writingDate = this.time.createDateStr(timestamp);
 
-      // モーダルのために保存した日を保存しておく
-      localStorage.setItem('dateData', String(formattedDate));
+      // モーダルのために文章を書いた日付を保存しておく
+      localStorage.setItem('dateData', String(writingDate));
 
       // 保存した文章をリセットする
       this.onCleared();
@@ -73,14 +61,19 @@ class Write extends Photo {
     this.entityIds = [];
   };
 
+  // 新規保存
   addNewSentence = () => {
-    fetch(`${this.API_BASE_URL}/diaries/`, {
+    const data = new Data();
+    const id = data.id;
+    const API_BASE_URL = data.API_BASE_URL;
+
+    fetch(`${API_BASE_URL}/diaries/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: this.uuid,
+        id: id,
         entityIds: this.entityIds,
         entities: this.entity,
       }),

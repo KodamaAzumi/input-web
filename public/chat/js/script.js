@@ -114,7 +114,7 @@ document.querySelector('.tab-content').addEventListener('click', (e) => {
 });
 
 // 入力画面のタブとタブのボタンを切り替える
-const changeAtiveTab = (event, tabID) => {
+const changeActiveTab = (event, tabID) => {
   let element = event.target;
   let ulElement = element.parentNode.parentNode;
   let aElements = ulElement.querySelectorAll('li > a');
