@@ -33,7 +33,7 @@ class Write extends Photo {
       const writingDate = this.time.createDateStr(timestamp);
 
       // モーダルのために文章を書いた日付を保存しておく
-      localStorage.setItem('dateData', String(writingDate));
+      localStorage.setItem('activeDate', String(writingDate));
 
       // 保存した文章をリセットする
       this.onCleared();

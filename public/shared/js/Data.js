@@ -16,14 +16,18 @@ class Data {
 
   // 投稿されている日付一覧を取得、タイムスタンプも取得できる
   getPostDates = async () => {
-    const response = await fetch(`${this.API_BASE_URL}/diaries/${this.id}`);
-    const data = await response.json();
-    if (data.status === 'OK') {
-      console.log(
-        `ユーザーID: ${this.id} 日記が投稿されている日付の一覧を取得しました`
-      );
-      console.log(data);
-      return data;
+    try {
+      const response = await fetch(`${this.API_BASE_URL}/diaries/${this.id}`);
+      const data = await response.json();
+      if (data.status === 'OK') {
+        console.log(
+          `ユーザーID: ${this.id} 日記が投稿されている日付の一覧を取得しました`
+        );
+        console.log(data);
+        return data;
+      }
+    } catch (error) {
+      console.error('このidで一度も文章を書いていない:', error);
     }
   };
 
