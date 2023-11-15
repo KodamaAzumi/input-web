@@ -1,11 +1,5 @@
 //localStorage.clear();
 
-// ローカルデータを取得する
-let textDataString = localStorage.getItem('textData');
-// 文字列をオブジェクトに変換する
-let textData = JSON.parse(textDataString);
-console.log(textData);
-
 // 日付を年、月、日にばらす
 const splitDate = (dateStr) => {
   const dateParts = dateStr.split('-');
@@ -119,46 +113,46 @@ const changeActiveDate = (event, element) => {
   //event.preventDefault();
   const eventElement = element;
   const activeDate = eventElement.parentElement.getAttribute('data-date');
-  localStorage.setItem('dateData', String(activeDate));
-
-  // 日記のインデックスを初期化（最新の文章に）しておく
-  const savedNum = textData[activeDate].length - 1;
-  localStorage.setItem('savedNumber', savedNum);
-  console.log(savedNum);
+  localStorage.setItem('activeDate', String(activeDate));
 };
 
-// カレンダーを作る
 const weeks = ['日', '月', '火', '水', '木', '金', '土'];
 
-// データがあるときは古いデータから新しいデータまでのカレンダーを作る
-if (textData && !(Object.keys(textData).length === 0)) {
-  const dateKeys = Object.keys(textData);
-  //const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
+// カレンダーを作る
+(async () => {
+  // データがあるときは古いデータから新しいデータまでのカレンダーを作る
+  const data = new Data();
+  const postDates = await data.getPostDates();
 
-  // 配列を日付の文字列から日付オブジェクトに変換
-  const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
-  // 日付オブジェクトを比較して最も古い日付を取得
-  const oldestDate = new Date(Math.min(...dateObjects));
-  const oldestDateStr = oldestDate.toISOString().split('T')[0];
-  // 日付オブジェクトを比較して最も新しい日付を取得
-  const newestDate = new Date(Math.max(...dateObjects));
-  const newestDateStr = newestDate.toISOString().split('T')[0];
+  if (postDates && !(postDates.dates.length === 0)) {
+    const dateKeys = postDates.dates;
+    //const dateKeys = ['2022-05-03', '2023-01-09', '2022-07-04'];
 
-  const year = parseInt(splitDate(newestDateStr)[0]);
-  const month = parseInt(splitDate(newestDateStr)[1]);
-  const config = {
-    show: countMonth(oldestDateStr, newestDateStr),
-  };
+    // 配列を日付の文字列から日付オブジェクトに変換
+    const dateObjects = dateKeys.map((dateStr) => new Date(dateStr));
+    // 日付オブジェクトを比較して最も古い日付を取得
+    const oldestDate = new Date(Math.min(...dateObjects));
+    const oldestDateStr = oldestDate.toISOString().split('T')[0];
+    // 日付オブジェクトを比較して最も新しい日付を取得
+    const newestDate = new Date(Math.max(...dateObjects));
+    const newestDateStr = newestDate.toISOString().split('T')[0];
 
-  showCalendar(year, month, weeks, config.show, dateKeys);
-} else {
-  const attentionElement = document.createElement('div');
-  //attentionElement.classList.add('h-screen');
-  const para = document.createElement('p');
-  para.classList.add('font-bold', 'text-center');
-  para.innerHTML =
-    '文章を一度も書いていません。<br>「書く」ページで文章を書いて見ましょう。';
-  attentionElement.appendChild(para);
-  document.querySelector('#js-calendar').appendChild(attentionElement);
-  showCalendar(2024, 3, weeks, 3, []);
-}
+    const year = parseInt(splitDate(newestDateStr)[0]);
+    const month = parseInt(splitDate(newestDateStr)[1]);
+    const config = {
+      show: countMonth(oldestDateStr, newestDateStr),
+    };
+
+    showCalendar(year, month, weeks, config.show, dateKeys);
+  } else {
+    const attentionElement = document.createElement('div');
+    //attentionElement.classList.add('h-screen');
+    const para = document.createElement('p');
+    para.classList.add('font-bold', 'text-center');
+    para.innerHTML =
+      '文章を一度も書いていません。<br>「書く」ページで文章を書いて見ましょう。';
+    attentionElement.appendChild(para);
+    document.querySelector('#js-calendar').appendChild(attentionElement);
+    showCalendar(2024, 3, weeks, 3, []);
+  }
+})();

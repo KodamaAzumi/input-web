@@ -1,128 +1,148 @@
-// ローカルデータを取得する
-let textDataString = localStorage.getItem('textData');
-// 文字列をオブジェクトに変換する
-let textData = JSON.parse(textDataString);
-console.log(textData);
-
 const timelineList = document.getElementById('timeline-list');
 
-// 時間を作るクラス
+// 時間を作るインスタンス
 const createTime = new Time();
 
 // 表示したい文章の日付
-const formattedDate = localStorage.getItem('dateData');
+const activeDate = localStorage.getItem('activeDate');
 
 // 最後に表示していた日記のインデックス
 const savedNum = localStorage.getItem('savedNumber');
 const parsedNum = parseInt(savedNum);
 
-let index;
+// データに関するインスタンス
+const data = new Data();
 
-// タイムラインを表示する
-if (textData && textData[formattedDate]) {
-  const length = textData[formattedDate].length;
+// サブメニューを作る（２つ）
+const createSubmenu = async () => {
+  const postDates = await data.getPostDates();
+  if (postDates) {
+    const timestamps = postDates.timestamps;
 
-  // 全てのタイムラインを作る
-  for (let i = 0; i < length; i++) {
-    const newOrderedList = document.createElement('ol');
-    newOrderedList.classList.add(
-      'relative',
-      'border-l',
-      'border-yellow-400',
-      'hidden'
-    );
-    newOrderedList.id = `orderedList_${i}`;
-
-    const entityIds = textData[formattedDate][i].entityIds;
-    entityIds.forEach((entityId) => {
-      const timeStamp =
-        textData[formattedDate][i].entity[entityId].imageData.timeString;
-      const imgUrl =
-        textData[formattedDate][i].entity[entityId].imageData.imageUrl;
-      const value = textData[formattedDate][i].entity[entityId].value;
-
-      const newListItemTemplate = `
-        <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
-          <div class="absolute w-4 h-4 bg-yellow-400 rounded-full mt-1 -left-2 border border-white"></div>
-          <time class="text-lg font-normal leading-none text-gray-600">${formattedDate} ${timeStamp}</time>
-          <h3 class="my-2 text-3xl font-semibold text-gray-900">${value}</h3>
-          <img src="${imgUrl}">
-        </li>
-    `;
-      const newListItem = document
-        .createRange()
-        .createContextualFragment(newListItemTemplate);
-      newOrderedList.appendChild(newListItem);
+    // タイトルを付ける（表示したい文章の日付）
+    const sidebarDate = document.querySelectorAll('.sidebar-date');
+    sidebarDate.forEach((sidebarDates) => {
+      sidebarDates.innerHTML = activeDate;
     });
-    timelineList.appendChild(newOrderedList);
-  }
 
-  // 最初に表示するタイムライン
-  // パラグラフページで表示する日記を切り替えた場合、切り替えた日記のタイムラインを表示する
-  if (savedNum) {
-    index = parsedNum;
-  } else {
-    // パラグラフページで何も切り替えない場合、最新の日記のタイムラインを表示する
-    index = length - 1;
-  }
-  document.getElementById(`orderedList_${index}`).classList.remove('hidden');
-  document.getElementById(`orderedList_${index}`).classList.add('block');
+    timestamps[activeDate].forEach((timestamp, i) => {
+      // 日記が書かれた時間を取得する
+      const formattedTime = createTime.createTimeStr(timestamp);
 
-  // サブメニューを作る
-  // タイトルを付ける（その日の日付）
-  const sidebarDate = document.querySelectorAll('.sidebar-date');
-  sidebarDate.forEach((sidebarDates) => {
-    sidebarDates.innerHTML = formattedDate;
-  });
-
-  for (let j = length - 1; j >= 0; j--) {
-    // 日記が書かれた時間を取得する
-    const timeString = createTime.createTimeStr(
-      textData[formattedDate][j].timestamp
-    );
-
-    const targetLists = document.querySelectorAll('.sidebar-list');
-    targetLists.forEach((targetList) => {
-      if (
-        // 最後に表示されていた日記を再度ページを開いたときに表示する
-        (!savedNum && j === length - 1) ||
-        (savedNum && j === parsedNum)
-      ) {
-        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
-        const newListItemTemplate = `  
+      // その日に書かれた日記の数だけリストを作る
+      const targetLists = document.querySelectorAll('.sidebar-list');
+      targetLists.forEach((targetList) => {
+        if (
+          // 最後に表示されていた日記を再度ページを開いたときに表示する
+          (!savedNum && i === 0) ||
+          (savedNum && i === parsedNum)
+        ) {
+          // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
+          const newListItemTemplate = `  
           <li  
             class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
-            onclick="changeAtiveTimeline(event, ${j})"
+            onclick="changeActiveTimeline(event, ${i})"
           >
-            ${timeString}
+            ${formattedTime}
           </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      } else {
-        const newListItemTemplate = `<li
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        } else {
+          const newListItemTemplate = `<li
                       class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
-                      onclick="changeAtiveTimeline(event, ${j})"
+                      onclick="changeActiveTimeline(event, ${i})"
                     >
-                      ${timeString}
+                      ${formattedTime}
                     </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      }
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        }
+      });
     });
   }
+};
+
+createSubmenu();
+
+// タイムラインを作る
+const createTimeline = async (index) => {
+  const postDates = await data.getPostDates();
+  if (postDates) {
+    const timestamps = postDates.timestamps;
+
+    // 全ての文章のタイムラインを作る
+    for (let i = 0; i < timestamps[activeDate].length; i++) {
+      const newOrderedList = document.createElement('ol');
+      newOrderedList.id = `orderedList_${i}`;
+      newOrderedList.classList.add(
+        'relative',
+        'border-l',
+        'border-yellow-400',
+        'hidden'
+      );
+
+      const timestamp = timestamps[activeDate][i];
+      const sentenceData = await data.getSentence(timestamp);
+      const { entities, entityIds, dir } = sentenceData;
+
+      entityIds.forEach((entityId) => {
+        const { timestamp, value } = entities[entityId];
+        const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.png`;
+        console.log(imageUrl);
+
+        const newListItemTemplate = `
+        <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
+          <div class="absolute w-4 h-4 bg-yellow-400 rounded-full mt-1 -left-2 border border-white"></div>
+          <time class="text-lg font-normal leading-none text-gray-600">${activeDate} ${timestamp}</time>
+          <h3 class="my-2 text-3xl font-semibold text-gray-900">${value}</h3>
+          <img src="${imageUrl}">
+        </li>
+      `;
+
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        newOrderedList.appendChild(newListItem);
+      });
+      timelineList.appendChild(newOrderedList);
+    }
+
+    document.getElementById(`orderedList_${index}`).classList.remove('hidden');
+  }
+};
+
+// タイムラインを表示する
+// パラグラフページで表示する日記を切り替えた場合、切り替えた日記のタイムラインを表示する
+if (savedNum) {
+  createTimeline(parsedNum);
+} else {
+  // パラグラフページで何も切り替えない場合、最新の日記のタイムラインを表示する
+  createTimeline(0);
 }
 
 // サブメニューを押したとき
-const changeAtiveTimeline = (event, num) => {
+const changeActiveTimeline = async (event, num) => {
   // タイムラインを切り替える
-  const length = textData[formattedDate].length;
-  for (let i = 0; i < length; i++) {
-    document.getElementById(`orderedList_${i}`).classList.add('hidden');
+  const postDates = await data.getPostDates();
+  if (postDates) {
+    const timestamps = postDates.timestamps;
+
+    // 全ての文章のタイムラインを作る
+    for (let i = 0; i < timestamps[activeDate].length; i++) {
+      if (
+        !document
+          .getElementById(`orderedList_${i}`)
+          .classList.contains('hidden')
+      ) {
+        document.getElementById(`orderedList_${i}`).classList.add('hidden');
+      }
+    }
   }
+
   document.getElementById(`orderedList_${num}`).classList.remove('hidden');
 
   // 番号を保存する
@@ -137,7 +157,7 @@ const changeAtiveTimeline = (event, num) => {
       liElement.classList.add('hover:bg-yellow-50');
     });
 
-    const targetElement = liElements[length - 1 - num];
+    const targetElement = liElements[num];
     targetElement.classList.remove('hover:bg-yellow-50');
     targetElement.classList.add('bg-yellow-50');
   });
