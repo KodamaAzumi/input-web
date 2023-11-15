@@ -171,8 +171,16 @@ const showSentence = async (index) => {
         fragmentScale.appendChild(char);
         scaleOutput.appendChild(fragmentScale);
 
-        const charBodyDOMRect = charBody.getBoundingClientRect();
-        char.style.width = `${charBodyDOMRect.width}px`;
+        if (scaleOutput.parentElement.classList.contains('hidden')) {
+          console.log('あいうえお');
+          scaleOutput.parentElement.classList.remove('hidden');
+          const charBodyDOMRect = charBody.getBoundingClientRect();
+          char.style.width = `${charBodyDOMRect.width}px`;
+          scaleOutput.parentElement.classList.add('hidden');
+        } else {
+          const charBodyDOMRect = charBody.getBoundingClientRect();
+          char.style.width = `${charBodyDOMRect.width}px`;
+        }
       })();
     });
   }
