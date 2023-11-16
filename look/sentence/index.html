@@ -2,12 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/shared/images/favicon.svg"
-      crossorigin="anonymous"
-    />
+    <link rel="icon" type="image/svg+xml" href="/shared/images/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- reset.css ress -->
     <link
@@ -35,9 +30,8 @@
             <span class="sr-only">Your Company</span>
             <img
               class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-              crossorigin="anonymous"
+              src="/shared/images/logo.svg"
+              alt="サイトのロゴマーク"
             />
           </a>
         </div>
@@ -103,9 +97,8 @@
               <span class="sr-only">Your Company</span>
               <img
                 class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-                crossorigin="anonymous"
+                src="/shared/images/logo.svg"
+                alt="サイトのロゴマーク"
               />
             </a>
             <button
@@ -349,9 +342,11 @@
                   id="js-output-grayscale"
                   class="pointer-events-none"
                 ></span>
+                <span class="caret"></span>
               </div>
               <div class="hidden" id="tab-image">
                 <span id="js-output-image" class="pointer-events-none"></span>
+                <span class="caret"></span>
               </div>
               <div class="hidden" id="tab-scale">
                 <span id="js-output-scale" class="pointer-events-none"></span>
@@ -398,10 +393,10 @@
               type="button"
               id="js-discardBtn"
             >
-              破棄
+              消去
               <span
                 class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-                >文章の内容を破棄
+                >文章の内容を全て消去する
               </span>
             </button>
             <!-- Save Button -->
@@ -498,8 +493,12 @@
     </footer>
 
     <script type="module" src="./js/main.js"></script>
-    <script src="/shared/js/Time.js"></script>
     <script src="/shared/js/Data.js"></script>
+    <script src="/shared/js/diff.min.js"></script>
+    <script src="/shared/js/eventemitter3.umd.min.js"></script>
+    <script src="/shared/js/Time.js"></script>
+    <script src="/shared/js/Textarea.js"></script>
+    <script src="/shared/js/Photo.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
       integrity="sha512-7tWCgq9tTYS/QkGVyKrtLpqAoMV9XIUxoou+sPUypsaZx56cYR/qio84fPK9EvJJtKvJEwt7vkn6je5UVzGevw=="
@@ -507,6 +506,7 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="/shared/js/download.min.js"></script>
+    <script src="/sentence/js/Sentence.js"></script>
     <script src="/sentence/js/script.js"></script>
   </body>
 </html>
