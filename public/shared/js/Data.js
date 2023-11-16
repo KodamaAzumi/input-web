@@ -7,7 +7,7 @@ class Data {
 
     // API の URL
     this.API_BASE_URL =
-      'https://rexy82pit8.execute-api.ap-northeast-1.amazonaws.com/dev';
+      'https://8e59zxup1i.execute-api.ap-northeast-1.amazonaws.com/dev';
 
     // 画像の URL
     this.IMG_BASE_URL =

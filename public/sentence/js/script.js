@@ -1,5 +1,5 @@
 //localStorage.clear();
-
+const textarea = new Sentence('#js-textarea');
 const grayscaleOutput = document.querySelector('#js-output-grayscale');
 const imgOutput = document.querySelector('#js-output-image');
 const scaleOutput = document.querySelector('#js-output-scale');
@@ -104,7 +104,7 @@ const showSentence = async (index) => {
       }
 
       // 画像の URL を生成
-      const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.png`;
+      const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.jpeg`;
 
       // 入力された文字が改行コードか
       if ('\r\n' === value || '\r' === value || '\n' === value) {
@@ -172,7 +172,6 @@ const showSentence = async (index) => {
         scaleOutput.appendChild(fragmentScale);
 
         if (scaleOutput.parentElement.classList.contains('hidden')) {
-          console.log('あいうえお');
           scaleOutput.parentElement.classList.remove('hidden');
           const charBodyDOMRect = charBody.getBoundingClientRect();
           char.style.width = `${charBodyDOMRect.width}px`;
@@ -221,35 +220,6 @@ const changeActivePara = (event, num) => {
   submenu.classList.add('-translate-x-full');
   overlay.classList.add('hidden');
 };
-
-// 破棄ボタンを押したときに日記を消去する
-// const discardButton = document.getElementById('js-discardBtn');
-// const onDeleted = () => {
-//   console.log('click deleteButton');
-//   if (textData && textData[formattedDate]) {
-//     // 日記をストレージから消去する
-//     textData[formattedDate].splice(index, 1);
-
-//     //　その日のオブジェクトに日記が無い場合はキーごと消去する
-//     if (textData[formattedDate].length === 0) {
-//       delete textData[formattedDate];
-//     } else {
-//       // 消去した後は最新の日記を表示する
-//       index = textData[formattedDate].length - 1;
-
-//       // タイムラインを表示できるように番号を保存する
-//       localStorage.setItem('savedNumber', index);
-//     }
-
-//     // ローカルストレージに保存する
-//     textDataString = JSON.stringify(textData);
-//     localStorage.setItem('textData', textDataString);
-
-//     location.reload();
-//     console.log('delete data');
-//   }
-// };
-// discardButton.addEventListener('click', onDeleted);
 
 // タブとタブのボタンを切り替える
 const changeActiveTab = (event, tabID) => {

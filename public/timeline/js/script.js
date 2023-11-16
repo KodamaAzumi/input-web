@@ -91,13 +91,13 @@ const createTimeline = async (index) => {
 
       entityIds.forEach((entityId) => {
         const { timestamp, value } = entities[entityId];
-        const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.png`;
-        console.log(imageUrl);
+        const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.jpeg`;
+        const formattedTime = createTime.createTimeStr(timestamp);
 
         const newListItemTemplate = `
         <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
           <div class="absolute w-4 h-4 bg-yellow-400 rounded-full mt-1 -left-2 border border-white"></div>
-          <time class="text-lg font-normal leading-none text-gray-600">${activeDate} ${timestamp}</time>
+          <time class="text-lg font-normal leading-none text-gray-600">${activeDate} ${formattedTime}</time>
           <h3 class="my-2 text-3xl font-semibold text-gray-900">${value}</h3>
           <img src="${imageUrl}">
         </li>
