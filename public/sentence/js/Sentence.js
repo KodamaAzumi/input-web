@@ -1,11 +1,23 @@
 class Sentence extends Photo {
-  constructor(selectors) {
+  constructor(selectors, entity, entityIds) {
     super(selectors);
 
     // 破棄ボタン
     this.discardButton = document.getElementById('js-discardBtn');
     //破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
+
+    // 編集するとき用
+    this.entity = entity;
+    this.entityIds = entityIds;
+
+    const initialValue = this.entityIds.reduce(
+      (v, entityId) => v + this.entity[entityId].value,
+      ''
+    );
+
+    this.prevValue = initialValue; // 変更（input）直前の文字列
+    this.el.value = initialValue;
   }
 
   onCleared = async () => {

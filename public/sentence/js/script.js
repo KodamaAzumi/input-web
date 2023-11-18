@@ -1,5 +1,4 @@
 //localStorage.clear();
-const textarea = new Sentence('#js-textarea');
 const grayscaleOutput = document.querySelector('#js-output-grayscale');
 const imgOutput = document.querySelector('#js-output-image');
 const scaleOutput = document.querySelector('#js-output-scale');
@@ -20,64 +19,61 @@ const data = new Data();
 // サブメニューを作る（２つ）
 const createSubmenu = async () => {
   const postDates = await data.getPostDates();
-  if (postDates) {
-    const timestamps = postDates.timestamps;
+  const timestamps = postDates.timestamps;
 
-    // タイトルを付ける（表示したい文章の日付）
-    const sidebarDate = document.querySelectorAll('.sidebar-date');
-    sidebarDate.forEach((sidebarDates) => {
-      sidebarDates.innerHTML = activeDate;
-    });
+  // タイトルを付ける（表示したい文章の日付）
+  const sidebarDate = document.querySelectorAll('.sidebar-date');
+  sidebarDate.forEach((sidebarDates) => {
+    sidebarDates.innerHTML = activeDate;
+  });
 
-    timestamps[activeDate].forEach((timestamp, i) => {
-      // 日記が書かれた時間を取得する
-      const formattedTime = createTime.createTimeStr(timestamp);
+  timestamps[activeDate].forEach((timestamp, i) => {
+    // 日記が書かれた時間を取得する
+    const formattedTime = createTime.createTimeStr(timestamp);
 
-      // その日に書かれた日記の数だけリストを作る
-      const targetLists = document.querySelectorAll('.sidebar-list');
-      targetLists.forEach((targetList) => {
-        if (
-          // 最後に表示されていた日記を再度ページを開いたときに表示する
-          (!savedNum && i === 0) ||
-          (savedNum && i === parsedNum)
-        ) {
-          // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
-          const newListItemTemplate = `  
+    // その日に書かれた日記の数だけリストを作る
+    const targetLists = document.querySelectorAll('.sidebar-list');
+    targetLists.forEach((targetList) => {
+      if (
+        // 最後に表示されていた日記を再度ページを開いたときに表示する
+        (!savedNum && i === 0) ||
+        (savedNum && i === parsedNum)
+      ) {
+        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
+        const newListItemTemplate = `  
           <li  
             class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
             onclick="changeActivePara(event, ${i})"
           >
             ${formattedTime}
           </li>`;
-          const newListItem = document
-            .createRange()
-            .createContextualFragment(newListItemTemplate);
-          targetList.appendChild(newListItem);
-        } else {
-          const newListItemTemplate = `<li
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        targetList.appendChild(newListItem);
+      } else {
+        const newListItemTemplate = `<li
                       class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
                       onclick="changeActivePara(event, ${i})"
                     >
                       ${formattedTime}
                     </li>`;
-          const newListItem = document
-            .createRange()
-            .createContextualFragment(newListItemTemplate);
-          targetList.appendChild(newListItem);
-        }
-      });
+        const newListItem = document
+          .createRange()
+          .createContextualFragment(newListItemTemplate);
+        targetList.appendChild(newListItem);
+      }
     });
-  }
+  });
 };
 
 createSubmenu();
 
+const createSentence = () => {};
+
 // 本文を表示する
 const showSentence = async (index) => {
-  const postDates = await data.getPostDates();
-  if (postDates) {
-    const timestamps = postDates.timestamps;
-
+  const loop = () => {
     const fragmentGrayscale = document.createDocumentFragment();
     const fragmentImg = document.createDocumentFragment();
     const fragmentScale = document.createDocumentFragment();
@@ -86,25 +82,18 @@ const showSentence = async (index) => {
     imgOutput.innerHTML = '';
     scaleOutput.innerHTML = '';
 
-    const timestamp = timestamps[activeDate][index];
-    const sentenceData = await data.getSentence(timestamp);
-    const { entities, entityIds, dir } = sentenceData;
-
-    entityIds.forEach((entityId, i) => {
+    textarea.entityIds.forEach((entityId, i) => {
       // 入力された順に文字情報を順に取得する
-      const { timestamp, value } = entities[entityId];
+      const { timestamp, value } = textarea.entity[entityId];
       // ひとつ前の ID を取得する
-      const prevEntityId = entityIds[i - 1];
+      const prevEntityId = textarea.entityIds[i - 1];
       // ひとつ前の文字情報との時差
       let diff = 0;
 
       // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
       if (prevEntityId) {
-        diff = timestamp - entities[prevEntityId].timestamp;
+        diff = timestamp - textarea.entity[prevEntityId].timestamp;
       }
-
-      // 画像の URL を生成
-      const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.jpeg`;
 
       // 入力された文字が改行コードか
       if ('\r\n' === value || '\r' === value || '\n' === value) {
@@ -140,7 +129,12 @@ const showSentence = async (index) => {
       spanImgOuter.classList.add('inline-block', 'px-3', 'py-1');
       const spanImg = document.createElement('span');
       if (!(value === ' ' || value === '　')) {
-        spanImgOuter.style.backgroundImage = `url(${imageUrl})`;
+        if (textarea.entity[entityId].image) {
+          spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].image})`;
+        } else {
+          const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.jpeg`;
+          spanImgOuter.style.backgroundImage = `url(${imageUrl})`;
+        }
         spanImgOuter.style.backgroundSize = 'cover';
         spanImgOuter.style.backgroundPosition = 'center';
         spanImg.style.color = '#fff';
@@ -171,27 +165,34 @@ const showSentence = async (index) => {
         fragmentScale.appendChild(char);
         scaleOutput.appendChild(fragmentScale);
 
-        if (scaleOutput.parentElement.classList.contains('hidden')) {
-          scaleOutput.parentElement.classList.remove('hidden');
-          const charBodyDOMRect = charBody.getBoundingClientRect();
-          char.style.width = `${charBodyDOMRect.width}px`;
-          scaleOutput.parentElement.classList.add('hidden');
-        } else {
-          const charBodyDOMRect = charBody.getBoundingClientRect();
-          char.style.width = `${charBodyDOMRect.width}px`;
-        }
+        const charBodyDOMRect = charBody.getBoundingClientRect();
+        char.style.width = `${charBodyDOMRect.width}px`;
       })();
     });
-  }
+
+    window.requestAnimationFrame(loop);
+  };
+
+  const postDates = await data.getPostDates();
+  const timestamps = postDates.timestamps;
+  const timestamp = timestamps[activeDate][index];
+  const sentenceData = await data.getSentence(timestamp);
+  const { entities, entityIds, dir } = sentenceData;
+
+  const textarea = new Sentence('#js-textarea', entities, entityIds);
+
+  window.requestAnimationFrame(loop);
 };
 
 // 最後に表示した日記を表示する
+let index;
 if (savedNum) {
-  showSentence(parsedNum);
+  index = parsedNum;
 } else {
   // 一番初めは最新の日記を表示する
-  showSentence(0);
+  index = 0;
 }
+showSentence(index);
 
 // サブメニューを押したとき
 const changeActivePara = (event, num) => {
@@ -310,6 +311,7 @@ window.addEventListener('resize', () => {
   overlay.classList.add('hidden');
 });
 
+// 文章を画像としてダウンロードする
 const imgDownloaded = (e) => {
   console.log('ダウンロードボタンをクリックした', e);
 
