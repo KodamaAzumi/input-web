@@ -36,8 +36,7 @@ const createSubmenu = async () => {
     targetLists.forEach((targetList) => {
       if (
         // 最後に表示されていた日記を再度ページを開いたときに表示する
-        (!savedNum && i === 0) ||
-        (savedNum && i === parsedNum)
+        i === parsedNum
       ) {
         // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
         const newListItemTemplate = `  
@@ -184,15 +183,8 @@ const showSentence = async (index) => {
   window.requestAnimationFrame(loop);
 };
 
-// 最後に表示した日記を表示する
-let index;
-if (savedNum) {
-  index = parsedNum;
-} else {
-  // 一番初めは最新の日記を表示する
-  index = 0;
-}
-showSentence(index);
+showSentence(parsedNum);
+console.log(parsedNum);
 
 // サブメニューを押したとき
 const changeActivePara = (event, num) => {

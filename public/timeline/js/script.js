@@ -33,8 +33,7 @@ const createSubmenu = async () => {
     targetLists.forEach((targetList) => {
       if (
         // 最後に表示されていた日記を再度ページを開いたときに表示する
-        (!savedNum && i === 0) ||
-        (savedNum && i === parsedNum)
+        i === parsedNum
       ) {
         // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
         const newListItemTemplate = `  
@@ -112,13 +111,7 @@ const createTimeline = async (index) => {
 };
 
 // タイムラインを表示する
-// パラグラフページで表示する日記を切り替えた場合、切り替えた日記のタイムラインを表示する
-if (savedNum) {
-  createTimeline(parsedNum);
-} else {
-  // パラグラフページで何も切り替えない場合、最新の日記のタイムラインを表示する
-  createTimeline(0);
-}
+createTimeline(parsedNum);
 
 // サブメニューを押したとき
 const changeActiveTimeline = async (event, num) => {

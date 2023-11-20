@@ -34,13 +34,6 @@ class Write extends Photo {
 
       // モーダルのために文章を書いた日付を保存しておく
       localStorage.setItem('activeDate', String(writingDate));
-
-      // 保存した文章をリセットする
-      this.onCleared();
-
-      // モーダルを表示する
-      const saveModal = document.getElementById('saveBtn-modal');
-      saveModal.classList.remove('hidden');
     }
   };
 
@@ -83,6 +76,15 @@ class Write extends Photo {
         if (data.status === 'OK') {
           console.log('日記を登録しました');
           console.log(data);
+
+          // 保存した文章をリセットする
+          this.onCleared();
+
+          localStorage.setItem('savedNumber', '0');
+
+          // モーダルを表示する
+          const saveModal = document.getElementById('saveBtn-modal');
+          saveModal.classList.remove('hidden');
         }
       });
   };
