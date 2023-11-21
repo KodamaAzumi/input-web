@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         write: resolve(__dirname, 'write/index.html'),
         look: resolve(__dirname, 'look/index.html'),
+        sentence: resolve(__dirname, 'look/sentence/index.html'),
         timeline: resolve(__dirname, 'look/timeline/index.html'),
         chat: resolve(__dirname, 'chat/index.html'),
         explanation: resolve(__dirname, 'explanation/index.html'),
