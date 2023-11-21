@@ -69,7 +69,6 @@ const bodySchema = {
         pattern: '^c\\d+i\\d+(v\\d+)?$',
         type: 'string',
       },
-      minItems: 1,
       type: 'array',
     },
   },
@@ -244,7 +243,7 @@ module.exports.update = async (event) => {
         const [_, contentType, extension, base64String] =
           image.match(base64RegExp);
         // 画像が保存されるパス
-        const key = `${id}/${timestamp}/${entityId}.${extension}`;
+        const key = `${id}/${dir}/${entityId}.${extension}`;
         // リクエストボディに設定された画像データはBase64エンコードされているので、デコードする
         const body = Buffer.from(base64String, 'base64');
         // image キーはデータベースに保存する必要はないので削除

@@ -136,10 +136,20 @@ resources:
             KeyType: RANGE
         # BillingMode が PROVISIONED（初期値）の時は必須
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 custom:
+  capacities:
+    - table: DiaryDynamoDbTable
+      read:
+        minimum: 5
+        maximum: 10
+        usage: 0.7
+      write:
+        minimum: 5
+        maximum: 10
+        usage: 0.7
   # local S3 の設定
   s3:
     host: 127.0.0.1
@@ -154,7 +164,8 @@ custom:
       port: 8000
       migrate: true
       dbPath: .dynamodb
-# plugins:
-#   - serverless-dynamodb
-#   - serverless-s3-local
-#   - serverless-offline
+plugins:
+  # - serverless-dynamodb
+  - serverless-dynamodb-autoscaling
+  # - serverless-s3-local
+  # - serverless-offline
