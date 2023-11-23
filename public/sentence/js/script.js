@@ -121,7 +121,6 @@ const showSentence = async (index) => {
       spanGrayscale.appendChild(document.createTextNode(value));
       fragmentGrayscale.appendChild(spanGrayscale);
       grayscaleOutput.appendChild(fragmentGrayscale);
-      //console.log(diff, calculatedDiff, hslValue);
 
       // 写真と文字を合成する
       const spanImgOuter = document.createElement('span');
@@ -331,5 +330,12 @@ const imgDownloaded = (e) => {
 
 const downloadBtn = document.getElementById('js-downloadBtn');
 downloadBtn.addEventListener('click', imgDownloaded);
+
+// モーダルを閉じる
+const saveModal = document.getElementById('saveBtn-modal');
+const modalCloseBtn = document.getElementById('saveBtn-modal-closeBtn');
+modalCloseBtn.addEventListener('click', () => {
+  saveModal.classList.add('hidden');
+});
 
 //localStorage.clear();

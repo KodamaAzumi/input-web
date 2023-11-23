@@ -216,7 +216,7 @@ class Chat extends Photo {
 
       // messageElementがないとき、処理を中断する
       if (!messageElement) {
-        console.log('messageElementがないよ');
+        console.log('messageElementがない');
         return;
       }
 
@@ -508,7 +508,6 @@ class Chat extends Photo {
         spanGrayscale.appendChild(document.createTextNode(value));
         grayscaleElement.appendChild(spanGrayscale);
         messageElement.appendChild(grayscaleElement);
-        //console.log(diff, calculatedDiff, hslValue);
 
         // 写真と文字を合成する
         const spanImgOuter = document.createElement('span');

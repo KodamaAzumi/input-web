@@ -2,13 +2,17 @@ class Write extends Photo {
   constructor(selectors) {
     super(selectors);
 
+    this.data = new Data();
+    this.id = this.data.id;
+    this.API_BASE_URL = this.data.API_BASE_URL;
+
     // 保存ボタン
     this.saveButton = document.getElementById('js-saveBtn');
-    // 破棄ボタン
-    this.discardButton = document.getElementById('js-discardBtn');
-
     // 保存ボタンをクリックしたとき
     this.saveButton.addEventListener('click', this.onSaveButtonClicked);
+
+    // 破棄ボタン
+    this.discardButton = document.getElementById('js-discardBtn');
     //破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
   }
@@ -56,17 +60,18 @@ class Write extends Photo {
 
   // 新規保存
   addNewSentence = () => {
-    const data = new Data();
-    const id = data.id;
-    const API_BASE_URL = data.API_BASE_URL;
+    // 保存が完了するまで、ボタンを押せないようにする
+    this.saveButton.disabled = true;
+    this.discardButton.disabled = true;
+    this.cameraButton.disabled = true;
 
-    fetch(`${API_BASE_URL}/diaries/`, {
+    fetch(`${this.API_BASE_URL}/diaries/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: id,
+        id: this.id,
         entityIds: this.entityIds,
         entities: this.entity,
       }),
@@ -85,6 +90,10 @@ class Write extends Photo {
           // モーダルを表示する
           const saveModal = document.getElementById('saveBtn-modal');
           saveModal.classList.remove('hidden');
+
+          this.saveButton.disabled = false;
+          this.discardButton.disabled = false;
+          this.cameraButton.disabled = false;
         }
       });
   };

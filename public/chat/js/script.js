@@ -41,13 +41,6 @@ const loop = () => {
       return;
     }
 
-    /*
-    console.log(entityId, i, timestamp, value, prevEntityId);
-    console.log(textarea);
-    console.log(textarea.entityIds);
-    console.log(textarea.entity);
-    */
-
     // diffを適した値に変更する(diffはミリ秒)
     const calculatedDiff = (diff / 1000) * 100;
 
@@ -60,7 +53,6 @@ const loop = () => {
     spanGrayscale.appendChild(document.createTextNode(value));
     fragmentGrayscale.appendChild(spanGrayscale);
     grayscaleOutput.appendChild(fragmentGrayscale);
-    //console.log(diff, calculatedDiff, hslValue);
 
     // 写真と文字を合成する
     const spanImgOuter = document.createElement('span');
