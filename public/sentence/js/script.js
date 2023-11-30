@@ -22,9 +22,10 @@ const createSubmenu = async () => {
   const timestamps = postDates.timestamps;
 
   // タイトルを付ける（表示したい文章の日付）
-  const sidebarDate = document.querySelectorAll('.sidebar-date');
-  sidebarDate.forEach((sidebarDates) => {
-    sidebarDates.innerHTML = activeDate;
+  const sidebarDates = document.querySelectorAll('.sidebar-date');
+  sidebarDates.forEach((sidebarDate) => {
+    sidebarDate.innerHTML = activeDate;
+    sidebarDate.classList.add('text-xl');
   });
 
   timestamps[activeDate].forEach((timestamp, i) => {
@@ -41,7 +42,7 @@ const createSubmenu = async () => {
         // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
         const newListItemTemplate = `  
           <li  
-            class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
+            class="py-4 text-sm text-gray-900 bg-yellow-50 border-b-2 border-yellow-200"
             onclick="changeActivePara(event, ${i})"
           >
             ${formattedTime}
@@ -52,7 +53,7 @@ const createSubmenu = async () => {
         targetList.appendChild(newListItem);
       } else {
         const newListItemTemplate = `<li
-                      class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
+                      class="py-4 text-sm text-gray-900 hover:bg-yellow-50 border-b-2 border-yellow-200"
                       onclick="changeActivePara(event, ${i})"
                     >
                       ${formattedTime}
@@ -228,7 +229,7 @@ const changeActiveTab = (event, tabID) => {
     aElements[i].classList.add(
       'hover:bg-gray-50',
       'underline',
-      'underline-offset-2',
+      'underline-offset-4',
       'cursor-pointer',
       'toolBtn'
     );
@@ -242,7 +243,7 @@ const changeActiveTab = (event, tabID) => {
   element.classList.remove(
     'hover:bg-gray-50',
     'underline',
-    'underline-offset-2',
+    'underline-offset-4',
     'cursor-pointer',
     'toolBtn'
   );

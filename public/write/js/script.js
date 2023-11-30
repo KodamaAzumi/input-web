@@ -119,7 +119,7 @@ const changeActiveTab = (event, tabID) => {
     aElements[i].classList.add(
       'hover:bg-gray-50',
       'underline',
-      'underline-offset-2',
+      'underline-offset-4',
       'cursor-pointer',
       'toolBtn'
     );
@@ -133,7 +133,7 @@ const changeActiveTab = (event, tabID) => {
   element.classList.remove(
     'hover:bg-gray-50',
     'underline',
-    'underline-offset-2',
+    'underline-offset-4',
     'cursor-pointer',
     'toolBtn'
   );

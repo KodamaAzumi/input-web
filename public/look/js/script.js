@@ -76,7 +76,7 @@ const createCalendar = (year, month, weeks, dateKeys) => {
         // 文章のある日付に色を付ける
         if (dateKeys.includes(dataDate)) {
           console.log(dataDate);
-          calendarHtml += `<li data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 rounded-full inline-block w-7 h-7">${dayCount}</a></li>`;
+          calendarHtml += `<li data-date="${dataDate}"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-800 hover:bg-yellow-300 hover:text-yellow-700 rounded-full inline-block w-7 h-7">${dayCount}</a></li>`;
           dayCount++;
         } else {
           calendarHtml += `<li data-date="${dataDate}">${dayCount}</li>`;
