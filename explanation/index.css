@@ -7,11 +7,11 @@
 }
 
 .prev {
-  @apply absolute left-16 top-1/2 z-10  w-6 h-6  border-l-4 border-b-4 rotate-45 cursor-pointer;
+  @apply absolute left-0 sm:-left-8 lg:-left-16 top-1/2 z-10 w-6 h-6 sm:w-8 sm:h-8 border-l-4 border-b-4 rotate-45 cursor-pointer;
 }
 
 .next {
-  @apply absolute right-16 top-1/2 z-10 w-6 h-6 border-r-4 border-t-4 rotate-45 cursor-pointer;
+  @apply absolute right-0 sm:-right-8 lg:-right-16 top-1/2 z-10 w-6 h-6 sm:w-8 sm:h-8 border-r-4 border-t-4 rotate-45 cursor-pointer;
 }
 
 .dot {
