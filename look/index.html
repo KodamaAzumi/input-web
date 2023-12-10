@@ -152,15 +152,47 @@
 
     <!-- calendar -->
     <div
-      class="mt-2 sm:mt-10 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-screen"
+      class="my-2 sm:my-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-screen"
     >
       <main
-        class="col-start-2 col-span-10 sm:col-start-3 sm:col-span-8 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8"
+        class="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-3 lg:col-span-8"
       >
         <div
-          id="js-calendar"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8"
-        ></div>
+          class="grid grid-cols-12 sm:grid-cols-10 lg:grid-cols-8 gap-4 sm:gap-8"
+        >
+          <div class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-8">
+            <h1
+              class="font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-900 tracking-wide"
+            >
+              文章を見る
+            </h1>
+            <hr class="mt-6 sm:mt-7 lg:mt-8" />
+          </div>
+
+          <div
+            class="hidden mt-6 xs:mt-8 col-start-1 col-span-12"
+            id="js-attention"
+          >
+            <p
+              class="text-xl md:text-2xl font-medium text-gray-900 md:tracking-wide leading-relaxed"
+            >
+              文章を一度も書いていません。<a
+                href="/write/index.html"
+                class="m-2 underline decoration-1 underline-offset-4 text-orange-400 hover:no-underline hover:text-gray-900"
+                >書く</a
+              >で文章を書いて見ましょう。
+            </p>
+          </div>
+
+          <div
+            class="mt-8 xs:mt-10 col-start-1 col-span-12 sm:col-span-10 lg:col-span-8"
+          >
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16"
+              id="js-calendar"
+            ></div>
+          </div>
+        </div>
       </main>
     </div>
 
