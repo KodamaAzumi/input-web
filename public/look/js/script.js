@@ -115,7 +115,8 @@ const showCalendar = (year, month, weeks, show, dateKeys) => {
 const changeActiveDate = (event, element) => {
   //event.preventDefault();
   const eventElement = element;
-  const activeDate = eventElement.parentElement.getAttribute('data-date');
+  const activeDate =
+    eventElement.parentElement.parentElement.getAttribute('data-date');
   localStorage.setItem('activeDate', String(activeDate));
 };
 
