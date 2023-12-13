@@ -18,53 +18,59 @@ const data = new Data();
 
 // サブメニューを作る（２つ）
 const createSubmenu = async () => {
-  const postDates = await data.getPostDates();
-  const timestamps = postDates.timestamps;
-
   // タイトルを付ける（表示したい文章の日付）
   const sidebarDates = document.querySelectorAll('.sidebar-date');
   sidebarDates.forEach((sidebarDate) => {
     sidebarDate.innerHTML = activeDate;
-    sidebarDate.classList.add('text-xl');
   });
 
-  timestamps[activeDate].forEach((timestamp, i) => {
-    // 日記が書かれた時間を取得する
-    const formattedTime = createTime.createTimeStr(timestamp);
+  const postDates = await data.getPostDates();
 
-    // その日に書かれた日記の数だけリストを作る
-    const targetLists = document.querySelectorAll('.sidebar-list');
-    targetLists.forEach((targetList) => {
-      if (
-        // 最後に表示されていた日記を再度ページを開いたときに表示する
-        i === parsedNum
-      ) {
-        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
-        const newListItemTemplate = `  
+  if (postDates && !(postDates.dates.length === 0)) {
+    const timestamps = postDates.timestamps;
+
+    timestamps[activeDate].forEach((timestamp, i) => {
+      // 日記が書かれた時間を取得する
+      const formattedTime = createTime.createTimeStr(timestamp);
+
+      // その日に書かれた日記の数だけリストを作る
+      const targetLists = document.querySelectorAll('.sidebar-list');
+      targetLists.forEach((targetList) => {
+        if (
+          // 最後に表示されていた日記を再度ページを開いたときに表示する
+          i === parsedNum
+        ) {
+          // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
+          const newListItemTemplate = `  
           <li  
-            class="py-4 text-sm text-gray-900 bg-yellow-50 border-b-2 border-yellow-200"
+            class="py-4 bg-yellow-50 border-b-2 border-yellow-200"
             onclick="changeActivePara(event, ${i})"
           >
             ${formattedTime}
           </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      } else {
-        const newListItemTemplate = `<li
-                      class="py-4 text-sm text-gray-900 hover:bg-yellow-50 border-b-2 border-yellow-200"
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        } else {
+          const newListItemTemplate = `<li
+                      class="py-4 hover:bg-yellow-50 border-b-2 border-yellow-200"
                       onclick="changeActivePara(event, ${i})"
                     >
                       ${formattedTime}
                     </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      }
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        }
+      });
     });
-  });
+  } else {
+    document.querySelectorAll('.sidebar-attention').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+  }
 };
 
 createSubmenu();
