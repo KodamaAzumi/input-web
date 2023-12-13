@@ -15,52 +15,67 @@ const data = new Data();
 
 // サブメニューを作る（２つ）
 const createSubmenu = async () => {
-  const postDates = await data.getPostDates();
-  const timestamps = postDates.timestamps;
-
   // タイトルを付ける（表示したい文章の日付）
   const sidebarDate = document.querySelectorAll('.sidebar-date');
   sidebarDate.forEach((sidebarDates) => {
     sidebarDates.innerHTML = activeDate;
   });
 
-  timestamps[activeDate].forEach((timestamp, i) => {
-    // 日記が書かれた時間を取得する
-    const formattedTime = createTime.createTimeStr(timestamp);
+  const postDates = await data.getPostDates();
 
-    // その日に書かれた日記の数だけリストを作る
-    const targetLists = document.querySelectorAll('.sidebar-list');
-    targetLists.forEach((targetList) => {
-      if (
-        // 最後に表示されていた日記を再度ページを開いたときに表示する
-        i === parsedNum
-      ) {
-        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
-        const newListItemTemplate = `  
+  if (postDates && !(postDates.dates.length === 0)) {
+    const timestamps = postDates.timestamps;
+
+    timestamps[activeDate].forEach((timestamp, i) => {
+      // 日記が書かれた時間を取得する
+      const formattedTime = createTime.createTimeStr(timestamp);
+
+      // その日に書かれた日記の数だけリストを作る
+      const targetLists = document.querySelectorAll('.sidebar-list');
+      targetLists.forEach((targetList) => {
+        if (
+          // 最後に表示されていた日記を再度ページを開いたときに表示する
+          i === parsedNum
+        ) {
+          // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
+          const newListItemTemplate = `  
           <li  
-            class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
+            class="py-4 bg-yellow-50 border-b-2 border-yellow-200"
             onclick="changeActiveTimeline(event, ${i})"
           >
             ${formattedTime}
           </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      } else {
-        const newListItemTemplate = `<li
-                      class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        } else {
+          const newListItemTemplate = `<li
+                      class="py-4 hover:bg-yellow-50 border-b-2 border-yellow-200"
                       onclick="changeActiveTimeline(event, ${i})"
                     >
                       ${formattedTime}
                     </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      }
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        }
+      });
     });
-  });
+  } else {
+    // データがないときは文章を表示させる
+    document.querySelectorAll('.sidebar-attention').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.sidebar-date').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+    document.querySelectorAll('.sidebar-list').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+  }
 };
 
 createSubmenu();
@@ -78,7 +93,8 @@ const createTimeline = async (index) => {
       'relative',
       'border-l',
       'border-yellow-400',
-      'hidden'
+      'hidden',
+      'ml-3'
     );
 
     const timestamp = timestamps[activeDate][i];
@@ -91,11 +107,11 @@ const createTimeline = async (index) => {
       const formattedTime = createTime.createTimeStr(timestamp);
 
       const newListItemTemplate = `
-        <li class="mb-10 ml-6 p-3 rounded-md bg-gray-50">
-          <div class="absolute w-4 h-4 bg-yellow-400 rounded-full mt-1 -left-2 border border-white"></div>
-          <time class="text-lg font-normal leading-none text-gray-600">${activeDate} ${formattedTime}</time>
-          <h3 class="my-2 text-3xl font-semibold text-gray-900">${value}</h3>
-          <img src="${imageUrl}">
+        <li class="mb-10 ml-6 sm:ml-8 p-5 rounded-md bg-gray-50">
+          <div class="mt-1 absolute -left-[0.535rem] sm:-left-[0.675rem] w-4 h-4 sm:w-5 sm:h-5 bg-yellow-400 rounded-full"></div>
+          <time class="text-lg sm:text-xl font-normal leading-none text-gray-600">${activeDate} ${formattedTime}</time>
+          <h3 class="my-2 sm:my-3 text-3xl sm:text-4xl font-bold text-gray-900">${value}</h3>
+          <img src="${imageUrl}" alt="タイムラインの写真">
         </li>
       `;
 

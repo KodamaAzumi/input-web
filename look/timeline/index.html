@@ -151,21 +151,33 @@
     </header>
 
     <!-- Timeline -->
-    <div class="mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+    <div
+      class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-[85vh]"
+    >
       <!-- Sidebar -->
       <aside
-        class="hidden col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 md:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
+        class="col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 hidden lg:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
       >
-        <div class="col-start-2 col-span-3 lg:col-start-2 lg:col-span-2">
-          <h1 class="sidebar-date font-bold">この日は日記を書いていません</h1>
+        <div class="col-start-1 col-span-4 lg:col-start-2 lg:col-span-2">
+          <h1 class="sidebar-date text-xl font-bold text-gray-900"></h1>
           <ul class="sidebar-list mt-4"></ul>
+
+          <p
+            class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
+          >
+            データの取得に失敗しました。ページを読み込み直すか、<a
+              href="/look/index.html"
+              class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
+              >見る</a
+            >に戻ってください。
+          </p>
         </div>
       </aside>
 
       <!-- Sub Menu -->
       <div
         id="submenu"
-        class="md:hidden fixed inset-y-0 left-0 z-50 w-full -translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-xs sm:ring-1 sm:ring-gray-900/10"
+        class="lg:hidden fixed inset-y-0 left-0 z-50 w-full -translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-xs sm:ring-1 sm:ring-gray-900/10"
       >
         <div class="flex items-center justify-end">
           <button
@@ -193,10 +205,20 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <h1 class="sidebar-date font-bold">
-                この日は日記を書いていません
-              </h1>
-              <ul class="sidebar-list mt-4"></ul>
+              <h1
+                class="sidebar-date mt-4 text-xl font-bold text-gray-900"
+              ></h1>
+              <ul class="sidebar-list mt-4 text-base text-gray-900"></ul>
+
+              <p
+                class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
+              >
+                データの取得に失敗しました。ページを読み込み直すか、<a
+                  href="/look/index.html"
+                  class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
+                  >見る</a
+                >に戻ってください。
+              </p>
             </div>
           </div>
         </div>
@@ -210,48 +232,51 @@
 
       <!-- Main -->
       <main
-        class="h-fit col-start-1 col-span-12 md:col-start-5 md:col-span-8 lg:col-start-4 lg:col-span-9 grid grid-cols-12 gap-4 md:grid-cols-8 lg:grid-cols-9 sm:gap-8"
+        class="h-fit col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-9"
       >
-        <!-- Sub Menu Button -->
-        <div class="col-start-2 col-span-5 md:hidden">
-          <button
-            class="px-2.5 py-2 xs:px-3.5 xs:py-3 rounded-md hover:bg-gray-50"
-            type="button"
-            id="submenu-openButton"
-          >
-            <span class="sr-only">Open sidebar</span>
-            <img src="/shared/images/arrowIcon.svg" alt="矢印アイコン" />
-          </button>
-        </div>
-
-        <!-- Paragraph Button -->
         <div
-          class="col-start-7 col-span-5 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-8"
+          class="grid grid-cols-12 sm:grid-cols-10 lg:grid-cols-9 gap-4 sm:gap-8"
         >
-          <div class="flex justify-end md:justify-start">
+          <!-- Sub Menu Button -->
+          <section
+            class="lg:hidden col-start-1 col-span-12 sm:col-span-10 lg:col-span-7"
+          >
+            <button
+              class="mr-6 p-2.5 xs:p-3.5 rounded-md hover:bg-gray-50"
+              type="button"
+              id="submenu-openButton"
+            >
+              <span class="sr-only">Open sidebar</span>
+              <img
+                src="/shared/images/arrowIcon.svg"
+                alt="矢印アイコン"
+                class="min-w-[16px] min-h-[16px]"
+              />
+            </button>
+          </section>
+
+          <!-- Paragraph Button -->
+          <section class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-7">
             <a
               href="/look/sentence/index.html"
-              class="toolBtn relative bg-yellow-400 rounded-md px-2.5 py-2 xs:px-3.5 xs:py-3 shadow-sm hover:bg-yellow-300"
+              class="inline-block bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300"
               id="js-paragraphBtn"
             >
-              <span
-                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-                >文章を見る
-              </span>
               <span class="sr-only">go to paragraph</span>
               <img
                 src="/timeline/images/paragraphIcon.svg"
                 alt="パラグラフアイコン"
+                class="min-w-[16px] min-h-[16px]"
               />
             </a>
-          </div>
-        </div>
+          </section>
 
-        <!-- Timeline List -->
-        <div
-          class="min-h-[60vh] col-start-2 col-span-10 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-8"
-          id="timeline-list"
-        ></div>
+          <!-- Timeline List -->
+          <div
+            class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-7"
+            id="timeline-list"
+          ></div>
+        </div>
       </main>
     </div>
 
