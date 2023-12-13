@@ -67,7 +67,15 @@ const createSubmenu = async () => {
       });
     });
   } else {
+    // データがないときは文章を表示させる
     document.querySelectorAll('.sidebar-attention').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.sidebar-date').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+    document.querySelectorAll('.sidebar-list').forEach((element) => {
       element.classList.remove('hidden');
     });
   }

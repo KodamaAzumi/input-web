@@ -19,12 +19,15 @@ class Data {
     try {
       const response = await fetch(`${this.API_BASE_URL}/diaries/${this.id}`);
       const data = await response.json();
+
       if (data.status === 'OK') {
         console.log(
           `ユーザーID: ${this.id} 日記が投稿されている日付の一覧を取得しました`
         );
         console.log(data);
         return data;
+      } else {
+        console.error('データの取得に失敗しました:', data);
       }
     } catch (error) {
       console.error('このidで一度も文章を書いていない:', error);
