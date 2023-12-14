@@ -99,13 +99,7 @@ class Chat extends Photo {
 
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
-      messageOuter.classList.add(
-        'flex',
-        'justify-start',
-        'items-end',
-        'mb-3',
-        'ml-2'
-      );
+      messageOuter.classList.add('flex', 'justify-start', 'items-end', 'mb-3');
       chatElement.appendChild(messageOuter);
 
       // チャットを送信した時間を作る
@@ -398,13 +392,7 @@ class Chat extends Photo {
 
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
-      messageOuter.classList.add(
-        'flex',
-        'justify-end',
-        'items-end',
-        'mb-3',
-        'mr-2'
-      );
+      messageOuter.classList.add('flex', 'justify-end', 'items-end', 'mb-3');
       chatElement.appendChild(messageOuter);
 
       // チャットを送信した時間を作る

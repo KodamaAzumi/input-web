@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-#js-chatarea::-webkit-scrollbar {
-  display: none;
+/* なぜかtrackは無印にbgを書かないと色が適応されない */
+.scroll-bar::-webkit-scrollbar {
+  @apply bg-sky-300 w-1;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  @apply bg-sky-400 rounded-full;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb:hover {
+  @apply bg-sky-500;
 }
 
 .onCaret {

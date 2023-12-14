@@ -173,23 +173,15 @@
           class="bg-sky-300 relative w-full h-full flex flex-col overflow-hidden"
         >
           <!-- Timeline -->
-          <section class="bg-yellow-300 p-3 w-full h-full flex-1 overflow-auto">
-            <div
-              class="grid justify-items-stretch bg-green-300"
-              id="js-chatarea"
-            >
-              <div class="p-10 mb-5 bg-red-300"></div>
-              <div class="p-10 mb-5 bg-red-300"></div>
-              <div class="p-10 mb-5 bg-red-300"></div>
-              <div class="p-10 mb-5 bg-red-300"></div>
-              <div class="p-10 mb-5 bg-red-300"></div>
-              <div class="p-10 mb-5 bg-red-300"></div>
-            </div>
+          <section
+            class="scroll-bar px-3 pt-3 w-full h-full flex-1 overflow-auto"
+          >
+            <div class="grid justify-items-stretch" id="js-chatarea"></div>
           </section>
 
           <!-- Input Area -->
           <section
-            class="w-full md:w-[calc(100%-0.5rem)] mx-auto p-3 z-30 bg-white md:rounded-md"
+            class="w-full md:w-[calc(100%-0.5rem)] mx-auto md:px-2 py-3 z-30 bg-white md:rounded-md"
           >
             <!-- Write Button -->
             <div class="ml-1 my-1 mb-3 flex justify-start items-center">
@@ -262,7 +254,7 @@
                   <span class="caret"></span>
                 </div>
                 <textarea
-                  class="bg-orange-300 opacity-5 absolute w-full mx-auto h-auto resize-none pointer-events-none"
+                  class="opacity-0 absolute w-full mx-auto h-auto resize-none pointer-events-none"
                   id="js-textarea"
                   type="text"
                   disabled
@@ -286,14 +278,6 @@
             </div>
           </section>
         </div>
-
-        <!--
-          <div
-            class="overflow-y-scroll p-2.5 w-full h-auto max-h-full z-30 break-words text-gray-800 text-sm font-medium grid justify-items-stretch"
-            id="js-chatarea"
-          >
-          </div>
-        -->
       </main>
     </div>
 
