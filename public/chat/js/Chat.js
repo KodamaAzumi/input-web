@@ -110,7 +110,12 @@ class Chat extends Photo {
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('p');
-      chatTimeElement.classList.add('ml-2', 'text-sky-800');
+      chatTimeElement.classList.add(
+        'ml-2',
+        'text-sky-900',
+        'text-xs',
+        'sm:text-sm'
+      );
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
@@ -126,8 +131,9 @@ class Chat extends Photo {
         'pl-7',
         'relative',
         'order-first',
-        'text-lg',
-        'md:text-xl'
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl'
       );
       messageOuter.appendChild(messageElement);
 
@@ -403,7 +409,12 @@ class Chat extends Photo {
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('p');
-      chatTimeElement.classList.add('mr-2', 'text-sky-800');
+      chatTimeElement.classList.add(
+        'mr-2',
+        'text-sky-900',
+        'text-xs',
+        'sm:text-sm'
+      );
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
@@ -416,8 +427,9 @@ class Chat extends Photo {
         'p-3',
         'pr-7',
         'relative',
-        'text-lg',
-        'md:text-xl'
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl'
       );
       messageOuter.appendChild(messageElement);
 

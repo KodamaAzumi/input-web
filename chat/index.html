@@ -16,7 +16,6 @@
     ></div>
 
     <!-- Header -->
-    <!-- Header -->
     <header class="bg-white">
       <nav
         class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -152,7 +151,7 @@
     </header>
 
     <!-- Chat -->
-    <div class="mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+    <div class="sm:mx-4 grid grid-cols-12 gap-4 sm:gap-8">
       <!-- 写真を確認するためのビデオとプレビュー -->
       <div class="bg-pink-300 hidden justify-between col-start-4 col-span-6">
         <!-- video -->
@@ -167,106 +166,128 @@
         />
       </div>
 
-      <!-- Timeline -->
-      <div
-        class="h-fit col-start-2 col-span-10 md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6"
+      <main
+        class="col-start-1 col-span-12 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-4 xl:col-span-6 min-h-screen max-h-screen"
       >
         <div
-          class="bg-sky-300 p-3 h-[calc(100vh-15rem)] xs:h-[calc(100vh-14rem)] flex items-start rounded-t-md"
+          class="bg-sky-300 relative w-full h-full flex flex-col overflow-hidden"
         >
+          <!-- Timeline -->
+          <section class="p-3 w-full h-full flex-1 overflow-auto">
+            <div
+              class="grid justify-items-stretch bg-green-300"
+              id="js-chatarea"
+            ></div>
+          </section>
+
+          <!-- Input Area -->
+          <section
+            class="absolute bottom-0 md:bottom-1 left-0 md:left-[0.25rem] w-full md:w-[calc(100%-0.5rem)] p-3 z-30 bg-white md:rounded-md"
+          >
+            <!-- Write Button -->
+            <div class="ml-1 my-1 mb-3 flex justify-start items-center">
+              <button
+                class="mr-3 xs:mr-6 relative bg-sky-400 rounded-md p-2 shadow-sm hover:bg-sky-300"
+                type="button"
+                id="js-cameraBtn"
+              >
+                <span class="sr-only">camera on off</span>
+                <img
+                  src="/shared/images/writeIcon.svg"
+                  alt="書くアイコン"
+                  class="min-w-[16px] min-h-[16px]"
+                />
+              </button>
+
+              <!-- 文字の見た目を切り替える -->
+              <ul class="list-none flex flex-row flex-wrap items-center">
+                <li class="mr-2 xs:mr-4">
+                  <a
+                    class="relative block text-xs xs:text-sm font-semibold p-2 text-sky-400 bg-gray-50 rounded-md"
+                    onclick="changeActiveTab(event, 'tab-grayscale')"
+                    >グレースケール</a
+                  >
+                </li>
+                <li class="mr-2 xs:mr-4">
+                  <a
+                    class="relative block text-xs xs:text-sm font-semibold p-2 text-sky-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+                    onclick="changeActiveTab(event, 'tab-image')"
+                  >
+                    写真</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="relative block text-xs xs:text-sm font-semibold p-2 text-sky-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
+                    onclick="changeActiveTab(event, 'tab-scale')"
+                  >
+                    文字の幅
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- textarea and button -->
+            <form
+              class="mx-1 mb-2 flex justify-between items-end"
+              id="input-area"
+            >
+              <!-- textarea -->
+              <div
+                class="tab-content text-base sm:text-lg lg:text-xl py-1 sm:py-2 lg:py-3 px-2 mr-3 min-h-[3rem] sm:min-h-[3.25rem] lg:min-h-[3.75rem] w-full rounded-md border-2 border-gray-200 bg-white flex items-center"
+              >
+                <div class="block" id="tab-grayscale">
+                  <span
+                    id="js-output-grayscale"
+                    class="pointer-events-none"
+                  ></span>
+                  <span class="caret"></span>
+                </div>
+                <div class="hidden" id="tab-image">
+                  <span id="js-output-image" class="pointer-events-none"></span>
+                  <span class="caret"></span>
+                </div>
+                <div class="hidden" id="tab-scale">
+                  <span
+                    id="js-output-scale"
+                    class="pointer-events-none text-gray-700"
+                  ></span>
+                  <span class="caret"></span>
+                </div>
+                <textarea
+                  class="opacity-0 fixed h-auto resize-none pointer-events-none"
+                  id="js-textarea"
+                  type="text"
+                  disabled
+                ></textarea>
+              </div>
+
+              <!-- button -->
+              <button
+                class="min-w-[3rem] min-h-[1.5rem] w-20 h-10 rounded-md bg-sky-400 text-sm font-bold text-white shadow-sm hover:bg-sky-300"
+                id="send-button"
+              >
+                送信
+              </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="grid justify-items-center">
+              <span class="text-xs text-gray-500"
+                >Copyright©Kodama Azumi All Rights Reserved.
+              </span>
+            </div>
+          </section>
+        </div>
+
+        <!--
           <div
             class="overflow-y-scroll p-2.5 w-full h-auto max-h-full z-30 break-words text-gray-800 text-sm font-medium grid justify-items-stretch"
             id="js-chatarea"
-          ></div>
-        </div>
-      </div>
-
-      <!-- Input -->
-      <div
-        class="fixed bottom-0 left-0 w-full p-3 border-t border-gray-300 bg-white drop-shadow-md z-30 lg:w-1/2 md:left-1/2 md:-translate-x-1/2 md:border-none md:rounded-md"
-      >
-        <!-- Write Button -->
-        <div class="ml-3 mb-3 flex justify-start items-center">
-          <button
-            class="mr-6 relative bg-sky-400 rounded-md p-2 shadow-sm hover:bg-sky-300"
-            type="button"
-            id="js-cameraBtn"
           >
-            <span class="sr-only">camera on off</span>
-            <img src="/shared/images/writeIcon.svg" alt="書くアイコン" />
-          </button>
-
-          <!-- 文字の見た目を切り替える -->
-          <ul class="list-none flex flex-row flex-wrap items-center">
-            <li class="mr-5">
-              <a
-                class="relative block text-sm font-semibold p-2 text-sky-400 bg-gray-50 rounded-md"
-                onclick="changeActiveTab(event, 'tab-grayscale')"
-                >グレースケール</a
-              >
-            </li>
-            <li class="mr-5">
-              <a
-                class="relative block text-sm font-semibold p-2 text-sky-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
-                onclick="changeActiveTab(event, 'tab-image')"
-              >
-                写真</a
-              >
-            </li>
-            <li>
-              <a
-                class="relative block text-sm font-semibold p-2 text-sky-400 hover:bg-gray-50 rounded-md underline underline-offset-2 cursor-pointer"
-                onclick="changeActiveTab(event, 'tab-scale')"
-              >
-                文字の幅
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Input Area -->
-        <form class="flex justify-between items-end mb-2 mx-3" id="input-area">
-          <div
-            class="tab-content text-lg md:text-xl py-2 md:py-3 px-4 mr-3 min-h-[3.25rem] md:min-h-[3.75rem] w-full rounded-md border-2 border-gray-200 bg-white flex items-center"
-          >
-            <div class="block" id="tab-grayscale">
-              <span id="js-output-grayscale" class="pointer-events-none"></span>
-              <span class="caret"></span>
-            </div>
-            <div class="hidden" id="tab-image">
-              <span id="js-output-image" class="pointer-events-none"></span>
-              <span class="caret"></span>
-            </div>
-            <div class="hidden" id="tab-scale">
-              <span
-                id="js-output-scale"
-                class="pointer-events-none text-gray-700"
-              ></span>
-              <span class="caret"></span>
-            </div>
-            <textarea
-              class="opacity-0 fixed h-auto resize-none pointer-events-none"
-              id="js-textarea"
-              type="text"
-              disabled
-            ></textarea>
           </div>
-
-          <button
-            class="w-20 h-10 rounded-md bg-sky-400 px-3 py-2.5 text-sm font-bold text-white shadow-sm last:mr-0 hover:bg-sky-300"
-            id="send-button"
-          >
-            送信
-          </button>
-        </form>
-
-        <!-- Footer -->
-        <div class="grid justify-items-center py-1">
-          <span class="text-xs text-gray-500"
-            >Copyright©Kodama Azumi All Rights Reserved.
-          </span>
-        </div>
-      </div>
+        -->
+      </main>
     </div>
 
     <script type="module" src="./js/main.js"></script>
