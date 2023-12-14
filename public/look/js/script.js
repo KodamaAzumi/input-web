@@ -41,12 +41,12 @@ const createCalendar = (year, month, weeks, dateKeys) => {
   let dayCount = 1;
   let calendarHtml = '';
 
-  calendarHtml += `<h1 class="text-2xl md:text-3xl font-semibold text-center text-gray-900">
+  calendarHtml += `<h1 class="text-2xl sm:text-3xl font-semibold text-center text-gray-900">
         ${year} / ${String(month).padStart(2, '0')} 
       </h1>`;
 
   calendarHtml +=
-    '<ul class="mt-8 text-lg md:text-xl font-medium text-center list-none grid grid-cols-7 gap-y-2">';
+    '<ul class="mt-8 text-lg xs:text-xl font-medium text-center list-none grid grid-cols-7 gap-y-2">';
 
   // 曜日の行を作成
   for (let i = 0; i < weeks.length; i++) {
@@ -60,7 +60,7 @@ const createCalendar = (year, month, weeks, dateKeys) => {
   calendarHtml += '</ul>';
 
   calendarHtml +=
-    '<ul class="mt-4 text-lg md:text-xl text-center list-none grid grid-cols-7 gap-y-2">';
+    '<ul class="mt-4 text-lg xs:text-xl text-center list-none grid grid-cols-7 gap-y-2">';
 
   for (let w = 0; w < 6; w++) {
     for (let d = 0; d < 7; d++) {
@@ -80,7 +80,7 @@ const createCalendar = (year, month, weeks, dateKeys) => {
         // 文章のある日付に色を付ける
         if (dateKeys.includes(dataDate)) {
           console.log(dataDate);
-          calendarHtml += `<li data-date="${dataDate}"><div class="min-h-[2em] flex justify-center items-center"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-900 hover:bg-yellow-300 hover:text-yellow-800 rounded-full w-6 h-6 xs:w-10 xs:h-10 flex items-center justify-center">${dayCount}</a></div></li>`;
+          calendarHtml += `<li data-date="${dataDate}"><div class="min-h-[2em] flex justify-center items-center"><a href="/look/sentence/index.html" onclick="changeActiveDate(event, this)" class="bg-yellow-400 text-yellow-900 hover:bg-yellow-300 hover:text-yellow-800 rounded-full min-w-[1.5rem] min-h-[1.5rem] w-[calc(23vw-2.5rem)] h-[calc(23vw-2.5rem)] xs:w-10 xs:h-10 flex items-center justify-center">${dayCount}</a></div></li>`;
           dayCount++;
         } else {
           calendarHtml += `<li data-date="${dataDate}"><div class="min-h-[2em] flex justify-center items-center">${dayCount}</div></li>`;
