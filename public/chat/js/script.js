@@ -193,3 +193,14 @@ const changeActiveTab = (event, tabID) => {
   // テキストエリアにフォーカスを当てる
   textarea.el.focus();
 };
+
+// chatareaの幅を調節する
+// const header = document.getElementById('js-nav');
+// const headerHeight = header.getBoundingClientRect().height;
+// console.log(header.getBoundingClientRect());
+
+// const chatContents = document.getElementById('js-chat-contents');
+// chatContents.classList.add(
+//   `min-h-[calc(100vh-${headerHeight}px)]`,
+//   `max-h-[calc(100vh-${headerHeight}px)]`
+// );

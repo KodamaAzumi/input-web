@@ -151,7 +151,7 @@
     </header>
 
     <!-- Chat -->
-    <div class="sm:mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+    <div class="mx-4 grid grid-cols-12 gap-4 sm:gap-8">
       <!-- 写真を確認するためのビデオとプレビュー -->
       <div class="bg-pink-300 hidden justify-between col-start-4 col-span-6">
         <!-- video -->
@@ -167,22 +167,29 @@
       </div>
 
       <main
-        class="col-start-1 col-span-12 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-4 xl:col-span-6 min-h-screen max-h-screen"
+        class="col-start-1 col-span-12 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-4 xl:col-span-6 min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)]"
       >
         <div
           class="bg-sky-300 relative w-full h-full flex flex-col overflow-hidden"
         >
           <!-- Timeline -->
-          <section class="p-3 w-full h-full flex-1 overflow-auto">
+          <section class="bg-yellow-300 p-3 w-full h-full flex-1 overflow-auto">
             <div
               class="grid justify-items-stretch bg-green-300"
               id="js-chatarea"
-            ></div>
+            >
+              <div class="p-10 mb-5 bg-red-300"></div>
+              <div class="p-10 mb-5 bg-red-300"></div>
+              <div class="p-10 mb-5 bg-red-300"></div>
+              <div class="p-10 mb-5 bg-red-300"></div>
+              <div class="p-10 mb-5 bg-red-300"></div>
+              <div class="p-10 mb-5 bg-red-300"></div>
+            </div>
           </section>
 
           <!-- Input Area -->
           <section
-            class="absolute bottom-0 md:bottom-1 left-0 md:left-[0.25rem] w-full md:w-[calc(100%-0.5rem)] p-3 z-30 bg-white md:rounded-md"
+            class="w-full md:w-[calc(100%-0.5rem)] mx-auto p-3 z-30 bg-white md:rounded-md"
           >
             <!-- Write Button -->
             <div class="ml-1 my-1 mb-3 flex justify-start items-center">
@@ -234,7 +241,7 @@
             >
               <!-- textarea -->
               <div
-                class="tab-content text-base sm:text-lg lg:text-xl py-1 sm:py-2 lg:py-3 px-2 mr-3 min-h-[3rem] sm:min-h-[3.25rem] lg:min-h-[3.75rem] w-full rounded-md border-2 border-gray-200 bg-white flex items-center"
+                class="tab-content relative text-base sm:text-lg lg:text-xl py-1 sm:py-2 lg:py-3 px-2 mr-3 min-h-[3rem] sm:min-h-[3.25rem] lg:min-h-[3.75rem] w-full rounded-md border-2 border-gray-200 bg-white flex items-center"
               >
                 <div class="block" id="tab-grayscale">
                   <span
@@ -255,7 +262,7 @@
                   <span class="caret"></span>
                 </div>
                 <textarea
-                  class="opacity-0 fixed h-auto resize-none pointer-events-none"
+                  class="bg-orange-300 opacity-5 absolute w-full mx-auto h-auto resize-none pointer-events-none"
                   id="js-textarea"
                   type="text"
                   disabled
