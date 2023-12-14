@@ -28,6 +28,8 @@ class Textarea {
     // （変更後）live → [c0i0, c1i0, c0i2, c0i3]
     this.entityIds = [];
 
+    this.code;
+
     this.onInput = this.onInput.bind(this);
 
     // ウィンドウのサイズを変更したとき内容に合わせてテキストエリアのサイズを変更する
@@ -51,6 +53,7 @@ class Textarea {
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
       this.el.addEventListener('input', this.onInput);
+      this.el.addEventListener('keydown', this.onKeydown);
       return;
     }
 
@@ -67,6 +70,14 @@ class Textarea {
   }
 
   onInput(e) {
+    console.log(e);
+
+    console.log(this.code);
+
+    if (e.data === null && this.code !== 'Enter' && this.code !== 'Backspace') {
+      return;
+    }
+
     const diff = Diff.diffChars(this.prevValue, this.el.value);
 
     let caretCoord = 0;
@@ -119,4 +130,8 @@ class Textarea {
     // 変更後の文字列を更新する（次の input イベント発生時に文字列の比較に使われる）
     this.prevValue = this.el.value;
   }
+
+  onKeydown = (e) => {
+    this.code = e.code;
+  };
 }
