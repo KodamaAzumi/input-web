@@ -169,20 +169,16 @@
       <main
         class="col-start-1 col-span-12 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-4 xl:col-span-6 min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)]"
       >
-        <div
-          class="bg-sky-300 relative w-full h-full flex flex-col overflow-hidden"
-        >
+        <div class="w-full h-full flex flex-col">
           <!-- Timeline -->
           <section
-            class="scroll-bar px-3 pt-3 w-full h-full flex-1 overflow-auto"
+            class="timeline-scroll-bar bg-sky-300 px-3 pt-3 w-full h-full flex-1 max-w-full overflow-auto"
           >
             <div class="grid justify-items-stretch" id="js-chatarea"></div>
           </section>
 
           <!-- Input Area -->
-          <section
-            class="w-full md:w-[calc(100%-0.5rem)] mx-auto md:px-2 py-3 z-30 bg-white md:rounded-md"
-          >
+          <section class="w-full mx-auto md:px-2 py-3 z-30 bg-white">
             <!-- Write Button -->
             <div class="ml-1 my-1 mb-3 flex justify-start items-center">
               <button
@@ -233,37 +229,46 @@
             >
               <!-- textarea -->
               <div
-                class="tab-content relative text-base sm:text-lg lg:text-xl py-1 sm:py-2 lg:py-3 px-2 mr-3 min-h-[3rem] sm:min-h-[3.25rem] lg:min-h-[3.75rem] w-full rounded-md border-2 border-gray-200 bg-white flex items-center"
+                class="tab-scroll-bar mr-3 w-full h-auto rounded-md border-2 border-gray-200 bg-white max-h-[8rem] sm:max-h-[16rem] overflow-auto"
+                id="tabs-id"
               >
-                <div class="block" id="tab-grayscale">
-                  <span
-                    id="js-output-grayscale"
-                    class="pointer-events-none"
-                  ></span>
-                  <span class="caret"></span>
+                <div
+                  class="tab-content relative p-2 text-base sm:text-lg lg:text-xl min-h-[2.75rem] sm:min-h-[3rem]"
+                >
+                  <div class="block" id="tab-grayscale">
+                    <span
+                      id="js-output-grayscale"
+                      class="pointer-events-none"
+                    ></span>
+                    <span class="caret"></span>
+                  </div>
+                  <div class="hidden" id="tab-image">
+                    <span
+                      id="js-output-image"
+                      class="pointer-events-none"
+                    ></span>
+                    <span class="caret"></span>
+                  </div>
+                  <div class="hidden" id="tab-scale">
+                    <span
+                      id="js-output-scale"
+                      class="pointer-events-none text-gray-700"
+                    ></span>
+                    <span class="caret"></span>
+                  </div>
+                  <textarea
+                    class="-z-10 absolute w-[calc(100%-1rem)] top-3 left-2 h-auto resize-none pointer-events-none tracking-widest caret-transparent text-transparent"
+                    id="js-textarea"
+                    type="text"
+                    rows="1"
+                    disabled
+                  ></textarea>
                 </div>
-                <div class="hidden" id="tab-image">
-                  <span id="js-output-image" class="pointer-events-none"></span>
-                  <span class="caret"></span>
-                </div>
-                <div class="hidden" id="tab-scale">
-                  <span
-                    id="js-output-scale"
-                    class="pointer-events-none text-gray-700"
-                  ></span>
-                  <span class="caret"></span>
-                </div>
-                <textarea
-                  class="opacity-0 absolute w-full mx-auto h-auto resize-none pointer-events-none"
-                  id="js-textarea"
-                  type="text"
-                  disabled
-                ></textarea>
               </div>
 
               <!-- button -->
               <button
-                class="min-w-[3rem] min-h-[1.5rem] w-20 h-10 rounded-md bg-sky-400 text-sm font-bold text-white shadow-sm hover:bg-sky-300"
+                class="w-16 h-8 xs:w-20 xs:h-10 rounded-md bg-sky-400 text-xs xs:text-sm font-bold text-white shadow-sm hover:bg-sky-300"
                 id="send-button"
               >
                 送信

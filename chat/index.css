@@ -3,20 +3,32 @@
 @tailwind utilities;
 
 /* なぜかtrackは無印にbgを書かないと色が適応されない */
-.scroll-bar::-webkit-scrollbar {
-  @apply bg-sky-300 w-1;
+.timeline-scroll-bar::-webkit-scrollbar {
+  @apply bg-sky-300 w-1.5;
 }
 
-.scroll-bar::-webkit-scrollbar-thumb {
+.timeline-scroll-bar::-webkit-scrollbar-thumb {
   @apply bg-sky-400 rounded-full;
 }
 
-.scroll-bar::-webkit-scrollbar-thumb:hover {
+.timeline-scroll-bar::-webkit-scrollbar-thumb:hover {
   @apply bg-sky-500;
 }
 
+.tab-scroll-bar::-webkit-scrollbar {
+  @apply bg-transparent w-1.5;
+}
+
+.tab-scroll-bar::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded-full;
+}
+
+.tab-scroll-bar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-300;
+}
+
 .onCaret {
-  @apply bg-black inline-block w-px h-5 md:h-6 relative top-1;
+  @apply bg-black inline-block w-px h-4 sm:h-5 relative top-[0.15rem];
   animation: blink 1s step-end infinite;
 }
 

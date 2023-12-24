@@ -167,7 +167,12 @@ class Chat extends Photo {
         grayscaleElement.appendChild(spanGrayscale);
 
         const spanImgOuter = document.createElement('span');
-        spanImgOuter.classList.add('inline-block', 'px-2');
+        spanImgOuter.classList.add(
+          'inline-block',
+          'px-2',
+          'hover:opacity-80',
+          'cursor-pointer'
+        );
         imageElemnt.appendChild(spanImgOuter);
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
@@ -183,7 +188,7 @@ class Chat extends Photo {
         previewElement.appendChild(previewImg);
 
         // プレビューを表示するためのクリックイベント
-        spanImg.addEventListener('click', (e) => {
+        spanImgOuter.addEventListener('click', (e) => {
           if (previewElement.classList.contains('hidden')) {
             previewElement.classList.remove('hidden');
           }
@@ -205,7 +210,8 @@ class Chat extends Photo {
       });
 
       // スクロールバーを一番下に移動する
-      this.chatarea.scrollTop = this.chatarea.scrollHeight;
+      this.chatarea.parentElement.scrollTop =
+        this.chatarea.parentElement.scrollHeight;
     } else if (chatData.type === 'body') {
       // メッセージの本文が送られてきた時の処理
       // メッセージを入れる要素を取得する
@@ -232,19 +238,25 @@ class Chat extends Photo {
       const char = scaleElemnt.querySelector('.' + entityId);
 
       if (spanGrayscale && spanImg && char) {
+        // 入力された文字が改行コードか
         if (
           '\r\n' === body.value ||
           '\r' === body.value ||
           '\n' === body.value
         ) {
-          // 入力された文字が改行コードか
           // 改行コードであれば br 要素を挿入して、以降の処理を中断する
           const brGrayscale = document.createElement('br');
-          grayscaleElement.appendChild(brGrayscale);
+          spanGrayscale.parentNode.insertBefore(
+            brGrayscale,
+            spanGrayscale.nextSibling
+          );
+          spanGrayscale.remove();
           const brImg = document.createElement('br');
-          imageElemnt.appendChild(brImg);
+          spanImgOuter.parentNode.insertBefore(brImg, spanImgOuter.nextSibling);
+          spanImgOuter.remove();
           const brScale = document.createElement('br');
-          scaleElemnt.appendChild(brScale);
+          char.parentNode.insertBefore(brScale, char.nextSibling);
+          char.remove();
           return;
         }
 
@@ -462,7 +474,7 @@ class Chat extends Photo {
         // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
         if (prevEntityId) {
           diff = timestamp - entity[prevEntityId].timestamp;
-          console.log(diff);
+          //console.log(diff);
         }
 
         setTimeout(() => {
@@ -481,7 +493,8 @@ class Chat extends Photo {
               message,
             })
           );
-          console.log('sended');
+
+          //console.log('sended');
         }, 20);
 
         // 入力された文字が改行コードか
@@ -511,7 +524,12 @@ class Chat extends Photo {
 
         // 写真と文字を合成する
         const spanImgOuter = document.createElement('span');
-        spanImgOuter.classList.add('inline-block', 'px-2');
+        spanImgOuter.classList.add(
+          'inline-block',
+          'px-2',
+          'hover:opacity-80',
+          'cursor-pointer'
+        );
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
         if (!(value === ' ' || value === '　')) {
@@ -527,11 +545,19 @@ class Chat extends Photo {
         messageElement.appendChild(imageElemnt);
 
         // プレビューを表示するためのクリックイベント
-        spanImg.addEventListener('click', (e) => {
+        spanImgOuter.addEventListener('click', (e) => {
+          // 枠が非表示の場合、表示させる
           if (previewElement.classList.contains('hidden')) {
             previewElement.classList.remove('hidden');
           }
+
           entityIds.forEach((thisEntityId) => {
+            // 写真が無かった場合停止する。
+            if (previewElement.querySelector('.' + thisEntityId) === null) {
+              return;
+            }
+
+            // 表示している写真を非表示にする
             if (
               !previewElement
                 .querySelector('.' + thisEntityId)
@@ -542,6 +568,8 @@ class Chat extends Photo {
                 .classList.add('hidden');
             }
           });
+
+          // クリックした写真を表示する
           previewElement
             .querySelector('.' + entityId)
             .classList.remove('hidden');
@@ -588,13 +616,17 @@ class Chat extends Photo {
     }
 
     // スクロールバーを一番下に移動する
-    this.chatarea.scrollTop = this.chatarea.scrollHeight;
+    this.chatarea.parentElement.scrollTop =
+      this.chatarea.parentElement.scrollHeight;
 
     // 送信後、テキストエリアのテキストを消去する
     this.onCleared();
 
     // テキストエリアの高さを元に戻す
     this.onResizedHeight();
+
+    // テキストエリアにフォーカスを当てる
+    textarea.el.focus();
   };
 
   uuidv4 = () => {

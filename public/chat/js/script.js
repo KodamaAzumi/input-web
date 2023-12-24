@@ -101,7 +101,7 @@ const loop = () => {
 window.requestAnimationFrame(loop);
 
 // タブをクリックしたときにテキストエリアにフォーカスさせる
-document.querySelector('.tab-content').addEventListener('click', (e) => {
+document.querySelector('#tabs-id').addEventListener('click', (e) => {
   textarea.el.focus();
 });
 

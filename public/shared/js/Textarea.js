@@ -70,9 +70,8 @@ class Textarea {
   }
 
   onInput(e) {
-    console.log(e);
-
-    console.log(this.code);
+    //console.log(e);
+    //console.log(this.code);
 
     if (e.data === null && this.code !== 'Enter' && this.code !== 'Backspace') {
       return;
