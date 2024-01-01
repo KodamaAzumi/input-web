@@ -18,6 +18,7 @@ class Photo extends Textarea {
 
     this.ee.on('added', this.onAdded);
 
+    // 子クラスのために必要
     this.time = new Time();
   }
 
@@ -65,9 +66,6 @@ class Photo extends Textarea {
   // 写真を取るときの処理
   onAdded = (event) => {
     const { entityId } = event;
-
-    // 写真を撮った時の時刻
-    const timeString = this.time.createTimeStr();
 
     if (this.stream) {
       // キャンバスにビデオ画像を描画する

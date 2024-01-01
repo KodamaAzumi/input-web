@@ -145,9 +145,10 @@ const changeActiveTab = (event, tabID) => {
   // チャットのタイムラインの切り替え
   const grayscaleElements = document.querySelectorAll('.chat-grayscale');
   const imageElemnts = document.querySelectorAll('.chat-image');
-  const previewElements = document.querySelectorAll('.preview-image');
+  const previewOuter = document.querySelectorAll('.preview-image');
   const scaleElements = document.querySelectorAll('.chat-scale');
 
+  // タブを切り替えたときに開いていた全ての吹き出しを非表示にする
   if (tabID === 'tab-grayscale') {
     grayscaleElements.forEach((grayscaleElement) => {
       grayscaleElement.classList.remove('hidden');
@@ -155,7 +156,7 @@ const changeActiveTab = (event, tabID) => {
     imageElemnts.forEach((imageElemnt) => {
       imageElemnt.classList.add('hidden');
     });
-    previewElements.forEach((previewElement) => {
+    previewOuter.forEach((previewElement) => {
       if (!previewElement.classList.contains('hidden')) {
         previewElement.classList.add('hidden');
       }
@@ -183,7 +184,7 @@ const changeActiveTab = (event, tabID) => {
     imageElemnts.forEach((imageElemnt) => {
       imageElemnt.classList.add('hidden');
     });
-    previewElements.forEach((previewElement) => {
+    previewOuter.forEach((previewElement) => {
       if (!previewElement.classList.contains('hidden')) {
         previewElement.classList.add('hidden');
       }

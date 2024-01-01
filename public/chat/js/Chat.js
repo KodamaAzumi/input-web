@@ -51,6 +51,17 @@ class Chat extends Photo {
       );
       this.chatarea.appendChild(chatElement);
 
+      // 写真をプレビューするための入れ物の外側
+      const previewOuter = document.createElement('div');
+      previewOuter.classList.add(
+        'hidden',
+        'preview-image',
+        'w-full',
+        'flex',
+        'justify-start'
+      );
+      chatElement.appendChild(previewOuter);
+
       // プレビューしたときに画像をだすための入れ物を作る
       const previewElement = document.createElement('div');
       previewElement.id = previewId;
@@ -61,10 +72,9 @@ class Chat extends Photo {
         'mb-3',
         'grid',
         'justify-items-stretch',
-        'hidden',
-        'preview-image'
+        'sm:w-2/3'
       );
-      chatElement.appendChild(previewElement);
+      previewOuter.appendChild(previewElement);
 
       // プレビューを消すための×ボタンを作る
       const previewCloseBtn = ` 
@@ -94,7 +104,7 @@ class Chat extends Photo {
       // プレビューを閉じるボタン
       const previewBtn = previewElement.querySelector('.preview-closeBtn');
       previewBtn.addEventListener('click', (e) => {
-        previewElement.classList.add('hidden');
+        previewOuter.classList.add('hidden');
       });
 
       // チャットの時間と吹き出しの入れ物を作る
@@ -189,10 +199,13 @@ class Chat extends Photo {
 
         // プレビューを表示するためのクリックイベント
         spanImgOuter.addEventListener('click', (e) => {
-          if (previewElement.classList.contains('hidden')) {
-            previewElement.classList.remove('hidden');
+          // 枠が非表示の場合、表示させる
+          if (previewOuter.classList.contains('hidden')) {
+            previewOuter.classList.remove('hidden');
           }
+
           entityIds.forEach((thisEntityId) => {
+            // 表示している写真を非表示にする
             if (
               !previewElement
                 .querySelector('.' + thisEntityId)
@@ -203,6 +216,8 @@ class Chat extends Photo {
                 .classList.add('hidden');
             }
           });
+
+          // クリックした写真を表示する
           previewElement
             .querySelector('.' + entityId)
             .classList.remove('hidden');
@@ -357,6 +372,17 @@ class Chat extends Photo {
       );
       this.chatarea.appendChild(chatElement);
 
+      // 写真をプレビューするための入れ物の外側
+      const previewOuter = document.createElement('div');
+      previewOuter.classList.add(
+        'hidden',
+        'preview-image',
+        'w-full',
+        'flex',
+        'justify-end'
+      );
+      chatElement.appendChild(previewOuter);
+
       // プレビューしたときに画像をだすための入れ物を作る
       const previewElement = document.createElement('div');
       previewElement.classList.add(
@@ -366,10 +392,9 @@ class Chat extends Photo {
         'mb-3',
         'grid',
         'justify-items-stretch',
-        'hidden',
-        'preview-image'
+        'sm:w-2/3'
       );
-      chatElement.appendChild(previewElement);
+      previewOuter.appendChild(previewElement);
 
       // プレビューを消すための×ボタンを作る
       const previewCloseBtn = ` 
@@ -399,7 +424,7 @@ class Chat extends Photo {
       // プレビューを閉じるボタン
       const previewBtn = previewElement.querySelector('.preview-closeBtn');
       previewBtn.addEventListener('click', (e) => {
-        previewElement.classList.add('hidden');
+        previewOuter.classList.add('hidden');
       });
 
       // チャットの時間と吹き出しの入れ物を作る
@@ -547,8 +572,8 @@ class Chat extends Photo {
         // プレビューを表示するためのクリックイベント
         spanImgOuter.addEventListener('click', (e) => {
           // 枠が非表示の場合、表示させる
-          if (previewElement.classList.contains('hidden')) {
-            previewElement.classList.remove('hidden');
+          if (previewOuter.classList.contains('hidden')) {
+            previewOuter.classList.remove('hidden');
           }
 
           entityIds.forEach((thisEntityId) => {
