@@ -37,6 +37,13 @@ class Sentence extends Photo {
   }
 
   onCleared = async () => {
+    // カメラをオフにする
+    if (this.isStartCameraActive === true) {
+      this.stopCamera();
+      this.isStartCameraActive = false;
+      console.log('camera false');
+    }
+
     // 保存が完了するまで、ボタンを押せないようにする
     this.saveButton.disabled = true;
     this.discardButton.disabled = true;
@@ -68,10 +75,19 @@ class Sentence extends Photo {
         this.saveButton.disabled = false;
         this.discardButton.disabled = false;
         this.cameraButton.disabled = false;
+
+        location.reload();
       });
   };
 
   onSaveButtonClicked = async () => {
+    // カメラをオフにする
+    if (this.isStartCameraActive === true) {
+      this.stopCamera();
+      this.isStartCameraActive = false;
+      console.log('camera false');
+    }
+
     // 保存が完了するまで、ボタンを押せないようにする
     this.saveButton.disabled = true;
     this.discardButton.disabled = true;

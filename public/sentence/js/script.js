@@ -83,7 +83,7 @@ const createSubmenu = async () => {
 
 createSubmenu();
 
-const createSentence = () => {};
+let textarea;
 
 // 本文を表示する
 const showSentence = async (index) => {
@@ -192,13 +192,18 @@ const showSentence = async (index) => {
   const sentenceData = await data.getSentence(timestamp);
   const { entities, entityIds, dir } = sentenceData;
 
-  const textarea = new Sentence('#js-textarea', entities, entityIds);
+  textarea = new Sentence('#js-textarea', entities, entityIds);
 
   window.requestAnimationFrame(loop);
 };
 
 showSentence(parsedNum);
 console.log(parsedNum);
+
+// タブをクリックしたときにテキストエリアにフォーカスさせる
+document.getElementById('tabs-id').addEventListener('click', (e) => {
+  textarea.el.focus();
+});
 
 // サブメニューを押したとき
 const changeActivePara = (event, num) => {
@@ -266,6 +271,9 @@ const changeActiveTab = (event, tabID) => {
   // 隠されていた表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
+
+  // テキストエリアにフォーカスを当てる
+  textarea.el.focus();
 };
 
 // ヘルプのオンオフ
