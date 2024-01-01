@@ -36,24 +36,25 @@ class Textarea {
     //this.onResizedHeight = this.onResizedHeight.bind(this);
     //window.addEventListener('resize', this.onResizedHeight);
 
-    // テキストエリアがフォーカスされたらキャレットを付ける
-    this.el.addEventListener('focus', (e) => {
-      document.querySelectorAll('.caret').forEach((caret) => {
-        caret.classList.add('onCaret');
-      });
-    });
-
-    // テキストエリアからフォーカスが外れたらキャレットを隠す
-    this.el.addEventListener('blur', (e) => {
-      document.querySelectorAll('.caret').forEach((caret) => {
-        caret.classList.remove('onCaret');
-      });
-    });
-
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
       this.el.addEventListener('input', this.onInput);
       this.el.addEventListener('keydown', this.onKeydown);
+
+      // テキストエリアがフォーカスされたらキャレットを付ける
+      this.el.addEventListener('focus', (e) => {
+        document.querySelectorAll('.caret').forEach((caret) => {
+          caret.classList.add('onCaret');
+        });
+      });
+
+      // テキストエリアからフォーカスが外れたらキャレットを隠す
+      this.el.addEventListener('blur', (e) => {
+        document.querySelectorAll('.caret').forEach((caret) => {
+          caret.classList.remove('onCaret');
+        });
+      });
+
       return;
     }
 
@@ -132,5 +133,12 @@ class Textarea {
 
   onKeydown = (e) => {
     this.code = e.code;
+    //console.log(e.keyCode, e.code);
+
+    // 矢印キー、Home、Endキー等に対する対処
+    const keyCode = [37, 38, 39, 40, 36, 35, 33, 34];
+    if (keyCode.includes(e.keyCode)) {
+      e.preventDefault();
+    }
   };
 }
