@@ -155,9 +155,18 @@
       class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-[85vh]"
     >
       <!-- 写真を確認するためのビデオとプレビュー -->
-      <div class="bg-pink-300 hidden justify-between col-start-4 col-span-6">
+      <div
+        class="bg-pink-300 hidden justify-between col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-6"
+      >
         <!-- video -->
-        <video id="js-video" width="320" height="240" autoplay></video>
+        <video
+          id="js-video"
+          width="320"
+          height="240"
+          playsinline
+          autoplay
+          muted
+        ></video>
         <!-- preview -->
         <img
           id="js-preview"

@@ -24,12 +24,13 @@ class Photo extends Textarea {
   // カメラを起動する関数
   startCamera = () => {
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: 'environment' } })
+      .getUserMedia({ video: { facingMode: 'environment' }, audio: false })
       .then((s) => {
         this.el.disabled = false;
         this.el.focus();
         this.stream = s;
         this.video.srcObject = this.stream;
+        this.video.play();
       })
       .catch((error) => {
         console.error('Media device error:', error);
