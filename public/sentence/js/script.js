@@ -84,6 +84,7 @@ const createSubmenu = async () => {
 createSubmenu();
 
 let textarea;
+let timestamp;
 
 // 本文を表示する
 const showSentence = async (index) => {
@@ -188,7 +189,7 @@ const showSentence = async (index) => {
 
   const postDates = await data.getPostDates();
   const timestamps = postDates.timestamps;
-  const timestamp = timestamps[activeDate][index];
+  timestamp = timestamps[activeDate][index];
   const sentenceData = await data.getSentence(timestamp);
   const { entities, entityIds, dir } = sentenceData;
 
@@ -233,8 +234,10 @@ const changeActivePara = (event, num) => {
   overlay.classList.add('hidden');
 };
 
+let tabName = 'tab-grayscale';
 // タブとタブのボタンを切り替える
 const changeActiveTab = (event, tabID) => {
+  tabName = tabID;
   let element = event.target;
   let ulElement = element.parentNode.parentNode;
   let aElements = ulElement.querySelectorAll('li > a');
@@ -336,9 +339,15 @@ const imgDownloaded = (e) => {
     'border-gray-200',
     'shadow-sm'
   );
+  node.classList.add('w-[800px]', 'min-h-[800px]');
 
   htmlToImage.toPng(node).then((dataUrl) => {
-    download(dataUrl, 'image.png');
+    download(
+      dataUrl,
+      `${tabName}_${createTime.createDateStr(
+        timestamp
+      )}_${createTime.createTimeStr(timestamp)}.png`
+    );
   });
 
   setTimeout(() => {
@@ -348,6 +357,7 @@ const imgDownloaded = (e) => {
       'border-gray-200',
       'shadow-sm'
     );
+    node.classList.remove('w-[800px]', 'min-h-[800px]');
   }, 10);
 };
 
