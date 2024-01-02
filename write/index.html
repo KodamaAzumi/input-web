@@ -9,7 +9,7 @@
     <title>書く | 名古屋造形大学卒展 | 鍜島スタジオ</title>
   </head>
   <body>
-    <!-- Overlay -->
+    <!-- header overlay -->
     <div
       class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
       id="js-overlay"
@@ -342,45 +342,63 @@
 
     <!--Save Pop-up Modal -->
     <div
-      class="hidden fixed left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 bg-orange-400 rounded-lg shadow-md p-8 w-[80vw] xs:w-[20em]"
-      id="saveBtn-modal"
+      class="hidden fixed left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 bg-orange-400 rounded-lg shadow-md p-8 w-[80vw] xs:w-[20em] z-30"
+      id="save-modal"
       tabindex="-1"
     >
-      <button
-        type="button"
-        class="absolute top-3 right-2.5 text-white bg-transparent hover:text-orange-200 w-8 h-8 flex justify-center items-center"
-        id="saveBtn-modal-closeBtn"
-      >
-        <svg
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-        <span class="sr-only">Close modal</span>
-      </button>
+      <!-- 保存している最中の内容 -->
+      <div class="save-modal-during">
+        <div class="text-center">
+          <h3 class="text-base xs:text-lg my-3 font-medium text-white">
+            文章を保存しています。
+          </h3>
+        </div>
+      </div>
 
-      <div class="text-center">
-        <h3 class="text-base xs:text-lg my-3 font-medium text-white">
-          文章を保存しました。
-        </h3>
-        <a
-          href="/look/sentence/index.html"
-          class="text-sm xs:text-base font-medium text-white p-2 rounded-md underline underline-offset-4 decoration-1 hover:bg-orange-300"
-          id="saveBtn-modal-lookBtn"
+      <!-- 保存後の内容 -->
+      <div class="save-modal-saved hidden">
+        <button
+          type="button"
+          class="absolute top-3 right-2.5 text-white bg-transparent hover:text-orange-200 w-8 h-8 flex justify-center items-center"
+          id="save-modal-closeBtn"
         >
-          確認しに行く
-        </a>
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+
+        <div class="text-center">
+          <h3 class="text-base xs:text-lg my-3 font-medium text-white">
+            文章を保存しました。
+          </h3>
+          <a
+            href="/look/sentence/index.html"
+            class="text-sm xs:text-base font-medium text-white p-2 rounded-md underline underline-offset-4 decoration-1 hover:bg-orange-300"
+            id="saveBtn-modal-lookBtn"
+          >
+            確認しに行く
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- modal overlay -->>
+    <div
+      class="hidden fixed top-0 left-0 w-full h-full bg-orange-200 bg-opacity-5 z-20"
+      id="modal-overlay"
+    ></div>
 
     <!-- Footer -->
     <footer class="bg-white rounded-lg shadow m-4">

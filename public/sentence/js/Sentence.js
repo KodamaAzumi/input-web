@@ -81,6 +81,12 @@ class Sentence extends Photo {
   };
 
   onSaveButtonClicked = async () => {
+    // モーダルを表示する
+    const saveModal = document.getElementById('save-modal');
+    saveModal.classList.remove('hidden');
+    const modalOverlay = document.getElementById('modal-overlay');
+    modalOverlay.classList.remove('hidden');
+
     // カメラをオフにする
     if (this.isStartCameraActive === true) {
       this.stopCamera();
@@ -116,9 +122,11 @@ class Sentence extends Photo {
         );
         console.log(data);
 
-        // モーダルを表示する
-        const saveModal = document.getElementById('saveBtn-modal');
-        saveModal.classList.remove('hidden');
+        // モーダルの内容を変える
+        const saveModalduring = document.querySelector('.save-modal-during');
+        saveModalduring.classList.add('hidden');
+        const saveModalSaved = document.querySelector('.save-modal-saved');
+        saveModalSaved.classList.remove('hidden');
 
         this.saveButton.disabled = false;
         this.discardButton.disabled = false;

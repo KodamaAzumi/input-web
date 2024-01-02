@@ -169,8 +169,16 @@ const tooltipsOnOff = (event) => {
 };
 
 // モーダルを閉じる
-const saveModal = document.getElementById('saveBtn-modal');
-const modalCloseBtn = document.getElementById('saveBtn-modal-closeBtn');
+const modalCloseBtn = document.getElementById('save-modal-closeBtn');
 modalCloseBtn.addEventListener('click', () => {
+  const saveModal = document.getElementById('save-modal');
   saveModal.classList.add('hidden');
+  const modalOverlay = document.getElementById('modal-overlay');
+  modalOverlay.classList.add('hidden');
+
+  // 内容を変えておく
+  const saveModalSaved = document.querySelector('.save-modal-saved');
+  saveModalSaved.classList.add('hidden');
+  const saveModalduring = document.querySelector('.save-modal-during');
+  saveModalduring.classList.remove('hidden');
 });
