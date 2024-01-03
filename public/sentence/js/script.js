@@ -285,17 +285,20 @@ const tooltipsOnOff = (event) => {
   const tooltipOff = document.querySelectorAll('.tooltipOff');
   const helpTooltip = document.querySelector('.helpBtn-tooltip');
 
+  // tooltipの数→オンの数、tooltipOffの数→オフの数
   if (tooltip.length > 0) {
     tooltip.forEach((tooltips) => {
+      // オフにする
       tooltips.classList.remove('toolBtn-tooltip');
       tooltips.classList.add('tooltipOff');
-      helpTooltip.innerHTML = 'ヘルプをオンにする';
+      helpTooltip.innerHTML = 'ヘルプをオンにします';
     });
   } else if (tooltipOff.length > 0) {
+    // オンにする
     tooltipOff.forEach((tooltipOffs) => {
       tooltipOffs.classList.remove('tooltipOff');
       tooltipOffs.classList.add('toolBtn-tooltip');
-      helpTooltip.innerHTML = 'ヘルプをオフにする';
+      helpTooltip.innerHTML = 'ヘルプをオフにします';
     });
   }
 };
