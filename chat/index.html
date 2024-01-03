@@ -238,9 +238,19 @@
             >
               <!-- textarea -->
               <div
-                class="tab-scroll-bar mr-3 w-full h-auto rounded-md border-2 border-gray-200 bg-white max-h-[8rem] sm:max-h-[16rem] overflow-auto"
+                class="tab-scroll-bar mr-3 w-full h-auto rounded-md border-2 border-gray-200 bg-white max-h-[8rem] sm:max-h-[16rem] overflow-auto relative"
                 id="tabs-id"
               >
+                <!-- write start overlay -->
+                <div
+                  class="absolute top-0 left-0 w-full h-full bg-sky-400 bg-opacity-10 hover:bg-opacity-5 text-sky-300 hover:text-sky-200 z-10 flex items-center justify-center cursor-pointer"
+                  id="js-textarea-cover"
+                >
+                  <p class="px-2 text-sm xs:text-lg font-medium">
+                    画面をクリックしてチャットを始める
+                  </p>
+                </div>
+
                 <div
                   class="tab-content relative p-2 text-base sm:text-lg lg:text-xl min-h-[2.75rem] sm:min-h-[3rem]"
                 >

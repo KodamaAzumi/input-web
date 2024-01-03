@@ -16,15 +16,15 @@ class Write extends Photo {
     // 破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
 
-    // 書くエリア
-    this.writeArea = document.getElementById('js-writeArea');
-    // 書くエリアの外側
-    this.writeAreaOuter = document.getElementById('tabs-id');
-    // 書くエリアをクリックしたとき、カメラをオンにする
-    this.writeArea.addEventListener('click', () => {
-      // 書くエリアにかぶっているものを外す
-      this.writeArea.classList.add('hidden');
-      this.writeAreaOuter.classList.remove('relative');
+    // テキストエリアにかぶせているもの
+    this.textareaCover = document.getElementById('js-textarea-cover');
+    // テキストエリアの一番外側
+    this.textareaCoverOuter = document.getElementById('tabs-id');
+    // テキストエリア全体をクリックしたとき、カメラをオンにする
+    this.textareaCover.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
 
       // カメラをオンにする
       if (!this.isStartCameraActive) {
@@ -32,11 +32,11 @@ class Write extends Photo {
       }
     });
 
-    // 書くボタン（カメラボタン）をクリックしたときも書くエリアにかぶっているものを外す
+    // 書くボタン（カメラボタン）をクリックしたときもテキストエリアにかぶせているものを外す
     this.cameraButton.addEventListener('click', () => {
-      // 書くエリアにかぶっているものを外す
-      this.writeArea.classList.add('hidden');
-      this.writeAreaOuter.classList.remove('relative');
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
     });
   }
 
@@ -76,9 +76,9 @@ class Write extends Photo {
     this.entity = {};
     this.entityIds = [];
 
-    // 書くエリアにかぶっているものを元に戻す
-    this.writeArea.classList.remove('hidden');
-    this.writeAreaOuter.classList.add('relative');
+    // テキストエリアにかぶせているものを元に戻す
+    this.textareaCover.classList.remove('hidden');
+    this.textareaCoverOuter.classList.add('relative');
   };
 
   // 新規保存
@@ -126,9 +126,9 @@ class Write extends Photo {
           this.discardButton.disabled = false;
           this.cameraButton.disabled = false;
 
-          // 書くエリアにかぶっているものを元に戻す
-          this.writeArea.classList.remove('hidden');
-          this.writeAreaOuter.classList.add('relative');
+          // テキストエリアにかぶせているものを元に戻す
+          this.textareaCover.classList.remove('hidden');
+          this.textareaCoverOuter.classList.add('relative');
         }
       });
   };

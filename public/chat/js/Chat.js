@@ -28,6 +28,29 @@ class Chat extends Photo {
 
     // チャットが送信されたとき
     this.inputArea.addEventListener('submit', this.OnSubmited);
+
+    // テキストエリアにかぶせているもの
+    this.textareaCover = document.getElementById('js-textarea-cover');
+    // テキストエリアの一番外側
+    this.textareaCoverOuter = document.getElementById('tabs-id');
+    // テキストエリア全体をクリックしたとき、カメラをオンにする
+    this.textareaCover.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
+
+      // カメラをオンにする
+      if (!this.isStartCameraActive) {
+        this.startCamera();
+      }
+    });
+
+    // 書くボタン（カメラボタン）をクリックしたときもテキストエリアにかぶせているものを外す
+    this.cameraButton.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
+    });
   }
 
   onReceived = (event) => {
