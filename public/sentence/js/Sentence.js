@@ -38,10 +38,8 @@ class Sentence extends Photo {
 
   onCleared = async () => {
     // カメラをオフにする
-    if (this.isStartCameraActive === true) {
+    if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
     }
 
     // 保存が完了するまで、ボタンを押せないようにする
@@ -88,10 +86,8 @@ class Sentence extends Photo {
     modalOverlay.classList.remove('hidden');
 
     // カメラをオフにする
-    if (this.isStartCameraActive === true) {
+    if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
     }
 
     // 保存が完了するまで、ボタンを押せないようにする

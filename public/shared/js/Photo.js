@@ -37,6 +37,7 @@ class Photo extends Textarea {
         console.error('Media device error:', error);
       });
     console.log('camera start');
+    this.isStartCameraActive = true;
   };
 
   // カメラを停止する関数
@@ -47,6 +48,7 @@ class Photo extends Textarea {
       this.stream = null;
       this.video.srcObject = null;
       console.log('camera stop');
+      this.isStartCameraActive = false;
     }
   };
 
@@ -54,12 +56,8 @@ class Photo extends Textarea {
   cameraFunctions = () => {
     if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
-    } else {
+    } else if (!this.isStartCameraActive) {
       this.startCamera();
-      this.isStartCameraActive = true;
-      console.log('camera true');
     }
   };
 

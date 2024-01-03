@@ -13,18 +13,39 @@ class Write extends Photo {
 
     // 破棄ボタン
     this.discardButton = document.getElementById('js-discardBtn');
-    //破棄ボタンをクリックしたとき
+    // 破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
+
+    // 書くエリア
+    this.writeArea = document.getElementById('js-writeArea');
+    // 書くエリアの外側
+    this.writeAreaOuter = document.getElementById('tabs-id');
+    // 書くエリアをクリックしたとき、カメラをオンにする
+    this.writeArea.addEventListener('click', () => {
+      // 書くエリアにかぶっているものを外す
+      this.writeArea.classList.add('hidden');
+      this.writeAreaOuter.classList.remove('relative');
+
+      // カメラをオンにする
+      if (!this.isStartCameraActive) {
+        this.startCamera();
+      }
+    });
+
+    // 書くボタン（カメラボタン）をクリックしたときも書くエリアにかぶっているものを外す
+    this.cameraButton.addEventListener('click', () => {
+      // 書くエリアにかぶっているものを外す
+      this.writeArea.classList.add('hidden');
+      this.writeAreaOuter.classList.remove('relative');
+    });
   }
 
   onSaveButtonClicked = () => {
     console.log('saveButton clicked');
 
     // カメラをオフにする
-    if (this.isStartCameraActive === true) {
+    if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
     }
 
     if (this.entityIds.length > 0) {
@@ -45,10 +66,8 @@ class Write extends Photo {
     console.log('oncleared');
 
     // カメラをオフにする
-    if (this.isStartCameraActive === true) {
+    if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
     }
 
     // 保存した文章をリセットする
@@ -56,6 +75,10 @@ class Write extends Photo {
     this.count = 0;
     this.entity = {};
     this.entityIds = [];
+
+    // 書くエリアにかぶっているものを元に戻す
+    this.writeArea.classList.remove('hidden');
+    this.writeAreaOuter.classList.add('relative');
   };
 
   // 新規保存
@@ -102,6 +125,10 @@ class Write extends Photo {
           this.saveButton.disabled = false;
           this.discardButton.disabled = false;
           this.cameraButton.disabled = false;
+
+          // 書くエリアにかぶっているものを元に戻す
+          this.writeArea.classList.remove('hidden');
+          this.writeAreaOuter.classList.add('relative');
         }
       });
   };

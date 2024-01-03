@@ -273,11 +273,23 @@
 
           <!-- Tabs Textarea -->
           <section
-            class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-6"
+            class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-6 relative"
             id="tabs-id"
           >
+            <!-- write start overlay -->
             <div
-              class="text-xl xs:text-2xl md:text-3xl px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
+              class="absolute top-0 left-0 w-full h-full bg-orange-400 bg-opacity-10 hover:bg-opacity-5 text-orange-300 hover:text-orange-200 z-10 flex items-center justify-center cursor-pointer"
+              id="js-writeArea"
+            >
+              <p
+                class="px-2 text-lg xs:text-2xl sm:text-3xl lg:text-4xl font-medium"
+              >
+                画面をクリックして文章を書く
+              </p>
+            </div>
+
+            <div
+              class="text-xl xs:text-2xl md:text-3xl px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm z-0"
             >
               <div class="tab-content min-h-[50vh] md:min-h-[60vh]">
                 <div class="block" id="tab-grayscale">
@@ -394,9 +406,9 @@
       </div>
     </div>
 
-    <!-- modal overlay -->>
+    <!-- modal overlay -->
     <div
-      class="hidden fixed top-0 left-0 w-full h-full bg-orange-200 bg-opacity-5 z-20"
+      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-5 z-20"
       id="modal-overlay"
     ></div>
 
