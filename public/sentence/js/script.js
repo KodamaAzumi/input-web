@@ -252,8 +252,7 @@ const changeActiveTab = (event, tabID) => {
       'hover:bg-gray-50',
       'underline',
       'underline-offset-4',
-      'cursor-pointer',
-      'toolBtn'
+      'cursor-pointer'
     );
 
     // 表示されているものをhiddenにする
@@ -266,8 +265,7 @@ const changeActiveTab = (event, tabID) => {
     'hover:bg-gray-50',
     'underline',
     'underline-offset-4',
-    'cursor-pointer',
-    'toolBtn'
+    'cursor-pointer'
   );
   element.classList.add('bg-gray-50', 'cursor-default');
 
@@ -283,7 +281,6 @@ const changeActiveTab = (event, tabID) => {
 const tooltipsOnOff = (event) => {
   const tooltip = document.querySelectorAll('.toolBtn-tooltip');
   const tooltipOff = document.querySelectorAll('.tooltipOff');
-  const helpTooltip = document.querySelector('.helpBtn-tooltip');
 
   // tooltipの数→オンの数、tooltipOffの数→オフの数
   if (tooltip.length > 0) {
@@ -291,14 +288,12 @@ const tooltipsOnOff = (event) => {
       // オフにする
       tooltips.classList.remove('toolBtn-tooltip');
       tooltips.classList.add('tooltipOff');
-      helpTooltip.innerHTML = 'ヘルプをオンにします';
     });
   } else if (tooltipOff.length > 0) {
     // オンにする
     tooltipOff.forEach((tooltipOffs) => {
       tooltipOffs.classList.remove('tooltipOff');
       tooltipOffs.classList.add('toolBtn-tooltip');
-      helpTooltip.innerHTML = 'ヘルプをオフにします';
     });
   }
 };

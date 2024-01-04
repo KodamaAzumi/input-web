@@ -13,86 +13,21 @@
     <title>見る | 名古屋造形大学卒展 | 鍜島スタジオ</title>
   </head>
   <body>
-    <!-- header overlay -->
-    <div
-      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
-      id="js-overlay"
-    ></div>
+    <!-- スマホホバー解除対策 -->
+    <div ontouchstart="">
+      <!-- header overlay -->
+      <div
+        class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
+        id="js-overlay"
+      ></div>
 
-    <!-- Header -->
-    <header class="bg-white">
-      <nav
-        class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-        aria-label="Global"
-      >
-        <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5">
-            <span class="sr-only">Your Company</span>
-            <img
-              class="h-8 w-auto"
-              src="/shared/images/logo.svg"
-              alt="サイトのロゴマーク"
-            />
-          </a>
-        </div>
-        <div class="flex lg:hidden">
-          <button
-            id="header-menu-openBtn"
-            type="button"
-            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          >
-            <span class="sr-only">Open main menu</span>
-            <svg
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          </button>
-        </div>
-        <div class="hidden lg:flex lg:gap-x-12">
-          <a
-            href="/write/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900 hover:text-orange-400"
-            >書く</a
-          >
-          <a
-            href="/look/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900 hover:text-yellow-400"
-            >見る</a
-          >
-          <a
-            href="/chat/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900 hover:text-sky-400"
-            >チャット</a
-          >
-          <a
-            href="/explanation/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500"
-            >使い方</a
-          >
-        </div>
-        <div
-          class="hidden lg:flex lg:flex-1 lg:justify-end"
-          tabindex="-1"
-        ></div>
-      </nav>
-      <!-- Mobile menu, show/hide based on menu open state. -->
-      <div class="lg:hidden" role="dialog" aria-modal="true">
-        <!-- Background backdrop, show/hide based on slide-over state. -->
-        <div
-          id="header-menu"
-          class="fixed inset-y-0 right-0 z-50 w-full translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+      <!-- Header -->
+      <header class="bg-white">
+        <nav
+          class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+          aria-label="Global"
         >
-          <div class="flex items-center justify-between">
+          <div class="flex lg:flex-1">
             <a href="/" class="-m-1.5 p-1.5">
               <span class="sr-only">Your Company</span>
               <img
@@ -101,8 +36,181 @@
                 alt="サイトのロゴマーク"
               />
             </a>
+          </div>
+          <div class="flex lg:hidden">
             <button
-              id="header-menu-closeBtn"
+              id="header-menu-openBtn"
+              type="button"
+              class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            >
+              <span class="sr-only">Open main menu</span>
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="hidden lg:flex lg:gap-x-12">
+            <a
+              href="/write/index.html"
+              class="text-sm font-semibold leading-6 text-gray-900 hover:text-orange-400"
+              >書く</a
+            >
+            <a
+              href="/look/index.html"
+              class="text-sm font-semibold leading-6 text-gray-900 hover:text-yellow-400"
+              >見る</a
+            >
+            <a
+              href="/chat/index.html"
+              class="text-sm font-semibold leading-6 text-gray-900 hover:text-sky-400"
+              >チャット</a
+            >
+            <a
+              href="/explanation/index.html"
+              class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500"
+              >使い方</a
+            >
+          </div>
+          <div
+            class="hidden lg:flex lg:flex-1 lg:justify-end"
+            tabindex="-1"
+          ></div>
+        </nav>
+        <!-- Mobile menu, show/hide based on menu open state. -->
+        <div class="lg:hidden" role="dialog" aria-modal="true">
+          <!-- Background backdrop, show/hide based on slide-over state. -->
+          <div
+            id="header-menu"
+            class="fixed inset-y-0 right-0 z-50 w-full translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+          >
+            <div class="flex items-center justify-between">
+              <a href="/" class="-m-1.5 p-1.5">
+                <span class="sr-only">Your Company</span>
+                <img
+                  class="h-8 w-auto"
+                  src="/shared/images/logo.svg"
+                  alt="サイトのロゴマーク"
+                />
+              </a>
+              <button
+                id="header-menu-closeBtn"
+                type="button"
+                class="-m-2.5 rounded-md p-2.5 text-gray-700"
+              >
+                <span class="sr-only">Close menu</span>
+                <svg
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="mt-6 flow-root">
+              <div class="-my-6 divide-y divide-gray-500/10">
+                <div class="space-y-2 py-6">
+                  <div class="-mx-3"></div>
+                  <a
+                    href="/write/index.html"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-50"
+                    >書く</a
+                  >
+                  <a
+                    href="/look/index.html"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-yellow-50"
+                    >見る</a
+                  >
+                  <a
+                    href="/chat/index.html"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-sky-50"
+                    >チャット</a
+                  >
+                  <a
+                    href="/explanation/index.html"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >使い方</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Look -->
+      <div
+        class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-[85vh]"
+      >
+        <!-- 写真を確認するためのビデオとプレビュー -->
+        <div
+          class="bg-pink-300 hidden justify-between col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-6"
+        >
+          <!-- video -->
+          <video
+            id="js-video"
+            width="320"
+            height="240"
+            playsinline
+            autoplay
+            muted
+          ></video>
+          <!-- preview -->
+          <img
+            id="js-preview"
+            width="320"
+            height="240"
+            src="#"
+            alt="写真のプレビュー"
+          />
+        </div>
+
+        <!-- Sidebar -->
+        <aside
+          class="col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 hidden lg:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
+        >
+          <div class="col-start-1 col-span-4 lg:col-start-2 lg:col-span-2">
+            <h1 class="sidebar-date text-xl font-bold text-gray-900"></h1>
+            <ul class="sidebar-list mt-4"></ul>
+
+            <p
+              class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
+            >
+              データの取得に失敗しました。ページを読み込み直すか、<a
+                href="/look/index.html"
+                class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
+                >見る</a
+              >に戻ってください。
+            </p>
+          </div>
+        </aside>
+
+        <!-- Sub Menu -->
+        <div
+          id="submenu"
+          class="lg:hidden fixed inset-y-0 left-0 z-50 w-full -translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-xs sm:ring-1 sm:ring-gray-900/10"
+        >
+          <div class="flex items-center justify-end">
+            <button
+              id="submenu-closeBtn"
               type="button"
               class="-m-2.5 rounded-md p-2.5 text-gray-700"
             >
@@ -126,93 +234,295 @@
           <div class="mt-6 flow-root">
             <div class="-my-6 divide-y divide-gray-500/10">
               <div class="space-y-2 py-6">
-                <div class="-mx-3"></div>
-                <a
-                  href="/write/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-50"
-                  >書く</a
+                <h1
+                  class="sidebar-date mt-4 text-xl font-bold text-gray-900"
+                ></h1>
+                <ul class="sidebar-list mt-4 text-base text-gray-900"></ul>
+
+                <p
+                  class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
                 >
-                <a
-                  href="/look/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-yellow-50"
-                  >見る</a
-                >
-                <a
-                  href="/chat/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-sky-50"
-                  >チャット</a
-                >
-                <a
-                  href="/explanation/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >使い方</a
-                >
+                  データの取得に失敗しました。ページを読み込み直すか、<a
+                    href="/look/index.html"
+                    class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
+                    >見る</a
+                  >に戻ってください。
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </header>
 
-    <!-- Look -->
-    <div
-      class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-[85vh]"
-    >
-      <!-- 写真を確認するためのビデオとプレビュー -->
-      <div
-        class="bg-pink-300 hidden justify-between col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-6"
-      >
-        <!-- video -->
-        <video
-          id="js-video"
-          width="320"
-          height="240"
-          playsinline
-          autoplay
-          muted
-        ></video>
-        <!-- preview -->
-        <img
-          id="js-preview"
-          width="320"
-          height="240"
-          src="#"
-          alt="写真のプレビュー"
-        />
-      </div>
+        <!-- submenu overlay -->
+        <div
+          class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
+          id="submenu-overlay"
+        ></div>
 
-      <!-- Sidebar -->
-      <aside
-        class="col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 hidden lg:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
-      >
-        <div class="col-start-1 col-span-4 lg:col-start-2 lg:col-span-2">
-          <h1 class="sidebar-date text-xl font-bold text-gray-900"></h1>
-          <ul class="sidebar-list mt-4"></ul>
-
-          <p
-            class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
+        <!-- Main -->
+        <main
+          class="h-fit col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-9"
+        >
+          <div
+            class="grid grid-cols-12 sm:grid-cols-10 lg:grid-cols-9 gap-4 sm:gap-8"
           >
-            データの取得に失敗しました。ページを読み込み直すか、<a
-              href="/look/index.html"
-              class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
-              >見る</a
-            >に戻ってください。
-          </p>
+            <!-- Sub Menu Button -->
+            <section class="lg:hidden col-start-1 col-span-12 sm:col-span-10">
+              <button
+                class="p-2.5 xs:p-3.5 rounded-md hover:bg-gray-50"
+                type="button"
+                id="submenu-openButton"
+              >
+                <span class="sr-only">Open sidebar</span>
+                <img
+                  src="/shared/images/arrowIcon.svg"
+                  alt="矢印アイコン"
+                  class="min-w-[16px] min-h-[16px]"
+                />
+              </button>
+            </section>
+
+            <!-- Buttons -->
+            <section
+              class="col-start-1 col-span-12 sm:col-span-4 lg:col-span-3"
+            >
+              <div class="flex justify-start">
+                <!-- Timeline Button -->
+                <a
+                  href="/look/timeline/index.html"
+                  class="toolBtn mr-4 xs:mr-6 relative bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300 flex items-center"
+                  id="js-timelineBtn"
+                  ontouchstart=""
+                >
+                  <span
+                    class="toolBtn-tooltip text-center opacity-0 hidden absolute left-14 xs:left-16 sm:left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-5 xs:before:left-6 sm:before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                    >撮影した写真を<br />
+                    見ることができます
+                  </span>
+                  <span class="sr-only">go to timeline</span>
+                  <img
+                    src="/sentence/images/clockIcon.svg"
+                    alt="タイムラインアイコン"
+                    class="min-w-[16px] min-h-[16px]"
+                  />
+                </a>
+                <!-- Download Button -->
+                <button
+                  class="toolBtn mr-4 xs:mr-6 relative bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300"
+                  type="button"
+                  id="js-downloadBtn"
+                  ontouchstart=""
+                >
+                  <span
+                    class="toolBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                    >書いた文章の画像を<br />
+                    ダウンロードします
+                  </span>
+                  <span class="sr-only">download</span>
+                  <img
+                    src="/sentence/images/downloadIcon.svg"
+                    alt="ダウンロードアイコン"
+                    class="min-w-[16px] min-h-[16px]"
+                  />
+                </button>
+                <!-- Help Button -->
+                <button
+                  class="helpBtn relative bg-yellow-400 rounded-full p-2.5 xs:p-3.5 text-xs font-bold text-white shadow-sm hover:bg-yellow-300"
+                  type="button"
+                  onclick="tooltipsOnOff(event)"
+                >
+                  <span
+                    class="inline-block min-w-[18px] min-h-[18px] text-center"
+                    >？</span
+                  >
+                  <span
+                    class="helpBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                    >ヘルプのオンオフを<br />
+                    行います
+                  </span>
+                  <span class="sr-only">help on off</span>
+                </button>
+              </div>
+            </section>
+
+            <!-- 文章に適応させる要素 -->
+            <section
+              class="col-start-1 col-span-12 sm:col-start-5 sm:col-span-6 lg:col-start-4 lg:col-span-3"
+            >
+              <div class="h-full flex items-end justify-start sm:justify-end">
+                <ul class="list-none flex items-center flex-wrap">
+                  <li class="xs:mr-2" ontouchstart="">
+                    <a
+                      class="toolBtn relative block text-sm font-medium text-yellow-400 p-2 xs:p-3.5 bg-gray-50 rounded-md cursor-default"
+                      onclick="changeActiveTab(event, 'tab-grayscale')"
+                    >
+                      グレースケール
+                      <span
+                        class="toolBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                        >キーボードの<br />
+                        入力速度を<br />
+                        グレースケールに<br />
+                        適応させます
+                      </span>
+                    </a>
+                  </li>
+                  <li class="xs:mr-2" ontouchstart="">
+                    <a
+                      class="toolBtn relative block text-sm font-medium text-yellow-400 p-2 xs:p-3.5 hover:bg-gray-50 rounded-md underline underline-offset-4 cursor-pointer"
+                      onclick="changeActiveTab(event, 'tab-image')"
+                    >
+                      写真
+                      <span
+                        class="toolBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                        >写真と文字を<br />
+                        合成します
+                      </span>
+                    </a>
+                  </li>
+                  <li ontouchstart="">
+                    <a
+                      class="toolBtn relative block text-sm font-medium text-yellow-400 p-2 xs:p-3.5 hover:bg-gray-50 rounded-md underline underline-offset-4 cursor-pointer"
+                      onclick="changeActiveTab(event, 'tab-scale')"
+                    >
+                      文字の幅
+                      <span
+                        class="toolBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                        >キーボードの<br />
+                        入力速度を<br />
+                        文字の幅に<br />
+                        適応させます
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Tabs Textarea -->
+            <section
+              class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-6"
+              id="tabs-id"
+            >
+              <div
+                class="text-xl xs:text-2xl md:text-3xl px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
+                id="tabs-text"
+              >
+                <div class="tab-content min-h-[50vh]">
+                  <div class="block" id="tab-grayscale">
+                    <span
+                      id="js-output-grayscale"
+                      class="pointer-events-none"
+                    ></span>
+                    <span class="caret"></span>
+                  </div>
+                  <div class="hidden" id="tab-image">
+                    <span
+                      id="js-output-image"
+                      class="pointer-events-none"
+                    ></span>
+                    <span class="caret"></span>
+                  </div>
+                  <div class="hidden" id="tab-scale">
+                    <span
+                      id="js-output-scale"
+                      class="pointer-events-none"
+                    ></span>
+                    <span class="caret"></span>
+                  </div>
+                  <textarea
+                    id="js-textarea"
+                    class="opacity-0 fixed h-auto resize-none pointer-events-none"
+                    type="text"
+                    disabled
+                  ></textarea>
+                </div>
+              </div>
+            </section>
+
+            <!-- Buttons -->
+            <section
+              class="col-start-1 col-span-12 sm:col-start-4 sm:col-span-7 lg:col-start-3 lg:col-span-4"
+            >
+              <div class="h-full flex items-end justify-end flex-wrap">
+                <!-- Discard Button -->
+                <button
+                  class="toolBtn mr-3 xs:mr-6 relative flex-auto bg-yellow-400 rounded-md p-2 xs:p-3 text-sm font-bold text-white shadow-sm hover:bg-yellow-300"
+                  type="button"
+                  id="js-discardBtn"
+                  ontouchstart=""
+                >
+                  消去
+                  <span
+                    class="toolBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                    >文章の内容を<br />
+                    全て消去します
+                  </span>
+                </button>
+                <!-- Save Button -->
+                <button
+                  class="toolBtn mr-4 xs:mr-8 relative flex-auto bg-yellow-400 rounded-md p-2 xs:p-3 text-sm font-bold text-white shadow-sm hover:bg-yellow-300"
+                  type="button"
+                  id="js-saveBtn"
+                  ontouchstart=""
+                >
+                  保存
+                  <span
+                    class="toolBtn-tooltip text-center opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                    >編集した文章の内容を<br />
+                    保存します
+                  </span>
+                </button>
+
+                <!-- Write Button -->
+                <button
+                  class="toolBtn relative bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300"
+                  type="button"
+                  id="js-cameraBtn"
+                  ontouchstart=""
+                >
+                  <span
+                    class="toolBtn-tooltip text-center opacity-0 hidden absolute -left-14 xs:-left-16 sm:left-1/2 -translate-x-1/2 bottom-12 xs:bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-xs xs:text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-[10.5rem] xs:before:left-48 sm:before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
+                    >カメラのオンオフを<br />
+                    行います オフの状態だと<br />
+                    文章を編集することができません
+                  </span>
+                  <span class="sr-only">camera on off</span>
+                  <img
+                    src="/shared/images/writeIcon.svg"
+                    alt="書くアイコン"
+                    class="min-w-[16px] min-h-[16px]"
+                  />
+                </button>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+
+      <!--Save Pop-up Modal -->
+      <div
+        class="hidden fixed left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 bg-yellow-400 rounded-lg shadow-md px-8 py-4 w-[80vw] xs:w-[20em] z-30"
+        id="save-modal"
+        tabindex="-1"
+      >
+        <!-- 保存している最中の内容 -->
+        <div
+          class="save-modal-during min-h-[5.2rem] flex items-center justify-center"
+        >
+          <div class="text-center">
+            <h3 class="text-base xs:text-lg my-3 font-medium text-white">
+              文章を保存しています。
+            </h3>
+          </div>
         </div>
-      </aside>
 
-      <!-- Sub Menu -->
-      <div
-        id="submenu"
-        class="lg:hidden fixed inset-y-0 left-0 z-50 w-full -translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-xs sm:ring-1 sm:ring-gray-900/10"
-      >
-        <div class="flex items-center justify-end">
+        <!-- 保存後の内容 -->
+        <div class="save-modal-saved hidden">
           <button
-            id="submenu-closeBtn"
             type="button"
-            class="-m-2.5 rounded-md p-2.5 text-gray-700"
+            class="absolute top-3 right-2.5 text-white bg-transparent hover:text-yellow-200 w-8 h-8 flex justify-center items-center"
+            id="save-modal-closeBtn"
           >
-            <span class="sr-only">Close menu</span>
             <svg
               class="h-6 w-6"
               fill="none"
@@ -227,349 +537,67 @@
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
+            <span class="sr-only">Close modal</span>
           </button>
-        </div>
-        <div class="mt-6 flow-root">
-          <div class="-my-6 divide-y divide-gray-500/10">
-            <div class="space-y-2 py-6">
-              <h1
-                class="sidebar-date mt-4 text-xl font-bold text-gray-900"
-              ></h1>
-              <ul class="sidebar-list mt-4 text-base text-gray-900"></ul>
-
-              <p
-                class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
-              >
-                データの取得に失敗しました。ページを読み込み直すか、<a
-                  href="/look/index.html"
-                  class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
-                  >見る</a
-                >に戻ってください。
-              </p>
-            </div>
+          <div class="py-6 text-center">
+            <h3 class="text-base xs:text-lg my-3 font-medium text-white">
+              文章を保存しました。
+            </h3>
           </div>
         </div>
       </div>
 
-      <!-- submenu overlay -->
+      <!-- modal overlay -->
       <div
-        class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
-        id="submenu-overlay"
+        class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-5 z-20"
+        id="modal-overlay"
       ></div>
 
-      <!-- Main -->
-      <main
-        class="h-fit col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-9"
-      >
+      <!-- Footer -->
+      <footer class="bg-white rounded-lg shadow m-4">
         <div
-          class="grid grid-cols-12 sm:grid-cols-10 lg:grid-cols-9 gap-4 sm:gap-8"
+          class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
         >
-          <!-- Sub Menu Button -->
-          <section class="lg:hidden col-start-1 col-span-12 sm:col-span-10">
-            <button
-              class="p-2.5 xs:p-3.5 rounded-md hover:bg-gray-50"
-              type="button"
-              id="submenu-openButton"
-            >
-              <span class="sr-only">Open sidebar</span>
-              <img
-                src="/shared/images/arrowIcon.svg"
-                alt="矢印アイコン"
-                class="min-w-[16px] min-h-[16px]"
-              />
-            </button>
-          </section>
-
-          <!-- Buttons -->
-          <section class="col-start-1 col-span-12 sm:col-span-4 lg:col-span-3">
-            <div class="flex justify-start">
-              <!-- Timeline Button -->
+          <div class="text-center">
+            <span class="text-sm text-gray-500"
+              >Copyright©Kodama Azumi All Rights Reserved.
+            </span>
+          </div>
+          <ul
+            class="flex flex-wrap items-center justify-center mt-2 md:mt-0 text-sm font-medium text-gray-500"
+          >
+            <li>
               <a
-                href="/look/timeline/index.html"
-                class="toolBtn mr-4 xs:mr-6 relative bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300 flex items-center"
-                id="js-timelineBtn"
+                href="/write/index.html"
+                class="hover: mr-4 hover:text-orange-400 md:mr-6"
+                >書く</a
               >
-                <span
-                  class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                  >撮影した写真を<br />
-                  見ることができます
-                </span>
-                <span class="sr-only">go to timeline</span>
-                <img
-                  src="/sentence/images/clockIcon.svg"
-                  alt="タイムラインアイコン"
-                  class="min-w-[16px] min-h-[16px]"
-                />
-              </a>
-              <!-- Download Button -->
-              <button
-                class="toolBtn mr-4 xs:mr-6 relative bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300"
-                type="button"
-                id="js-downloadBtn"
+            </li>
+            <li>
+              <a
+                href="/look/index.html"
+                class="hover: mr-4 hover:text-yellow-400 md:mr-6"
+                >見る</a
               >
-                <span
-                  class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                  >書いた文章の画像を<br />
-                  ダウンロードします
-                </span>
-                <span class="sr-only">download</span>
-                <img
-                  src="/sentence/images/downloadIcon.svg"
-                  alt="ダウンロードアイコン"
-                  class="min-w-[16px] min-h-[16px]"
-                />
-              </button>
-              <!-- Help Button -->
-              <button
-                class="helpBtn relative bg-yellow-400 rounded-full p-2.5 xs:p-3.5 text-xs font-bold text-white shadow-sm hover:bg-yellow-300"
-                type="button"
-                onclick="tooltipsOnOff(event)"
+            </li>
+            <li>
+              <a
+                href="/chat/index.html"
+                class="hover: mr-4 hover:text-sky-400 md:mr-6"
+                >チャット</a
               >
-                <span class="inline-block min-w-[18px] min-h-[18px] text-center"
-                  >？</span
-                >
-                <span
-                  class="helpBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                  >ヘルプをオフにします
-                </span>
-                <span class="sr-only">help on off</span>
-              </button>
-            </div>
-          </section>
-
-          <!-- 文章に適応させる要素 -->
-          <section
-            class="col-start-1 col-span-12 sm:col-start-5 sm:col-span-6 lg:col-start-4 lg:col-span-3"
-          >
-            <div class="h-full flex items-end justify-start sm:justify-end">
-              <ul class="list-none flex items-center flex-wrap">
-                <li class="xs:mr-2">
-                  <a
-                    class="relative block text-sm font-medium text-yellow-400 p-2 xs:p-3.5 bg-gray-50 rounded-md cursor-default"
-                    onclick="changeActiveTab(event, 'tab-grayscale')"
-                  >
-                    グレースケール
-                    <span
-                      class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                      >キーボード入力速度を<br />
-                      グレースケールに適応させます
-                    </span>
-                  </a>
-                </li>
-                <li class="xs:mr-2">
-                  <a
-                    class="toolBtn relative block text-sm font-medium text-yellow-400 p-2 xs:p-3.5 hover:bg-gray-50 rounded-md underline underline-offset-4 cursor-pointer"
-                    onclick="changeActiveTab(event, 'tab-image')"
-                  >
-                    写真
-                    <span
-                      class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                      >写真と文字を合成します
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="toolBtn relative block text-sm font-medium text-yellow-400 p-2 xs:p-3.5 hover:bg-gray-50 rounded-md underline underline-offset-4 cursor-pointer"
-                    onclick="changeActiveTab(event, 'tab-scale')"
-                  >
-                    文字の幅
-                    <span
-                      class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                      >キーボード入力速度を<br />
-                      文字の幅に適応させます
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Tabs Textarea -->
-          <section
-            class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-6"
-            id="tabs-id"
-          >
-            <div
-              class="text-xl xs:text-2xl md:text-3xl px-4 py-5 rounded-md border-2 border-gray-200 bg-white shadow-sm"
-              id="tabs-text"
-            >
-              <div class="tab-content min-h-[50vh]">
-                <div class="block" id="tab-grayscale">
-                  <span
-                    id="js-output-grayscale"
-                    class="pointer-events-none"
-                  ></span>
-                  <span class="caret"></span>
-                </div>
-                <div class="hidden" id="tab-image">
-                  <span id="js-output-image" class="pointer-events-none"></span>
-                  <span class="caret"></span>
-                </div>
-                <div class="hidden" id="tab-scale">
-                  <span id="js-output-scale" class="pointer-events-none"></span>
-                  <span class="caret"></span>
-                </div>
-                <textarea
-                  id="js-textarea"
-                  class="opacity-0 fixed h-auto resize-none pointer-events-none"
-                  type="text"
-                  disabled
-                ></textarea>
-              </div>
-            </div>
-          </section>
-
-          <!-- Buttons -->
-          <section
-            class="col-start-1 col-span-12 sm:col-start-4 sm:col-span-7 lg:col-start-3 lg:col-span-4"
-          >
-            <div class="h-full flex items-end justify-end flex-wrap">
-              <!-- Discard Button -->
-              <button
-                class="toolBtn mr-3 xs:mr-6 relative flex-auto bg-yellow-400 rounded-md p-2 xs:p-3 text-sm font-bold text-white shadow-sm hover:bg-yellow-300"
-                type="button"
-                id="js-discardBtn"
+            </li>
+            <li>
+              <a
+                href="/explanation/index.html"
+                class="hover: hover:text-gray-400"
+                >使い方</a
               >
-                消去
-                <span
-                  class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                  >文章の内容を全て消去します
-                </span>
-              </button>
-              <!-- Save Button -->
-              <button
-                class="toolBtn mr-4 xs:mr-8 relative flex-auto bg-yellow-400 rounded-md p-2 xs:p-3 text-sm font-bold text-white shadow-sm hover:bg-yellow-300"
-                type="button"
-                id="js-saveBtn"
-              >
-                保存
-                <span
-                  class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                  >編集した文章の内容を保存します
-                </span>
-              </button>
-
-              <!-- Write Button -->
-              <button
-                class="toolBtn relative bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300"
-                type="button"
-                id="js-cameraBtn"
-              >
-                <span
-                  class="toolBtn-tooltip opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-yellow-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-yellow-400"
-                  >カメラのオンオフを行うことができます<br />
-                  オフの状態だと文章を編集することができません
-                </span>
-                <span class="sr-only">camera on off</span>
-                <img
-                  src="/shared/images/writeIcon.svg"
-                  alt="書くアイコン"
-                  class="min-w-[16px] min-h-[16px]"
-                />
-              </button>
-            </div>
-          </section>
+            </li>
+          </ul>
         </div>
-      </main>
+      </footer>
     </div>
-
-    <!--Save Pop-up Modal -->
-    <div
-      class="hidden fixed left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 bg-yellow-400 rounded-lg shadow-md px-8 py-4 w-[80vw] xs:w-[20em] z-30"
-      id="save-modal"
-      tabindex="-1"
-    >
-      <!-- 保存している最中の内容 -->
-      <div
-        class="save-modal-during min-h-[5.2rem] flex items-center justify-center"
-      >
-        <div class="text-center">
-          <h3 class="text-base xs:text-lg my-3 font-medium text-white">
-            文章を保存しています。
-          </h3>
-        </div>
-      </div>
-
-      <!-- 保存後の内容 -->
-      <div class="save-modal-saved hidden">
-        <button
-          type="button"
-          class="absolute top-3 right-2.5 text-white bg-transparent hover:text-yellow-200 w-8 h-8 flex justify-center items-center"
-          id="save-modal-closeBtn"
-        >
-          <svg
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-          <span class="sr-only">Close modal</span>
-        </button>
-        <div class="py-6 text-center">
-          <h3 class="text-base xs:text-lg my-3 font-medium text-white">
-            文章を保存しました。
-          </h3>
-        </div>
-      </div>
-    </div>
-
-    <!-- modal overlay -->
-    <div
-      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-5 z-20"
-      id="modal-overlay"
-    ></div>
-
-    <!-- Footer -->
-    <footer class="bg-white rounded-lg shadow m-4">
-      <div
-        class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
-      >
-        <div class="text-center">
-          <span class="text-sm text-gray-500"
-            >Copyright©Kodama Azumi All Rights Reserved.
-          </span>
-        </div>
-        <ul
-          class="flex flex-wrap items-center justify-center mt-2 md:mt-0 text-sm font-medium text-gray-500"
-        >
-          <li>
-            <a
-              href="/write/index.html"
-              class="hover: mr-4 hover:text-orange-400 md:mr-6"
-              >書く</a
-            >
-          </li>
-          <li>
-            <a
-              href="/look/index.html"
-              class="hover: mr-4 hover:text-yellow-400 md:mr-6"
-              >見る</a
-            >
-          </li>
-          <li>
-            <a
-              href="/chat/index.html"
-              class="hover: mr-4 hover:text-sky-400 md:mr-6"
-              >チャット</a
-            >
-          </li>
-          <li>
-            <a href="/explanation/index.html" class="hover: hover:text-gray-400"
-              >使い方</a
-            >
-          </li>
-        </ul>
-      </div>
-    </footer>
 
     <script type="module" src="./js/main.js"></script>
     <script src="/shared/js/script.js"></script>
