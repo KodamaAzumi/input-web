@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.toolBtn:hover .tooltipOn {
+  @apply opacity-100 inline-block;
+}
+
 /* なぜかtrackは無印にbgを書かないと色が適応されない */
 .timeline-scroll-bar::-webkit-scrollbar {
   @apply bg-sky-300 w-1.5;
