@@ -279,21 +279,21 @@ const changeActiveTab = (event, tabID) => {
 
 // ヘルプのオンオフ
 const tooltipsOnOff = (event) => {
-  const tooltip = document.querySelectorAll('.toolBtn-tooltip');
-  const tooltipOff = document.querySelectorAll('.tooltipOff');
+  const tooltipOns = document.querySelectorAll('.tooltipOn');
+  const tooltipOffs = document.querySelectorAll('.tooltipOff');
 
   // tooltipの数→オンの数、tooltipOffの数→オフの数
-  if (tooltip.length > 0) {
-    tooltip.forEach((tooltips) => {
-      // オフにする
-      tooltips.classList.remove('toolBtn-tooltip');
-      tooltips.classList.add('tooltipOff');
+  if (tooltipOns.length > 0) {
+    // オフにする
+    tooltipOns.forEach((tooltipOn) => {
+      tooltipOn.classList.remove('tooltipOn');
+      tooltipOn.classList.add('tooltipOff');
     });
-  } else if (tooltipOff.length > 0) {
+  } else if (tooltipOffs.length > 0) {
     // オンにする
-    tooltipOff.forEach((tooltipOffs) => {
-      tooltipOffs.classList.remove('tooltipOff');
-      tooltipOffs.classList.add('toolBtn-tooltip');
+    tooltipOffs.forEach((tooltipOff) => {
+      tooltipOff.classList.remove('tooltipOff');
+      tooltipOff.classList.add('tooltipOn');
     });
   }
 };

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.toolBtn:hover .toolBtn-tooltip {
+.toolBtn:hover .tooltipOn {
   @apply opacity-100 inline-block;
 }
 
