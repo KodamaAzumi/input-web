@@ -25,6 +25,13 @@ class Data {
           `ユーザーID: ${this.id} 日記が投稿されている日付の一覧を取得しました`
         );
         console.log(data);
+
+        // ローディング画面が開いているときは閉じる
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (!loadingOverlay.classList.contains('hidden')) {
+          loadingOverlay.classList.add('hidden');
+        }
+
         return data;
       } else {
         console.error('データの取得に失敗しました:', data);

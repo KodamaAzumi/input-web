@@ -21,6 +21,33 @@
         id="js-overlay"
       ></div>
 
+      <!-- loading overlay -->
+      <div
+        class="fixed top-0 left-0 w-full h-full bg-white z-40"
+        id="loading-overlay"
+      >
+        <div class="w-full h-full flex items-center justify-center">
+          <div class="w-28 xs:w-44 flex flex-col justify-center">
+            <div class="w-full h-full flex justify-between">
+              <span
+                class="loader inline-block p-3 xs:p-4 rounded-full bg-orange-400"
+              ></span>
+              <span
+                class="loader inline-block p-3 xs:p-4 rounded-full bg-yellow-400"
+              ></span>
+              <span
+                class="loader inline-block p-3 xs:p-4 rounded-full bg-sky-400"
+              ></span>
+            </div>
+            <p
+              class="w-full text-center mt-6 font-medium text-lg xs:text-2xl tracking-wide text-gray-800"
+            >
+              Loading...
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!-- Header -->
       <header class="bg-white">
         <nav
