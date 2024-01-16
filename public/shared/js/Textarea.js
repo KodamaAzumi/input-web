@@ -141,13 +141,13 @@ class Textarea {
       e.preventDefault();
     }
 
-    const codes = ['Backspace', 'Delete'];
-    if (codes.includes(this.code)) {
-      //console.log(this.code);
+    // const codes = ['Backspace', 'Delete'];
+    // if (codes.includes(this.code)) {
+    //   //console.log(this.code);
 
-      // IME入力を確定させる（IME入力中は矢印キーでテキストエリアのキャレットを動かせてしまうため）
-      this.el.blur();
-      this.el.focus();
-    }
+    //   // IME入力を確定させる（IME入力中は矢印キーでテキストエリアのキャレットを動かせてしまうため）
+    //   this.el.blur();
+    //   this.el.focus();
+    // }
   };
 }

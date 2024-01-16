@@ -93,6 +93,9 @@ const showSentence = async (index) => {
     const fragmentImg = document.createDocumentFragment();
     const fragmentScale = document.createDocumentFragment();
 
+    // 現在のスクロール位置を取得する
+    const scrollY = document.documentElement.scrollTop;
+
     grayscaleOutput.innerHTML = '';
     imgOutput.innerHTML = '';
     scaleOutput.innerHTML = '';
@@ -184,6 +187,8 @@ const showSentence = async (index) => {
       })();
     });
 
+    document.documentElement.scrollTop = scrollY;
+
     window.requestAnimationFrame(loop);
   };
 
@@ -272,9 +277,6 @@ const changeActiveTab = (event, tabID) => {
   // 隠されていた表示する
   document.getElementById(tabID).classList.remove('hidden');
   document.getElementById(tabID).classList.add('block');
-
-  // テキストエリアにフォーカスを当てる
-  textarea.el.focus();
 };
 
 // ヘルプのオンオフ

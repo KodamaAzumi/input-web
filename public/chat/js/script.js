@@ -9,6 +9,9 @@ const loop = () => {
   const fragmentImg = document.createDocumentFragment();
   const fragmentScale = document.createDocumentFragment();
 
+  // 現在のスクロール位置を取得する
+  const scrollY = document.getElementById('tabs-id').scrollTop;
+
   grayscaleOutput.innerHTML = '';
   imgOutput.innerHTML = '';
   scaleOutput.innerHTML = '';
@@ -94,6 +97,8 @@ const loop = () => {
       char.style.width = `${charBodyDOMRect.width}px`;
     })();
   });
+
+  document.getElementById('tabs-id').scrollTop = scrollY;
 
   window.requestAnimationFrame(loop);
 };
@@ -190,7 +195,4 @@ const changeActiveTab = (event, tabID) => {
       }
     });
   }
-
-  // テキストエリアにフォーカスを当てる
-  textarea.el.focus();
 };
