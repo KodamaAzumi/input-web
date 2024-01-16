@@ -28,6 +28,7 @@ class Textarea {
     // （変更後）live → [c0i0, c1i0, c0i2, c0i3]
     this.entityIds = [];
 
+    // keydownイベントのcode
     this.code;
 
     this.onInput = this.onInput.bind(this);
@@ -35,6 +36,9 @@ class Textarea {
     // ウィンドウのサイズを変更したとき内容に合わせてテキストエリアのサイズを変更する
     //this.onResizedHeight = this.onResizedHeight.bind(this);
     //window.addEventListener('resize', this.onResizedHeight);
+
+    // 文字数をカウントする
+    this.wordCounts;
 
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
@@ -129,6 +133,13 @@ class Textarea {
 
     // 変更後の文字列を更新する（次の input イベント発生時に文字列の比較に使われる）
     this.prevValue = this.el.value;
+
+    this.wordCount = this.el.value.length;
+    if (document.getElementById('js-wordCount')) {
+      document.getElementById(
+        'js-wordCount'
+      ).innerHTML = `<p>${this.wordCount} / 500字</p>`;
+    }
   }
 
   onKeydown = (e) => {
