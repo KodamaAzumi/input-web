@@ -341,16 +341,13 @@ const imgDownloaded = (e) => {
   );
   node.classList.add('w-[800px]', 'min-h-[800px]');
 
-  htmlToImage.toPng(node).then((dataUrl) => {
+  htmlToImage.toPng(node, { cacheBust: true }).then((dataUrl) => {
     download(
       dataUrl,
       `${tabName}_${createTime.createDateStr(
         timestamp
       )}_${createTime.createTimeStr(timestamp)}.png`
     );
-  });
-
-  setTimeout(() => {
     node.classList.add(
       'rounded-md',
       'border-2',
@@ -358,7 +355,7 @@ const imgDownloaded = (e) => {
       'shadow-sm'
     );
     node.classList.remove('w-[800px]', 'min-h-[800px]');
-  }, 10);
+  });
 };
 
 const downloadBtn = document.getElementById('js-downloadBtn');
