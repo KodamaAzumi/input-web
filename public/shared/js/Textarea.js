@@ -136,9 +136,18 @@ class Textarea {
     //console.log(e.keyCode, e.code);
 
     // 矢印キー、Home、Endキー等に対する対処
-    const keyCode = [37, 38, 39, 40, 36, 35, 33, 34];
-    if (keyCode.includes(e.keyCode)) {
+    const keyCodes = [37, 38, 39, 40, 36, 35, 33, 34];
+    if (keyCodes.includes(e.keyCode)) {
       e.preventDefault();
+    }
+
+    const codes = ['Backspace', 'Delete'];
+    if (codes.includes(this.code)) {
+      //console.log(this.code);
+
+      // IME入力を確定させる（IME入力中は矢印キーでテキストエリアのキャレットを動かせてしまうため）
+      this.el.blur();
+      this.el.focus();
     }
   };
 }

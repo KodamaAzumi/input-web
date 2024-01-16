@@ -65,20 +65,14 @@ class Write extends Photo {
   onCleared = () => {
     console.log('oncleared');
 
-    // カメラをオフにする
-    if (this.isStartCameraActive) {
-      this.stopCamera();
-    }
-
     // 保存した文章をリセットする
     this.el.value = '';
     this.count = 0;
     this.entity = {};
     this.entityIds = [];
 
-    // テキストエリアにかぶせているものを元に戻す
-    this.textareaCover.classList.remove('hidden');
-    this.textareaCoverOuter.classList.add('relative');
+    // テキストエリアにフォーカスさせる
+    this.el.focus();
   };
 
   // 新規保存
