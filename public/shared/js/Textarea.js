@@ -38,7 +38,8 @@ class Textarea {
     //window.addEventListener('resize', this.onResizedHeight);
 
     // 文字数をカウントする
-    this.wordCounts;
+    this.wordCountElement = document.getElementById('js-wordCount');
+    this.wordCountValue;
 
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
@@ -134,11 +135,9 @@ class Textarea {
     // 変更後の文字列を更新する（次の input イベント発生時に文字列の比較に使われる）
     this.prevValue = this.el.value;
 
-    this.wordCount = this.el.value.length;
-    if (document.getElementById('js-wordCount')) {
-      document.getElementById(
-        'js-wordCount'
-      ).innerHTML = `<p>${this.wordCount} / 500字</p>`;
+    this.wordCountValue = this.el.value.length;
+    if (this.wordCountElement) {
+      this.wordCountElement.innerHTML = `<p>${this.wordCountValue} / 500字</p>`;
     }
   }
 

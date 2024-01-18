@@ -11,9 +11,9 @@ class Sentence extends Photo {
     // 保存ボタンをクリックしたとき
     this.saveButton.addEventListener('click', this.onSaveButtonClicked);
 
-    // 破棄ボタン
+    // 消去ボタン
     this.discardButton = document.getElementById('js-discardBtn');
-    //破棄ボタンをクリックしたとき
+    // 消去ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
 
     // 編集するとき用
@@ -100,6 +100,12 @@ class Sentence extends Photo {
     const timestamps = postDates.timestamps;
     const timestamp = timestamps[this.activeDate][this.parsedNum];
 
+    // 最終的に入力欄に残っているデータだけを選別する
+    const entities = this.entityIds.reduce((entities, entityId) => {
+      const entity = this.entity[entityId];
+      return { ...entities, [entityId]: entity };
+    }, {});
+
     fetch(`${this.API_BASE_URL}/diaries/${this.id}/${timestamp}`, {
       method: 'PUT',
       headers: {
@@ -108,7 +114,7 @@ class Sentence extends Photo {
       body: JSON.stringify({
         id: this.id,
         entityIds: this.entityIds,
-        entities: this.entity,
+        entities: entities,
       }),
     })
       .then((response) => response.json())

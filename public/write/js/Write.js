@@ -11,9 +11,9 @@ class Write extends Photo {
     // 保存ボタンをクリックしたとき
     this.saveButton.addEventListener('click', this.onSaveButtonClicked);
 
-    // 破棄ボタン
+    // 消去ボタン
     this.discardButton = document.getElementById('js-discardBtn');
-    // 破棄ボタンをクリックしたとき
+    // 消去ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
 
     // テキストエリアにかぶせているもの
@@ -26,6 +26,9 @@ class Write extends Photo {
       this.textareaCover.classList.add('hidden');
       this.textareaCoverOuter.classList.remove('relative');
 
+      this.wordCountElement.classList.remove('hidden');
+      this.wordCountElement.classList.add('flex');
+
       // カメラをオンにする
       if (!this.isStartCameraActive) {
         this.startCamera();
@@ -37,6 +40,9 @@ class Write extends Photo {
       // テキストエリアにかぶせているものを外す
       this.textareaCover.classList.add('hidden');
       this.textareaCoverOuter.classList.remove('relative');
+
+      this.wordCountElement.classList.remove('hidden');
+      this.wordCountElement.classList.add('flex');
     });
   }
 
@@ -70,6 +76,7 @@ class Write extends Photo {
     this.count = 0;
     this.entity = {};
     this.entityIds = [];
+    this.wordCountElement.innerHTML = '<p>0 / 500字</p>';
 
     // テキストエリアにフォーカスさせる
     this.el.focus();
@@ -88,6 +95,12 @@ class Write extends Photo {
     this.discardButton.disabled = true;
     this.cameraButton.disabled = true;
 
+    // 最終的に入力欄に残っているデータだけを選別する
+    const entities = this.entityIds.reduce((entities, entityId) => {
+      const entity = this.entity[entityId];
+      return { ...entities, [entityId]: entity };
+    }, {});
+
     fetch(`${this.API_BASE_URL}/diaries/`, {
       method: 'POST',
       headers: {
@@ -96,10 +109,15 @@ class Write extends Photo {
       body: JSON.stringify({
         id: this.id,
         entityIds: this.entityIds,
-        entities: this.entity,
+        entities,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP エラー！ ステータス: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.status === 'OK') {
           console.log('日記を登録しました');
@@ -120,10 +138,16 @@ class Write extends Photo {
           this.discardButton.disabled = false;
           this.cameraButton.disabled = false;
 
+          this.wordCountElement.classList.add('hidden');
+          this.wordCountElement.classList.remove('flex');
+
           // テキストエリアにかぶせているものを元に戻す
           this.textareaCover.classList.remove('hidden');
           this.textareaCoverOuter.classList.add('relative');
         }
+      })
+      .catch((error) => {
+        console.error('fetch 中にエラーが発生しました:', error);
       });
   };
 }
