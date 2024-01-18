@@ -2,18 +2,45 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/shared/images/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/shared/images/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <title>タイムライン | 名古屋造形大学卒展 | 鍜島スタジオ</title>
   </head>
   <body>
-    <!-- Overlay -->
+    <!-- header overlay -->
     <div
       class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
       id="js-overlay"
     ></div>
+
+    <!-- loading overlay -->
+    <div
+      class="fixed top-0 left-0 w-full h-full bg-white z-40"
+      id="loading-overlay"
+    >
+      <div class="w-full h-full flex items-center justify-center">
+        <div class="w-28 xs:w-44 flex flex-col justify-center">
+          <div class="w-full h-full flex justify-between">
+            <span
+              class="loader inline-block p-3 xs:p-4 rounded-full bg-orange-400"
+            ></span>
+            <span
+              class="loader inline-block p-3 xs:p-4 rounded-full bg-yellow-400"
+            ></span>
+            <span
+              class="loader inline-block p-3 xs:p-4 rounded-full bg-sky-400"
+            ></span>
+          </div>
+          <p
+            class="w-full text-center mt-6 font-medium text-lg xs:text-2xl tracking-wide text-gray-800"
+          >
+            Loading...
+          </p>
+        </div>
+      </div>
+    </div>
 
     <!-- Header -->
     <header class="bg-white">
@@ -26,8 +53,8 @@
             <span class="sr-only">Your Company</span>
             <img
               class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
+              src="/shared/images/logo.svg"
+              alt="サイトのロゴマーク"
             />
           </a>
         </div>
@@ -57,22 +84,22 @@
         <div class="hidden lg:flex lg:gap-x-12">
           <a
             href="/write/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-orange-400"
             >書く</a
           >
           <a
             href="/look/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-yellow-400"
             >見る</a
           >
           <a
             href="/chat/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-sky-400"
             >チャット</a
           >
           <a
             href="/explanation/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500"
             >使い方</a
           >
         </div>
@@ -93,8 +120,8 @@
               <span class="sr-only">Your Company</span>
               <img
                 class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
+                src="/shared/images/logo.svg"
+                alt="サイトのロゴマーク"
               />
             </a>
             <button
@@ -125,17 +152,17 @@
                 <div class="-mx-3"></div>
                 <a
                   href="/write/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-50"
                   >書く</a
                 >
                 <a
                   href="/look/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-yellow-50"
                   >見る</a
                 >
                 <a
                   href="/chat/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-sky-50"
                   >チャット</a
                 >
                 <a
@@ -151,21 +178,33 @@
     </header>
 
     <!-- Timeline -->
-    <div class="mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8">
+    <div
+      class="mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-[85vh]"
+    >
       <!-- Sidebar -->
       <aside
-        class="hidden col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 md:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
+        class="col-start-1 col-span-4 lg:col-start-1 lg:col-span-3 hidden lg:grid grid-cols-4 lg:grid-cols-3 gap-4 sm:gap-8"
       >
-        <div class="col-start-2 col-span-3 lg:col-start-2 lg:col-span-2">
-          <h1 class="sidebar-date font-bold">この日は日記を書いていません</h1>
+        <div class="col-start-1 col-span-4 lg:col-start-2 lg:col-span-2">
+          <h1 class="sidebar-date text-xl font-bold text-gray-900"></h1>
           <ul class="sidebar-list mt-4"></ul>
+
+          <p
+            class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
+          >
+            データの取得に失敗しました。ページを読み込み直すか、<a
+              href="/look/index.html"
+              class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
+              >見る</a
+            >に戻ってください。
+          </p>
         </div>
       </aside>
 
       <!-- Sub Menu -->
       <div
         id="submenu"
-        class="md:hidden fixed inset-y-0 left-0 z-50 w-full -translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-xs sm:ring-1 sm:ring-gray-900/10"
+        class="lg:hidden fixed inset-y-0 left-0 z-50 w-full -translate-x-full transform overflow-y-auto bg-white px-6 py-6 transition-transform duration-500 ease-out sm:max-w-xs sm:ring-1 sm:ring-gray-900/10"
       >
         <div class="flex items-center justify-end">
           <button
@@ -193,10 +232,20 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <h1 class="sidebar-date font-bold">
-                この日は日記を書いていません
-              </h1>
-              <ul class="sidebar-list mt-4"></ul>
+              <h1
+                class="sidebar-date mt-4 text-xl font-bold text-gray-900"
+              ></h1>
+              <ul class="sidebar-list mt-4 text-base text-gray-900"></ul>
+
+              <p
+                class="sidebar-attention hidden mt-4 text-lg sm:text-xl font-medium text-gray-900 sm:tracking-wide leading-relaxed"
+              >
+                データの取得に失敗しました。ページを読み込み直すか、<a
+                  href="/look/index.html"
+                  class="m-2 underline decoration-1 underline-offset-4 text-yellow-400 hover:no-underline hover:text-gray-900"
+                  >見る</a
+                >に戻ってください。
+              </p>
             </div>
           </div>
         </div>
@@ -210,48 +259,51 @@
 
       <!-- Main -->
       <main
-        class="h-fit col-start-1 col-span-12 md:col-start-5 md:col-span-8 lg:col-start-4 lg:col-span-9 grid grid-cols-12 gap-4 md:grid-cols-8 lg:grid-cols-9 sm:gap-8"
+        class="h-fit col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-4 lg:col-span-9"
       >
-        <!-- Sub Menu Button -->
-        <div class="col-start-2 col-span-5 md:hidden">
-          <button
-            class="px-2.5 py-2 xs:px-3.5 xs:py-3 rounded-md hover:bg-gray-50"
-            type="button"
-            id="submenu-openButton"
-          >
-            <span class="sr-only">Open sidebar</span>
-            <img src="/shared/images/arrowIcon.svg" alt="矢印アイコン" />
-          </button>
-        </div>
-
-        <!-- Paragraph Button -->
         <div
-          class="col-start-7 col-span-5 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-8"
+          class="grid grid-cols-12 sm:grid-cols-10 lg:grid-cols-9 gap-4 sm:gap-8"
         >
-          <div class="flex justify-end md:justify-start">
+          <!-- Sub Menu Button -->
+          <section
+            class="lg:hidden col-start-1 col-span-12 sm:col-span-10 lg:col-span-7"
+          >
+            <button
+              class="mr-6 p-2.5 xs:p-3.5 rounded-md hover:bg-gray-50"
+              type="button"
+              id="submenu-openButton"
+            >
+              <span class="sr-only">Open sidebar</span>
+              <img
+                src="/shared/images/arrowIcon.svg"
+                alt="矢印アイコン"
+                class="min-w-[16px] min-h-[16px]"
+              />
+            </button>
+          </section>
+
+          <!-- Paragraph Button -->
+          <section class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-7">
             <a
               href="/look/sentence/index.html"
-              class="toolBtn relative bg-yellow-400 rounded-md px-2.5 py-2 xs:px-3.5 xs:py-3 shadow-sm hover:bg-yellow-300"
+              class="inline-block bg-yellow-400 rounded-md p-2.5 xs:p-3.5 shadow-sm hover:bg-yellow-300"
               id="js-paragraphBtn"
             >
-              <span
-                class="tooltipOff opacity-0 hidden absolute left-1/2 -translate-x-1/2 bottom-14 p-2 bg-sky-400 text-white rounded ease-in-out text-sm font-medium whitespace-nowrap before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-8 before:border-transparent before:border-t-sky-400"
-                >文章を見る
-              </span>
               <span class="sr-only">go to paragraph</span>
               <img
                 src="/timeline/images/paragraphIcon.svg"
                 alt="パラグラフアイコン"
+                class="min-w-[16px] min-h-[16px]"
               />
             </a>
-          </div>
-        </div>
+          </section>
 
-        <!-- Timeline List -->
-        <div
-          class="col-start-2 col-span-10 md:col-start-1 md:col-span-7 lg:col-start-1 lg:col-span-8"
-          id="timeline-list"
-        ></div>
+          <!-- Timeline List -->
+          <div
+            class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-7"
+            id="timeline-list"
+          ></div>
+        </div>
       </main>
     </div>
 
@@ -269,28 +321,37 @@
           class="flex flex-wrap items-center justify-center mt-2 md:mt-0 text-sm font-medium text-gray-500"
         >
           <li>
-            <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/write/index.html"
+              class="hover: mr-4 hover:text-orange-400 md:mr-6"
               >書く</a
             >
           </li>
           <li>
-            <a href="/look/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/look/index.html"
+              class="hover: mr-4 hover:text-yellow-400 md:mr-6"
               >見る</a
             >
           </li>
           <li>
-            <a href="/chat/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/chat/index.html"
+              class="hover: mr-4 hover:text-sky-400 md:mr-6"
               >チャット</a
             >
           </li>
           <li>
-            <a href="/explanation/index.html" class="hover:underline">使い方</a>
+            <a href="/explanation/index.html" class="hover: hover:text-gray-400"
+              >使い方</a
+            >
           </li>
         </ul>
       </div>
     </footer>
 
     <script type="module" src="./js/main.js"></script>
+    <script src="/shared/js/Data.js"></script>
     <script src="/shared/js/Time.js"></script>
     <script src="/timeline/js/script.js"></script>
   </body>

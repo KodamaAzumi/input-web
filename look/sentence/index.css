@@ -2,10 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-.toolBtn:hover .toolBtn-tooltip {
+.toolBtn:hover .tooltipOn {
   @apply opacity-100 inline-block;
 }
 
 .helpBtn:hover .helpBtn-tooltip {
   @apply opacity-100 inline-block;
+}
+
+.onCaret {
+  @apply bg-black inline-block w-px h-6 xs:h-7 md:h-9 relative top-1;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.loader {
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loader:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.loader:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loader:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,
+  80% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-80px);
+  }
 }

@@ -16,28 +16,28 @@ class Photo extends Textarea {
     this.cameraButton.addEventListener('click', this.cameraFunctions);
     this.isStartCameraActive = false;
 
-    // 写真の情報を保持するオブジェクト
-    this.imageData = {};
-
     this.ee.on('added', this.onAdded);
 
+    // 子クラスのために必要
     this.time = new Time();
   }
 
   // カメラを起動する関数
   startCamera = () => {
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: 'environment' } })
+      .getUserMedia({ video: { facingMode: 'environment' }, audio: false })
       .then((s) => {
         this.el.disabled = false;
         this.el.focus();
         this.stream = s;
         this.video.srcObject = this.stream;
+        this.video.play();
       })
       .catch((error) => {
         console.error('Media device error:', error);
       });
     console.log('camera start');
+    this.isStartCameraActive = true;
   };
 
   // カメラを停止する関数
@@ -48,6 +48,7 @@ class Photo extends Textarea {
       this.stream = null;
       this.video.srcObject = null;
       console.log('camera stop');
+      this.isStartCameraActive = false;
     }
   };
 
@@ -55,21 +56,14 @@ class Photo extends Textarea {
   cameraFunctions = () => {
     if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
-    } else {
+    } else if (!this.isStartCameraActive) {
       this.startCamera();
-      this.isStartCameraActive = true;
-      console.log('camera true');
     }
   };
 
   // 写真を取るときの処理
   onAdded = (event) => {
     const { entityId } = event;
-
-    // 写真を撮った時の時刻
-    const timeString = this.time.createTimeStr();
 
     if (this.stream) {
       // キャンバスにビデオ画像を描画する
@@ -87,14 +81,8 @@ class Photo extends Textarea {
       // キャプチャした画像をプレビューする
       this.preview.src = imageUrl;
 
-      // 画像をオブジェクトに追加する
-      this.imageData = {
-        imageUrl,
-        timeString,
-      };
-
-      // entityにimageDataを追加
-      this.entity[entityId].imageData = this.imageData;
+      // entityにimageを追加
+      this.entity[entityId].image = imageUrl;
     }
   };
 }

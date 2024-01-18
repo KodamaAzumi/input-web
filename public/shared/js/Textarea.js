@@ -28,15 +28,37 @@ class Textarea {
     // （変更後）live → [c0i0, c1i0, c0i2, c0i3]
     this.entityIds = [];
 
+    // keydownイベントのcode
+    this.code;
+
     this.onInput = this.onInput.bind(this);
 
     // ウィンドウのサイズを変更したとき内容に合わせてテキストエリアのサイズを変更する
-    this.onResizedHeight = this.onResizedHeight.bind(this);
-    window.addEventListener('resize', this.onResizedHeight);
+    //this.onResizedHeight = this.onResizedHeight.bind(this);
+    //window.addEventListener('resize', this.onResizedHeight);
+
+    // 文字数をカウントする
+    this.wordCounts;
 
     // textarea 要素を取得できたか
     if (this.el && this.el.tagName === 'TEXTAREA') {
       this.el.addEventListener('input', this.onInput);
+      this.el.addEventListener('keydown', this.onKeydown);
+
+      // テキストエリアがフォーカスされたらキャレットを付ける
+      this.el.addEventListener('focus', (e) => {
+        document.querySelectorAll('.caret').forEach((caret) => {
+          caret.classList.add('onCaret');
+        });
+      });
+
+      // テキストエリアからフォーカスが外れたらキャレットを隠す
+      this.el.addEventListener('blur', (e) => {
+        document.querySelectorAll('.caret').forEach((caret) => {
+          caret.classList.remove('onCaret');
+        });
+      });
+
       return;
     }
 
@@ -53,6 +75,13 @@ class Textarea {
   }
 
   onInput(e) {
+    //console.log(e);
+    //console.log(this.code);
+
+    if (e.data === null && this.code !== 'Enter' && this.code !== 'Backspace') {
+      return;
+    }
+
     const diff = Diff.diffChars(this.prevValue, this.el.value);
 
     let caretCoord = 0;
@@ -104,5 +133,32 @@ class Textarea {
 
     // 変更後の文字列を更新する（次の input イベント発生時に文字列の比較に使われる）
     this.prevValue = this.el.value;
+
+    this.wordCount = this.el.value.length;
+    if (document.getElementById('js-wordCount')) {
+      document.getElementById(
+        'js-wordCount'
+      ).innerHTML = `<p>${this.wordCount} / 500字</p>`;
+    }
   }
+
+  onKeydown = (e) => {
+    this.code = e.code;
+    //console.log(e.keyCode, e.code);
+
+    // 矢印キー、Home、Endキー等に対する対処
+    const keyCodes = [37, 38, 39, 40, 36, 35, 33, 34];
+    if (keyCodes.includes(e.keyCode)) {
+      e.preventDefault();
+    }
+
+    // const codes = ['Backspace', 'Delete'];
+    // if (codes.includes(this.code)) {
+    //   //console.log(this.code);
+
+    //   // IME入力を確定させる（IME入力中は矢印キーでテキストエリアのキャレットを動かせてしまうため）
+    //   this.el.blur();
+    //   this.el.focus();
+    // }
+  };
 }

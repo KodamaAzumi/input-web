@@ -1,13 +1,19 @@
 const textarea = new Write('#js-textarea');
-const grayscale = document.querySelector('#js-output-grayscale');
-const imagePara = document.querySelector('#js-output-image');
+const grayscaleOutput = document.querySelector('#js-output-grayscale');
+const imgOutput = document.querySelector('#js-output-image');
+const scaleOutput = document.querySelector('#js-output-scale');
 
 const loop = () => {
-  const fragment = document.createDocumentFragment();
+  const fragmentGrayscale = document.createDocumentFragment();
   const fragmentImg = document.createDocumentFragment();
+  const fragmentScale = document.createDocumentFragment();
 
-  grayscale.innerHTML = '';
-  imagePara.innerHTML = '';
+  // 現在のスクロール位置を取得する
+  const scrollY = document.documentElement.scrollTop;
+
+  grayscaleOutput.innerHTML = '';
+  imgOutput.innerHTML = '';
+  scaleOutput.innerHTML = '';
 
   textarea.entityIds.forEach((entityId, i) => {
     // 入力された順に文字情報を順に取得する
@@ -25,21 +31,17 @@ const loop = () => {
     // 入力された文字が改行コードか
     if ('\r\n' === value || '\r' === value || '\n' === value) {
       // 改行コードであれば br 要素を挿入して、以降の処理を中断する
-      const br = document.createElement('br');
-      fragment.appendChild(br);
+      const brGrayscale = document.createElement('br');
+      fragmentGrayscale.appendChild(brGrayscale);
       const brImg = document.createElement('br');
       fragmentImg.appendChild(brImg);
-      grayscale.appendChild(fragment);
-      imagePara.appendChild(fragmentImg);
+      const brScale = document.createElement('br');
+      fragmentScale.appendChild(brScale);
+      grayscaleOutput.appendChild(fragmentGrayscale);
+      imgOutput.appendChild(fragmentImg);
+      scaleOutput.appendChild(fragmentScale);
       return;
     }
-
-    /*
-    console.log(entityId, i, timestamp, value, prevEntityId);
-    console.log(textarea);
-    console.log(textarea.entityIds);
-    console.log(textarea.entity);
-    */
 
     // diffを適した値に変更する(diffはミリ秒)
     const calculatedDiff = (diff / 1000) * 100;
@@ -47,33 +49,68 @@ const loop = () => {
     // calculatedDiffをグレースケールに適した値に変更する
     const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
     // グレースケールに適応させる
-    const span = document.createElement('span');
-    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
-    span.appendChild(document.createTextNode(value));
-    fragment.appendChild(span);
-    //console.log(diff, calculatedDiff, hslValue);
+    const spanGrayscale = document.createElement('span');
+    spanGrayscale.classList.add('inline-block', 'm-0.5');
+    spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
+    spanGrayscale.appendChild(document.createTextNode(value));
+    fragmentGrayscale.appendChild(spanGrayscale);
+    grayscaleOutput.appendChild(fragmentGrayscale);
 
     // 写真と文字を合成する
+    const spanImgOuter = document.createElement('span');
+    spanImgOuter.classList.add('inline-block', 'px-3', 'py-1');
     const spanImg = document.createElement('span');
-    if (textarea.entity[entityId].imageData) {
-      spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+    if (!(value === ' ' || value === '　')) {
+      spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].image})`;
+      spanImgOuter.style.backgroundSize = 'cover';
+      spanImgOuter.style.backgroundPosition = 'center';
+      spanImg.style.color = '#fff';
+      spanImg.style.mixBlendMode = 'difference';
     }
-    spanImg.style.backgroundClip = 'text';
-    spanImg.style.webkitBackgroundClip = 'text';
-    spanImg.style.color = 'transparent';
     spanImg.appendChild(document.createTextNode(value));
-    fragmentImg.appendChild(spanImg);
+    spanImgOuter.appendChild(spanImg);
+    fragmentImg.appendChild(spanImgOuter);
+    imgOutput.appendChild(fragmentImg);
+
+    // 文字の幅に適応させる
+    (() => {
+      const char = document.createElement('span');
+      const charBody = document.createElement('span');
+      // 1 文字目は時差なし、なので必ず 1.0 になる
+      // 1 文字目以降は時差に応じて文字の大きさを変える
+      // 4000 ミリ秒で最大の 10 倍になる
+      const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
+
+      char.classList.add('inline-block', 'm-0.5');
+
+      charBody.style.transform = `scaleX(${sx})`;
+      charBody.style.transformOrigin = `top left`;
+      charBody.style.display = 'inline-block';
+
+      charBody.appendChild(document.createTextNode(value));
+      char.appendChild(charBody);
+      fragmentScale.appendChild(char);
+      scaleOutput.appendChild(fragmentScale);
+
+      const charBodyDOMRect = charBody.getBoundingClientRect();
+      char.style.width = `${charBodyDOMRect.width}px`;
+    })();
   });
 
-  grayscale.appendChild(fragment);
-  imagePara.appendChild(fragmentImg);
+  document.documentElement.scrollTop = scrollY;
+
   window.requestAnimationFrame(loop);
 };
 
 window.requestAnimationFrame(loop);
 
+// タブをクリックしたときにテキストエリアにフォーカスさせる
+document.getElementById('tabs-id').addEventListener('click', (e) => {
+  textarea.el.focus();
+});
+
 // タブとタブのボタンを切り替える
-const changeAtiveTab = (event, tabID) => {
+const changeActiveTab = (event, tabID) => {
   let element = event.target;
   let ulElement = element.parentNode.parentNode;
   let aElements = ulElement.querySelectorAll('li > a');
@@ -87,9 +124,8 @@ const changeAtiveTab = (event, tabID) => {
     aElements[i].classList.add(
       'hover:bg-gray-50',
       'underline',
-      'underline-offset-2',
-      'cursor-pointer',
-      'toolBtn'
+      'underline-offset-4',
+      'cursor-pointer'
     );
 
     // 表示されているものをhiddenにする
@@ -101,9 +137,8 @@ const changeAtiveTab = (event, tabID) => {
   element.classList.remove(
     'hover:bg-gray-50',
     'underline',
-    'underline-offset-2',
-    'cursor-pointer',
-    'toolBtn'
+    'underline-offset-4',
+    'cursor-pointer'
   );
   element.classList.add('bg-gray-50', 'cursor-default');
 
@@ -114,28 +149,36 @@ const changeAtiveTab = (event, tabID) => {
 
 // ヘルプのオンオフ
 const tooltipsOnOff = (event) => {
-  const tooltip = document.querySelectorAll('.toolBtn-tooltip');
-  const tooltipOff = document.querySelectorAll('.tooltipOff');
-  const helpTooltip = document.querySelector('.helpBtn-tooltip');
+  const tooltipOns = document.querySelectorAll('.tooltipOn');
+  const tooltipOffs = document.querySelectorAll('.tooltipOff');
 
-  if (tooltip.length > 0) {
-    tooltip.forEach((tooltips) => {
-      tooltips.classList.remove('toolBtn-tooltip');
-      tooltips.classList.add('tooltipOff');
-      helpTooltip.innerHTML = 'ヘルプをオンにする';
+  // tooltipの数→オンの数、tooltipOffの数→オフの数
+  if (tooltipOns.length > 0) {
+    // オフにする
+    tooltipOns.forEach((tooltipOn) => {
+      tooltipOn.classList.remove('tooltipOn');
+      tooltipOn.classList.add('tooltipOff');
     });
-  } else if (tooltipOff.length > 0) {
-    tooltipOff.forEach((tooltipOffs) => {
-      tooltipOffs.classList.remove('tooltipOff');
-      tooltipOffs.classList.add('toolBtn-tooltip');
-      helpTooltip.innerHTML = 'ヘルプをオフにする';
+  } else if (tooltipOffs.length > 0) {
+    // オンにする
+    tooltipOffs.forEach((tooltipOff) => {
+      tooltipOff.classList.remove('tooltipOff');
+      tooltipOff.classList.add('tooltipOn');
     });
   }
 };
 
 // モーダルを閉じる
-const saveModal = document.getElementById('saveBtn-modal');
-const modalCloseBtn = document.getElementById('saveBtn-modal-closeBtn');
+const modalCloseBtn = document.getElementById('save-modal-closeBtn');
 modalCloseBtn.addEventListener('click', () => {
+  const saveModal = document.getElementById('save-modal');
   saveModal.classList.add('hidden');
+  const modalOverlay = document.getElementById('modal-overlay');
+  modalOverlay.classList.add('hidden');
+
+  // 内容を変えておく
+  const saveModalSaved = document.querySelector('.save-modal-saved');
+  saveModalSaved.classList.add('hidden');
+  const saveModalduring = document.querySelector('.save-modal-during');
+  saveModalduring.classList.remove('hidden');
 });

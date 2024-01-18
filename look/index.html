@@ -2,18 +2,45 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/shared/images/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/shared/images/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <title>カレンダー | 名古屋造形大学卒展 | 鍜島スタジオ</title>
   </head>
   <body>
-    <!-- Overlay -->
+    <!-- header overlay -->
     <div
       class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 z-40 lg:hidden"
       id="js-overlay"
     ></div>
+
+    <!-- loading overlay -->
+    <div
+      class="fixed top-0 left-0 w-full h-full bg-white z-40"
+      id="loading-overlay"
+    >
+      <div class="w-full h-full flex items-center justify-center">
+        <div class="w-28 xs:w-44 flex flex-col justify-center">
+          <div class="w-full h-full flex justify-between">
+            <span
+              class="loader inline-block p-3 xs:p-4 rounded-full bg-orange-400"
+            ></span>
+            <span
+              class="loader inline-block p-3 xs:p-4 rounded-full bg-yellow-400"
+            ></span>
+            <span
+              class="loader inline-block p-3 xs:p-4 rounded-full bg-sky-400"
+            ></span>
+          </div>
+          <p
+            class="w-full text-center mt-6 font-medium text-lg xs:text-2xl tracking-wide text-gray-800"
+          >
+            Loading...
+          </p>
+        </div>
+      </div>
+    </div>
 
     <!-- Header -->
     <header class="bg-white">
@@ -26,8 +53,8 @@
             <span class="sr-only">Your Company</span>
             <img
               class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
+              src="/shared/images/logo.svg"
+              alt="サイトのロゴマーク"
             />
           </a>
         </div>
@@ -57,22 +84,22 @@
         <div class="hidden lg:flex lg:gap-x-12">
           <a
             href="/write/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-orange-400"
             >書く</a
           >
           <a
             href="/look/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-yellow-400"
             >見る</a
           >
           <a
             href="/chat/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-sky-400"
             >チャット</a
           >
           <a
             href="/explanation/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500"
             >使い方</a
           >
         </div>
@@ -93,8 +120,8 @@
               <span class="sr-only">Your Company</span>
               <img
                 class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
+                src="/shared/images/logo.svg"
+                alt="サイトのロゴマーク"
               />
             </a>
             <button
@@ -125,17 +152,17 @@
                 <div class="-mx-3"></div>
                 <a
                   href="/write/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-50"
                   >書く</a
                 >
                 <a
                   href="/look/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-yellow-50"
                   >見る</a
                 >
                 <a
                   href="/chat/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-sky-50"
                   >チャット</a
                 >
                 <a
@@ -152,15 +179,47 @@
 
     <!-- calendar -->
     <div
-      class="mt-2 sm:mt-10 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-screen"
+      class="my-2 sm:my-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8 min-h-screen"
     >
       <main
-        class="col-start-2 col-span-10 sm:col-start-3 sm:col-span-8 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8"
+        class="col-start-1 col-span-12 sm:col-start-2 sm:col-span-10 lg:col-start-3 lg:col-span-8"
       >
         <div
-          id="js-calendar"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8"
-        ></div>
+          class="grid grid-cols-12 sm:grid-cols-10 lg:grid-cols-8 gap-4 sm:gap-8"
+        >
+          <div class="col-start-1 col-span-12 sm:col-span-10 lg:col-span-8">
+            <h1
+              class="font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-900 tracking-wide"
+            >
+              文章を見る
+            </h1>
+            <hr class="mt-6 sm:mt-7 lg:mt-8" />
+          </div>
+
+          <div
+            class="hidden mt-6 xs:mt-8 col-start-1 col-span-12 sm:col-span-10 lg:col-span-8"
+            id="js-attention"
+          >
+            <p
+              class="text-xl md:text-2xl font-medium text-gray-900 md:tracking-wide leading-relaxed"
+            >
+              文章が保存されていません。<a
+                href="/write/index.html"
+                class="m-2 underline decoration-1 underline-offset-4 text-orange-400 hover:no-underline hover:text-gray-900"
+                >書く</a
+              >で文章を書いて、保存しましょう。
+            </p>
+          </div>
+
+          <div
+            class="mt-8 xs:mt-10 col-start-1 col-span-12 sm:col-span-10 lg:col-span-8"
+          >
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16"
+              id="js-calendar"
+            ></div>
+          </div>
+        </div>
       </main>
     </div>
 
@@ -178,29 +237,39 @@
           class="flex flex-wrap items-center justify-center mt-2 md:mt-0 text-sm font-medium text-gray-500"
         >
           <li>
-            <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/write/index.html"
+              class="hover: mr-4 hover:text-orange-400 md:mr-6"
               >書く</a
             >
           </li>
           <li>
-            <a href="/look/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/look/index.html"
+              class="hover: mr-4 hover:text-yellow-400 md:mr-6"
               >見る</a
             >
           </li>
           <li>
-            <a href="/chat/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/chat/index.html"
+              class="hover: mr-4 hover:text-sky-400 md:mr-6"
               >チャット</a
             >
           </li>
           <li>
-            <a href="/explanation/index.html" class="hover:underline">使い方</a>
+            <a href="/explanation/index.html" class="hover: hover:text-gray-400"
+              >使い方</a
+            >
           </li>
         </ul>
       </div>
     </footer>
 
     <script type="module" src="./js/main.js"></script>
+    <script src="/shared/js/script.js"></script>
     <script src="/shared/js/Time.js"></script>
+    <script src="/shared/js/Data.js"></script>
     <script src="/look/js/script.js"></script>
   </body>
 </html>

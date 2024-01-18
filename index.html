@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/shared/images/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/shared/images/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
@@ -26,8 +26,8 @@
             <span class="sr-only">Your Company</span>
             <img
               class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
+              src="/shared/images/logo.svg"
+              alt="サイトのロゴマーク"
             />
           </a>
         </div>
@@ -57,22 +57,22 @@
         <div class="hidden lg:flex lg:gap-x-12">
           <a
             href="/write/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-orange-400"
             >書く</a
           >
           <a
             href="/look/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-yellow-400"
             >見る</a
           >
           <a
             href="/chat/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-sky-400"
             >チャット</a
           >
           <a
             href="/explanation/index.html"
-            class="text-sm font-semibold leading-6 text-gray-900"
+            class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500"
             >使い方</a
           >
         </div>
@@ -93,8 +93,8 @@
               <span class="sr-only">Your Company</span>
               <img
                 class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
+                src="/shared/images/logo.svg"
+                alt="サイトのロゴマーク"
               />
             </a>
             <button
@@ -125,17 +125,17 @@
                 <div class="-mx-3"></div>
                 <a
                   href="/write/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-50"
                   >書く</a
                 >
                 <a
                   href="/look/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-yellow-50"
                   >見る</a
                 >
                 <a
                   href="/chat/index.html"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-sky-50"
                   >チャット</a
                 >
                 <a
@@ -149,6 +149,38 @@
         </div>
       </div>
     </header>
+
+    <!-- home -->
+    <div
+      class="min-h-[80vh] mt-2 sm:mt-8 mx-4 grid grid-cols-12 gap-4 sm:gap-8"
+    >
+      <section class="col-start-2 col-span-10 lg:col-start-3 lg:col-span-8">
+        <div class="mt-16 flex flex-row">
+          <div class="z-10 basis-2/3 flex flex-col">
+            <h1 class="font-bold text-6xl text-gray-900 tracking-wide">
+              アナログとデジタルの特性を活かした新しい入力装置の制作
+            </h1>
+            <div
+              class="mt-10 font-medium text-2xl text-orange-400 tracking-wide hover:text-gray-900"
+            >
+              <a
+                href="/write/index.html"
+                class="underline decoration-1 underline-offset-8 hover:no-underline"
+                >入力装置を試す</a
+              >
+            </div>
+          </div>
+          <!--
+          <div class="z-0 relative right-1/4">
+            <img src="shared/images/logo.svg" />
+          </div>
+          -->
+        </div>
+      </section>
+      <section class="col-start-2 col-span-10 lg:col-start-3 lg:col-span-8">
+        <h1></h1>
+      </section>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-white rounded-lg shadow m-4">
@@ -164,27 +196,36 @@
           class="flex flex-wrap items-center justify-center mt-2 md:mt-0 text-sm font-medium text-gray-500"
         >
           <li>
-            <a href="/write/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/write/index.html"
+              class="hover: mr-4 hover:text-orange-400 md:mr-6"
               >書く</a
             >
           </li>
           <li>
-            <a href="/look/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/look/index.html"
+              class="hover: mr-4 hover:text-yellow-400 md:mr-6"
               >見る</a
             >
           </li>
           <li>
-            <a href="/chat/index.html" class="mr-4 hover:underline md:mr-6"
+            <a
+              href="/chat/index.html"
+              class="hover: mr-4 hover:text-sky-400 md:mr-6"
               >チャット</a
             >
           </li>
           <li>
-            <a href="/explanation/index.html" class="hover:underline">使い方</a>
+            <a href="/explanation/index.html" class="hover: hover:text-gray-400"
+              >使い方</a
+            >
           </li>
         </ul>
       </div>
     </footer>
 
     <script type="module" src="./main.js"></script>
+    <script src="/shared/js/script.js"></script>
   </body>
 </html>

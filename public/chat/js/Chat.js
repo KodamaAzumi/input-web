@@ -28,31 +28,121 @@ class Chat extends Photo {
 
     // チャットが送信されたとき
     this.inputArea.addEventListener('submit', this.OnSubmited);
+
+    // テキストエリアにかぶせているもの
+    this.textareaCover = document.getElementById('js-textarea-cover');
+    // テキストエリアの一番外側
+    this.textareaCoverOuter = document.getElementById('tabs-id');
+    // テキストエリア全体をクリックしたとき、カメラをオンにする
+    this.textareaCover.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
+
+      // カメラをオンにする
+      if (!this.isStartCameraActive) {
+        this.startCamera();
+      }
+    });
+
+    // 書くボタン（カメラボタン）をクリックしたときもテキストエリアにかぶせているものを外す
+    this.cameraButton.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
+    });
   }
 
   onReceived = (event) => {
     // ここにチャットサーバーからメッセージを受信した時の処理を書く
     const chatData = JSON.parse(event.data);
     const messageId = `message-${chatData.messageId}`; // id が数字から始まるとエラーになるので、先頭に文字列を付ける
+    const previewId = `preview-${chatData.messageId}`;
     console.log('送られてきたデータ', chatData);
 
     if (chatData.type === 'head') {
       // メッセージの順番が送られてきた時の処理
 
+      //写真のプレビューとメッセージの入れ物を作る
+      const chatElement = document.createElement('div');
+      chatElement.classList.add(
+        'flex',
+        'flex-col-reverse',
+        'w-full',
+        'sm:w-4/5',
+        'justify-self-start'
+      );
+      this.chatarea.appendChild(chatElement);
+
+      // 写真をプレビューするための入れ物の外側
+      const previewOuter = document.createElement('div');
+      previewOuter.classList.add(
+        'hidden',
+        'preview-image',
+        'w-full',
+        'flex',
+        'justify-start'
+      );
+      chatElement.appendChild(previewOuter);
+
+      // プレビューしたときに画像をだすための入れ物を作る
+      const previewElement = document.createElement('div');
+      previewElement.id = previewId;
+      previewElement.classList.add(
+        'bg-white',
+        'rounded-md',
+        'p-5',
+        'mb-3',
+        'grid',
+        'justify-items-stretch',
+        'sm:w-2/3'
+      );
+      previewOuter.appendChild(previewElement);
+
+      // プレビューを消すための×ボタンを作る
+      const previewCloseBtn = ` 
+        <button
+          type="button"
+          class="preview-closeBtn mb-2 justify-self-end text-sky-400 bg-transparent hover:text-sky-200 text-sm w-8 h-8 inline-flex justify-center items-center"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span class="sr-only">Close preview</span>
+        </button>
+      `;
+      previewElement.innerHTML = previewCloseBtn;
+
+      // プレビューを閉じるボタン
+      const previewBtn = previewElement.querySelector('.preview-closeBtn');
+      previewBtn.addEventListener('click', (e) => {
+        previewOuter.classList.add('hidden');
+      });
+
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
-      messageOuter.classList.add(
-        'flex',
-        'justify-start',
-        'items-end',
-        'mb-3',
-        'ml-2',
-        'w-full'
-      );
+      messageOuter.classList.add('flex', 'justify-start', 'items-end', 'mb-3');
+      chatElement.appendChild(messageOuter);
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('p');
-      chatTimeElement.classList.add('ml-2', 'text-sky-800');
+      chatTimeElement.classList.add(
+        'ml-2',
+        'text-sky-900',
+        'text-xs',
+        'sm:text-sm'
+      );
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
@@ -64,86 +154,113 @@ class Chat extends Photo {
         'bg-white',
         'rounded-t-md',
         'rounded-br-md',
-        'p-2',
-        'pl-3',
+        'p-3',
+        'pl-7',
         'relative',
-        'order-first'
+        'order-first',
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl'
       );
-
-      // オリジナルのテキストを作成する
-      const messageText = chatData.text;
-      if (messageText.trim() !== '') {
-        const originalElement = document.createElement('p');
-        originalElement.classList.add('text-transparent');
-
-        originalElement.innerHTML = messageText
-          .replace(/\n/g, '<br>')
-          .replace(/ /g, '&nbsp;');
-        messageElement.appendChild(originalElement);
-      }
       messageOuter.appendChild(messageElement);
 
       const entityIds = chatData.entityIds;
 
       // グレースケールと写真を適応させる用の入れ物を作る
       const grayscaleElement = document.createElement('div');
+      messageElement.appendChild(grayscaleElement);
       const imageElemnt = document.createElement('div');
+      messageElement.appendChild(imageElemnt);
+      const scaleElemnt = document.createElement('div');
+      messageElement.appendChild(scaleElemnt);
 
       // タブの切り替えを作る
       const tabGrayscaleElm = document.getElementById('tab-grayscale');
-      if (tabGrayscaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
-      } else {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale'
-        );
-        imageElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'hidden',
-          'chat-image'
-        );
+      const tabImageElm = document.getElementById('tab-image');
+      const tabScaleElm = document.getElementById('tab-scale');
+
+      if (!tabGrayscaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add('chat-grayscale');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
+      } else if (!tabImageElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
+      } else if (!tabScaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale');
       }
 
       entityIds.forEach((entityId) => {
         // 1文字が収まる要素を作る
         const spanGrayscale = document.createElement('span');
-        spanGrayscale.classList.add(entityId);
+        spanGrayscale.classList.add(entityId, 'inline-block', 'm-[0.0625rem]');
         grayscaleElement.appendChild(spanGrayscale);
 
+        const spanImgOuter = document.createElement('span');
+        spanImgOuter.classList.add(
+          'inline-block',
+          'px-2',
+          'hover:opacity-80',
+          'cursor-pointer'
+        );
+        imageElemnt.appendChild(spanImgOuter);
         const spanImg = document.createElement('span');
         spanImg.classList.add(entityId);
-        imageElemnt.appendChild(spanImg);
+        spanImgOuter.appendChild(spanImg);
+
+        const spanScale = document.createElement('span');
+        spanScale.classList.add(entityId);
+        scaleElemnt.appendChild(spanScale);
+
+        // プレビューするための写真の入れ物を用意する
+        const previewImg = document.createElement('img');
+        previewImg.classList.add(entityId);
+        previewElement.appendChild(previewImg);
+
+        // プレビューを表示するためのクリックイベント
+        spanImgOuter.addEventListener('click', (e) => {
+          // 枠が非表示の場合、表示させる
+          if (previewOuter.classList.contains('hidden')) {
+            previewOuter.classList.remove('hidden');
+          }
+
+          entityIds.forEach((thisEntityId) => {
+            // 表示している写真を非表示にする
+            if (
+              !previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.contains('hidden')
+            ) {
+              previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.add('hidden');
+            }
+          });
+
+          // クリックした写真を表示する
+          previewElement
+            .querySelector('.' + entityId)
+            .classList.remove('hidden');
+        });
       });
 
-      messageElement.appendChild(grayscaleElement);
-      messageElement.appendChild(imageElemnt);
-      messageOuter.appendChild(messageElement);
-      this.chatarea.appendChild(messageOuter);
-
       // スクロールバーを一番下に移動する
-      this.chatarea.scrollTop = this.chatarea.scrollHeight;
+      this.chatarea.parentElement.scrollTop =
+        this.chatarea.parentElement.scrollHeight;
     } else if (chatData.type === 'body') {
       // メッセージの本文が送られてきた時の処理
       // メッセージを入れる要素を取得する
       const { body, entityId } = chatData;
 
       const messageElement = document.querySelector('#' + messageId);
+      const previewElement = document.querySelector('#' + previewId);
 
       // messageElementがないとき、処理を中断する
       if (!messageElement) {
-        console.log('messageElementがないよ');
+        console.log('messageElementがない');
         return;
       }
 
@@ -152,19 +269,32 @@ class Chat extends Photo {
 
       const imageElemnt = messageElement.querySelector('.chat-image');
       const spanImg = imageElemnt.querySelector('.' + entityId);
+      const spanImgOuter = spanImg.parentElement;
+      const previewImg = previewElement.querySelector('.' + entityId);
 
-      if (spanGrayscale && spanImg) {
+      const scaleElemnt = messageElement.querySelector('.chat-scale');
+      const char = scaleElemnt.querySelector('.' + entityId);
+
+      if (spanGrayscale && spanImg && char) {
+        // 入力された文字が改行コードか
         if (
           '\r\n' === body.value ||
           '\r' === body.value ||
           '\n' === body.value
         ) {
-          // 入力された文字が改行コードか
           // 改行コードであれば br 要素を挿入して、以降の処理を中断する
           const brGrayscale = document.createElement('br');
-          grayscaleElement.appendChild(brGrayscale);
+          spanGrayscale.parentNode.insertBefore(
+            brGrayscale,
+            spanGrayscale.nextSibling
+          );
+          spanGrayscale.remove();
           const brImg = document.createElement('br');
-          imageElemnt.appendChild(brImg);
+          spanImgOuter.parentNode.insertBefore(brImg, spanImgOuter.nextSibling);
+          spanImgOuter.remove();
+          const brScale = document.createElement('br');
+          char.parentNode.insertBefore(brScale, char.nextSibling);
+          char.remove();
           return;
         }
 
@@ -179,11 +309,46 @@ class Chat extends Photo {
         spanGrayscale.appendChild(document.createTextNode(body.value));
 
         // 写真と文字を合成する
-        spanImg.style.backgroundImage = `url(${body.imageData.imageUrl})`;
-        spanImg.style.backgroundClip = 'text';
-        spanImg.style.webkitBackgroundClip = 'text';
-        spanImg.style.color = 'transparent';
+        if (!(body.value === ' ' || body.value === '　')) {
+          spanImgOuter.style.backgroundImage = `url(${body.image})`;
+          spanImgOuter.style.backgroundSize = 'cover';
+          spanImgOuter.style.backgroundPosition = 'center';
+          spanImg.style.color = '#fff';
+          spanImg.style.mixBlendMode = 'difference';
+        }
         spanImg.appendChild(document.createTextNode(body.value));
+
+        // プレビューに写真を追加する
+        previewImg.src = `${body.image}`;
+
+        // 文字の幅に適応させる
+        (() => {
+          const charBody = document.createElement('span');
+          // 1 文字目は時差なし、なので必ず 1.0 になる
+          // 1 文字目以降は時差に応じて文字の大きさを変える
+          // 4000 ミリ秒で最大の 10 倍になる
+          const sx = Math.abs(1.0 + Math.min((chatData.diff / 4000) * 9, 9));
+
+          char.classList.add('inline-block', 'm-[0.0625rem]');
+
+          charBody.style.transform = `scaleX(${sx})`;
+          charBody.style.transformOrigin = `top left`;
+          charBody.style.display = 'inline-block';
+
+          charBody.appendChild(document.createTextNode(body.value));
+          char.appendChild(charBody);
+
+          // 要素がdisplay:noneになっていると幅が取得できないので一瞬表示してから取得する
+          if (scaleElemnt.classList.contains('hidden')) {
+            scaleElemnt.classList.remove('hidden');
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+            scaleElemnt.classList.add('hidden');
+          } else {
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+          }
+        })();
       }
     }
   };
@@ -219,74 +384,125 @@ class Chat extends Photo {
 
     // 自分側に自分の送信した内容を表示する
     if (entityIds.length > 0 && text) {
+      //写真のプレビューとメッセージの入れ物を作る
+      const chatElement = document.createElement('div');
+      chatElement.classList.add(
+        'flex',
+        'flex-col-reverse',
+        'w-full',
+        'sm:w-4/5',
+        'justify-self-end'
+      );
+      this.chatarea.appendChild(chatElement);
+
+      // 写真をプレビューするための入れ物の外側
+      const previewOuter = document.createElement('div');
+      previewOuter.classList.add(
+        'hidden',
+        'preview-image',
+        'w-full',
+        'flex',
+        'justify-end'
+      );
+      chatElement.appendChild(previewOuter);
+
+      // プレビューしたときに画像をだすための入れ物を作る
+      const previewElement = document.createElement('div');
+      previewElement.classList.add(
+        'bg-white',
+        'rounded-md',
+        'p-5',
+        'mb-3',
+        'grid',
+        'justify-items-stretch',
+        'sm:w-2/3'
+      );
+      previewOuter.appendChild(previewElement);
+
+      // プレビューを消すための×ボタンを作る
+      const previewCloseBtn = ` 
+        <button
+          type="button"
+          class="preview-closeBtn mb-2 justify-self-end text-sky-400 bg-transparent hover:text-sky-200 text-sm w-8 h-8 inline-flex justify-center items-center"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span class="sr-only">Close preview</span>
+        </button>
+      `;
+      previewElement.innerHTML = previewCloseBtn;
+
+      // プレビューを閉じるボタン
+      const previewBtn = previewElement.querySelector('.preview-closeBtn');
+      previewBtn.addEventListener('click', (e) => {
+        previewOuter.classList.add('hidden');
+      });
+
       // チャットの時間と吹き出しの入れ物を作る
       const messageOuter = document.createElement('div');
-      messageOuter.classList.add(
-        'flex',
-        'justify-end',
-        'items-end',
-        'mb-3',
-        'mr-2'
-      );
+      messageOuter.classList.add('flex', 'justify-end', 'items-end', 'mb-3');
+      chatElement.appendChild(messageOuter);
 
       // チャットを送信した時間を作る
       const chatTimeElement = document.createElement('p');
-      chatTimeElement.classList.add('mr-2', 'text-sky-800');
+      chatTimeElement.classList.add(
+        'mr-2',
+        'text-sky-900',
+        'text-xs',
+        'sm:text-sm'
+      );
       const chatTime = this.time.createTimeStr();
       chatTimeElement.innerHTML = chatTime;
       messageOuter.appendChild(chatTimeElement);
 
-      const messageText = this.el.value;
       const messageElement = document.createElement('div');
       messageElement.classList.add(
         'bg-white',
         'rounded-t-md',
         'rounded-bl-md',
-        'p-2',
-        'pr-3',
-        'relative'
+        'p-3',
+        'pr-7',
+        'relative',
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl'
       );
-
-      // オリジナルテキスト
-      if (messageText.trim() !== '') {
-        const originalElement = document.createElement('p');
-        originalElement.classList.add('text-transparent');
-
-        originalElement.innerHTML = messageText
-          .replace(/\n/g, '<br>')
-          .replace(/ /g, '&nbsp;');
-        messageElement.appendChild(originalElement);
-      }
+      messageOuter.appendChild(messageElement);
 
       // グレースケールと写真を適応させる用の入れ物を作る
       const grayscaleElement = document.createElement('div');
       const imageElemnt = document.createElement('div');
+      const scaleElemnt = document.createElement('div');
 
       // タブの切り替えを作る
       const tabGrayscaleElm = document.getElementById('tab-grayscale');
-      if (tabGrayscaleElm.classList.contains('hidden')) {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale',
-          'hidden'
-        );
-        imageElemnt.classList.add('absolute', 'top-2', 'z-10', 'chat-image');
-      } else {
-        grayscaleElement.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'chat-grayscale'
-        );
-        imageElemnt.classList.add(
-          'absolute',
-          'top-2',
-          'z-10',
-          'hidden',
-          'chat-image'
-        );
+      const tabImageElm = document.getElementById('tab-image');
+      const tabScaleElm = document.getElementById('tab-scale');
+
+      if (!tabGrayscaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add('chat-grayscale');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
+      } else if (!tabImageElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('chat-image');
+        scaleElemnt.classList.add('chat-scale', 'hidden');
+      } else if (!tabScaleElm.classList.contains('hidden')) {
+        grayscaleElement.classList.add('chat-grayscale', 'hidden');
+        imageElemnt.classList.add('hidden', 'chat-image');
+        scaleElemnt.classList.add('chat-scale');
       }
 
       // 1文字分の情報
@@ -306,7 +522,7 @@ class Chat extends Photo {
         // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
         if (prevEntityId) {
           diff = timestamp - entity[prevEntityId].timestamp;
-          console.log(diff);
+          //console.log(diff);
         }
 
         setTimeout(() => {
@@ -325,8 +541,9 @@ class Chat extends Photo {
               message,
             })
           );
-          console.log('sended');
-        }, 10);
+
+          //console.log('sended');
+        }, 20);
 
         // 入力された文字が改行コードか
         if ('\r\n' === value || '\r' === value || '\n' === value) {
@@ -335,8 +552,8 @@ class Chat extends Photo {
           grayscaleElement.appendChild(brGrayscale);
           const brImg = document.createElement('br');
           imageElemnt.appendChild(brImg);
-          messageElement.appendChild(grayscaleElement);
-          messageElement.appendChild(imageElemnt);
+          const brScale = document.createElement('br');
+          scaleElemnt.appendChild(brScale);
           return;
         }
 
@@ -347,36 +564,117 @@ class Chat extends Photo {
         const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
         // グレースケールに適応させる
         const spanGrayscale = document.createElement('span');
+        spanGrayscale.classList.add('inline-block', 'm-[0.0625rem]');
         spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
         spanGrayscale.appendChild(document.createTextNode(value));
         grayscaleElement.appendChild(spanGrayscale);
-        //console.log(diff, calculatedDiff, hslValue);
+        messageElement.appendChild(grayscaleElement);
 
         // 写真と文字を合成する
+        const spanImgOuter = document.createElement('span');
+        spanImgOuter.classList.add(
+          'inline-block',
+          'px-2',
+          'hover:opacity-80',
+          'cursor-pointer'
+        );
         const spanImg = document.createElement('span');
-        if (textarea.entity[entityId].imageData) {
-          spanImg.style.backgroundImage = `url(${textarea.entity[entityId].imageData.imageUrl})`;
+        spanImg.classList.add(entityId);
+        if (!(value === ' ' || value === '　')) {
+          spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].image})`;
+          spanImgOuter.style.backgroundSize = 'cover';
+          spanImgOuter.style.backgroundPosition = 'center';
+          spanImg.style.color = '#fff';
+          spanImg.style.mixBlendMode = 'difference';
         }
-        spanImg.style.backgroundClip = 'text';
-        spanImg.style.webkitBackgroundClip = 'text';
-        spanImg.style.color = 'transparent';
         spanImg.appendChild(document.createTextNode(value));
-        imageElemnt.appendChild(spanImg);
+        spanImgOuter.appendChild(spanImg);
+        imageElemnt.appendChild(spanImgOuter);
+        messageElement.appendChild(imageElemnt);
+
+        // プレビューを表示するためのクリックイベント
+        spanImgOuter.addEventListener('click', (e) => {
+          // 枠が非表示の場合、表示させる
+          if (previewOuter.classList.contains('hidden')) {
+            previewOuter.classList.remove('hidden');
+          }
+
+          entityIds.forEach((thisEntityId) => {
+            // 写真が無かった場合停止する。
+            if (previewElement.querySelector('.' + thisEntityId) === null) {
+              return;
+            }
+
+            // 表示している写真を非表示にする
+            if (
+              !previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.contains('hidden')
+            ) {
+              previewElement
+                .querySelector('.' + thisEntityId)
+                .classList.add('hidden');
+            }
+          });
+
+          // クリックした写真を表示する
+          previewElement
+            .querySelector('.' + entityId)
+            .classList.remove('hidden');
+        });
+
+        // プレビューするための写真を用意する
+        const previewImg = document.createElement('img');
+        previewImg.classList.add(entityId);
+        previewImg.src = `${textarea.entity[entityId].image}`;
+        previewElement.appendChild(previewImg);
+
+        // 文字の幅に適応させる
+        (() => {
+          const char = document.createElement('span');
+          const charBody = document.createElement('span');
+          // 1 文字目は時差なし、なので必ず 1.0 になる
+          // 1 文字目以降は時差に応じて文字の大きさを変える
+          // 4000 ミリ秒で最大の 10 倍になる
+          const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
+
+          char.classList.add('inline-block', 'm-[0.0625rem]');
+
+          charBody.style.transform = `scaleX(${sx})`;
+          charBody.style.transformOrigin = `top left`;
+          charBody.style.display = 'inline-block';
+
+          charBody.appendChild(document.createTextNode(value));
+          char.appendChild(charBody);
+          scaleElemnt.appendChild(char);
+          messageElement.appendChild(scaleElemnt);
+
+          // 要素がdisplay:noneになっていると幅が取得できないので一瞬表示してから取得する
+          if (scaleElemnt.classList.contains('hidden')) {
+            scaleElemnt.classList.remove('hidden');
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+            scaleElemnt.classList.add('hidden');
+          } else {
+            const charBodyDOMRect = charBody.getBoundingClientRect();
+            char.style.width = `${charBodyDOMRect.width}px`;
+          }
+        })();
       });
-      messageElement.appendChild(grayscaleElement);
-      messageElement.appendChild(imageElemnt);
-      messageOuter.appendChild(messageElement);
-      this.chatarea.appendChild(messageOuter);
     }
 
     // スクロールバーを一番下に移動する
-    this.chatarea.scrollTop = this.chatarea.scrollHeight;
+    this.chatarea.parentElement.scrollTop =
+      this.chatarea.parentElement.scrollHeight;
 
     // 送信後、テキストエリアのテキストを消去する
     this.onCleared();
 
     // テキストエリアの高さを元に戻す
     this.onResizedHeight();
+
+    // テキストエリアにフォーカスを当てる
+    textarea.el.focus();
   };
 
   uuidv4 = () => {

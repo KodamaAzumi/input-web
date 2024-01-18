@@ -2,116 +2,128 @@ class Write extends Photo {
   constructor(selectors) {
     super(selectors);
 
+    this.data = new Data();
+    this.id = this.data.id;
+    this.API_BASE_URL = this.data.API_BASE_URL;
+
     // 保存ボタン
     this.saveButton = document.getElementById('js-saveBtn');
+    // 保存ボタンをクリックしたとき
+    this.saveButton.addEventListener('click', this.onSaveButtonClicked);
+
     // 破棄ボタン
     this.discardButton = document.getElementById('js-discardBtn');
-
-    // 保存ボタンをクリックしたとき
-    this.saveButton.addEventListener('click', this.onSaved);
-
-    //破棄ボタンをクリックしたとき
+    // 破棄ボタンをクリックしたとき
     this.discardButton.addEventListener('click', this.onCleared);
+
+    // テキストエリアにかぶせているもの
+    this.textareaCover = document.getElementById('js-textarea-cover');
+    // テキストエリアの一番外側
+    this.textareaCoverOuter = document.getElementById('tabs-id');
+    // テキストエリア全体をクリックしたとき、カメラをオンにする
+    this.textareaCover.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
+
+      // カメラをオンにする
+      if (!this.isStartCameraActive) {
+        this.startCamera();
+      }
+    });
+
+    // 書くボタン（カメラボタン）をクリックしたときもテキストエリアにかぶせているものを外す
+    this.cameraButton.addEventListener('click', () => {
+      // テキストエリアにかぶせているものを外す
+      this.textareaCover.classList.add('hidden');
+      this.textareaCoverOuter.classList.remove('relative');
+    });
   }
 
-  onSaved = () => {
-    console.log('saveBtn clicked');
+  onSaveButtonClicked = () => {
+    console.log('saveButton clicked');
 
     // カメラをオフにする
-    if (this.isStartCameraActive === true) {
+    if (this.isStartCameraActive) {
       this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
     }
 
     if (this.entityIds.length > 0) {
-      const entity = this.entity;
-      const entityIds = this.entityIds;
+      // 文章を保存する
+      this.addNewSentence();
 
       // 文章を書いた日付を取得する
+      const entity = this.entity;
       const timestamp = entity[Object.keys(entity)[0]].timestamp;
-      const formattedDate = this.time.createDateStr(timestamp);
+      const writingDate = this.time.createDateStr(timestamp);
 
-      // ローカルデータを取得する
-      let textDataString = localStorage.getItem('textData');
-
-      // 文章を保存する
-      // ローカルストレージにデータがあるかどうか
-      let textData;
-      if (textDataString !== null) {
-        console.log('ローカルストレージにデータが保存されています');
-        // 文字列をオブジェクトに変換する
-        textData = JSON.parse(textDataString);
-        // 今日の日付のデータがあるかどうか
-        if (textData[formattedDate]) {
-          textData[formattedDate].push({
-            timestamp,
-            entity,
-            entityIds,
-          });
-        } else {
-          // 新しい日付のデータを作成する
-          textData[formattedDate] = [
-            {
-              timestamp,
-              entity,
-              entityIds,
-            },
-          ];
-        }
-
-        // 新しく文章を保存したときは、見るページで最初に表示する文章を最新の文章にする
-        const savedNum = textData[formattedDate].length - 1;
-        localStorage.setItem('savedNumber', savedNum);
-      } else {
-        console.log('ローカルストレージにデータは保存されていません');
-        // 文章を保存するデータを新しく作る
-        textData = {
-          [formattedDate]: [
-            {
-              timestamp,
-              entity,
-              entityIds,
-            },
-          ],
-        };
-      }
-
-      // モーダルのために保存した日を保存しておく
-      localStorage.setItem('dateData', String(formattedDate));
-
-      // オブジェクトを文字列に変換する
-      textDataString = JSON.stringify(textData);
-      // データを保存する
-      localStorage.setItem('textData', textDataString);
-
-      // 保存されたデータを確認する
-      textData = JSON.parse(textDataString);
-      console.log(textData);
-
-      // 保存した文章をリセットする
-      this.onCleared();
-
-      // モーダルを表示する
-      const saveModal = document.getElementById('saveBtn-modal');
-      saveModal.classList.remove('hidden');
+      // モーダルのために文章を書いた日付を保存しておく
+      localStorage.setItem('activeDate', String(writingDate));
     }
   };
 
   onCleared = () => {
     console.log('oncleared');
 
-    // カメラをオフにする
-    if (this.isStartCameraActive === true) {
-      this.stopCamera();
-      this.isStartCameraActive = false;
-      console.log('camera false');
-    }
-
     // 保存した文章をリセットする
     this.el.value = '';
     this.count = 0;
     this.entity = {};
     this.entityIds = [];
+
+    // テキストエリアにフォーカスさせる
+    this.el.focus();
+  };
+
+  // 新規保存
+  addNewSentence = () => {
+    // モーダルを表示する
+    const saveModal = document.getElementById('save-modal');
+    saveModal.classList.remove('hidden');
+    const modalOverlay = document.getElementById('modal-overlay');
+    modalOverlay.classList.remove('hidden');
+
+    // 保存が完了するまで、ボタンを押せないようにする
+    this.saveButton.disabled = true;
+    this.discardButton.disabled = true;
+    this.cameraButton.disabled = true;
+
+    fetch(`${this.API_BASE_URL}/diaries/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: this.id,
+        entityIds: this.entityIds,
+        entities: this.entity,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 'OK') {
+          console.log('日記を登録しました');
+          console.log(data);
+
+          // 保存した文章をリセットする
+          this.onCleared();
+
+          localStorage.setItem('savedNumber', '0');
+
+          // モーダルの内容を変える
+          const saveModalduring = document.querySelector('.save-modal-during');
+          saveModalduring.classList.add('hidden');
+          const saveModalSaved = document.querySelector('.save-modal-saved');
+          saveModalSaved.classList.remove('hidden');
+
+          this.saveButton.disabled = false;
+          this.discardButton.disabled = false;
+          this.cameraButton.disabled = false;
+
+          // テキストエリアにかぶせているものを元に戻す
+          this.textareaCover.classList.remove('hidden');
+          this.textareaCoverOuter.classList.add('relative');
+        }
+      });
   };
 }

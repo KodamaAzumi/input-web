@@ -7,6 +7,8 @@ export default {
 
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+//import basicSsl from '@vitejs/plugin-basic-ssl';
+import mkcert from 'vite-plugin-mkcert';
 
 export default defineConfig({
   build: {
@@ -14,6 +16,7 @@ export default defineConfig({
       input: {
         write: resolve(__dirname, 'write/index.html'),
         look: resolve(__dirname, 'look/index.html'),
+        sentence: resolve(__dirname, 'look/sentence/index.html'),
         timeline: resolve(__dirname, 'look/timeline/index.html'),
         chat: resolve(__dirname, 'chat/index.html'),
         explanation: resolve(__dirname, 'explanation/index.html'),
@@ -21,4 +24,10 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    host: true,
+    port: 8883,
+    https: true,
+  },
+  plugins: [mkcert()],
 });

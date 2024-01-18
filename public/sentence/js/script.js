@@ -1,90 +1,220 @@
 //localStorage.clear();
+const grayscaleOutput = document.querySelector('#js-output-grayscale');
+const imgOutput = document.querySelector('#js-output-image');
+const scaleOutput = document.querySelector('#js-output-scale');
 
-// ローカルデータを取得する
-let textDataString = localStorage.getItem('textData');
-// 文字列をオブジェクトに変換する
-let textData = JSON.parse(textDataString);
-console.log(textData);
-
-const grayscale = document.querySelector('#js-output-grayscale');
-const imagePara = document.querySelector('#js-output-image');
-
-// 文章を書いていないときはタイムラインに飛ばないようにする
-const timelineBtn = document.getElementById('js-timelineBtn');
-const timelineBtnHandler = (e) => {
-  e.preventDefault();
-};
-
-// 時間を作るクラス
+// 時間を作るインスタンス
 const createTime = new Time();
 
 // 表示したい文章の日付
-const formattedDate = localStorage.getItem('dateData');
+const activeDate = localStorage.getItem('activeDate');
 
 // 最後に表示していた日記のインデックス
 const savedNum = localStorage.getItem('savedNumber');
 const parsedNum = parseInt(savedNum);
 
-// サブメニューを作る
-if (textData && textData[formattedDate]) {
-  // タイトルを付ける（その日の日付）
-  const sidebarDate = document.querySelectorAll('.sidebar-date');
-  sidebarDate.forEach((sidebarDates) => {
-    sidebarDates.innerHTML = formattedDate;
+// データに関するインスタンス
+const data = new Data();
+
+// サブメニューを作る（２つ）
+const createSubmenu = async () => {
+  // タイトルを付ける（表示したい文章の日付）
+  const sidebarDates = document.querySelectorAll('.sidebar-date');
+  sidebarDates.forEach((sidebarDate) => {
+    sidebarDate.innerHTML = activeDate;
   });
 
-  // その日に書かれた日記の数だけリストを作る
-  for (let i = textData[formattedDate].length - 1; i >= 0; i--) {
-    // 日記が書かれた時間を取得する
-    const timeString = createTime.createTimeStr(
-      textData[formattedDate][i].timestamp
-    );
+  const postDates = await data.getPostDates();
 
-    const targetLists = document.querySelectorAll('.sidebar-list');
-    targetLists.forEach((targetList) => {
-      if (
-        // 最後に表示されていた日記を再度ページを開いたときに表示する
-        (!savedNum && i === textData[formattedDate].length - 1) ||
-        (savedNum && i === parsedNum)
-      ) {
-        // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
-        const newListItemTemplate = `  
+  if (postDates && !(postDates.dates.length === 0)) {
+    const timestamps = postDates.timestamps;
+
+    timestamps[activeDate].forEach((timestamp, i) => {
+      // 日記が書かれた時間を取得する
+      const formattedTime = createTime.createTimeStr(timestamp);
+
+      // その日に書かれた日記の数だけリストを作る
+      const targetLists = document.querySelectorAll('.sidebar-list');
+      targetLists.forEach((targetList) => {
+        if (
+          // 最後に表示されていた日記を再度ページを開いたときに表示する
+          i === parsedNum
+        ) {
+          // ページを開いたとき、初めに表示されている日記のサイドバー（サイドメニュー）の見た目
+          const newListItemTemplate = `  
           <li  
-            class="py-4 text-sm text-gray-600 bg-yellow-50 border-b-2 border-yellow-200"
-            onclick="changeAtivePara(event, ${i})"
+            class="py-4 bg-yellow-50 border-b-2 border-yellow-200"
+            onclick="changeActivePara(event, ${i})"
           >
-            ${timeString}
+            ${formattedTime}
           </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      } else {
-        const newListItemTemplate = `<li
-                      class="py-4 text-sm text-gray-600 hover:bg-yellow-50 border-b-2 border-yellow-200"
-                      onclick="changeAtivePara(event, ${i})"
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        } else {
+          const newListItemTemplate = `<li
+                      class="py-4 hover:bg-yellow-50 border-b-2 border-yellow-200"
+                      onclick="changeActivePara(event, ${i})"
                     >
-                      ${timeString}
+                      ${formattedTime}
                     </li>`;
-        const newListItem = document
-          .createRange()
-          .createContextualFragment(newListItemTemplate);
-        targetList.appendChild(newListItem);
-      }
+          const newListItem = document
+            .createRange()
+            .createContextualFragment(newListItemTemplate);
+          targetList.appendChild(newListItem);
+        }
+      });
+    });
+  } else {
+    // データがないときは文章を表示させる
+    document.querySelectorAll('.sidebar-attention').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.sidebar-date').forEach((element) => {
+      element.classList.remove('hidden');
+    });
+    document.querySelectorAll('.sidebar-list').forEach((element) => {
+      element.classList.remove('hidden');
     });
   }
+};
 
-  // タイムラインページに飛べるようにする
-  timelineBtn.removeEventListener('click', timelineBtnHandler);
-} else {
-  timelineBtn.addEventListener('click', timelineBtnHandler);
-}
+createSubmenu();
 
-let index;
+let textarea;
+let timestamp;
+
+// 本文を表示する
+const showSentence = async (index) => {
+  const loop = () => {
+    const fragmentGrayscale = document.createDocumentFragment();
+    const fragmentImg = document.createDocumentFragment();
+    const fragmentScale = document.createDocumentFragment();
+
+    // 現在のスクロール位置を取得する
+    const scrollY = document.documentElement.scrollTop;
+
+    grayscaleOutput.innerHTML = '';
+    imgOutput.innerHTML = '';
+    scaleOutput.innerHTML = '';
+
+    textarea.entityIds.forEach((entityId, i) => {
+      // 入力された順に文字情報を順に取得する
+      const { timestamp, value } = textarea.entity[entityId];
+      // ひとつ前の ID を取得する
+      const prevEntityId = textarea.entityIds[i - 1];
+      // ひとつ前の文字情報との時差
+      let diff = 0;
+
+      // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
+      if (prevEntityId) {
+        diff = timestamp - textarea.entity[prevEntityId].timestamp;
+      }
+
+      // 入力された文字が改行コードか
+      if ('\r\n' === value || '\r' === value || '\n' === value) {
+        // 改行コードであれば br 要素を挿入して、以降の処理を中断する
+        const brGrayscale = document.createElement('br');
+        fragmentGrayscale.appendChild(brGrayscale);
+        const brImg = document.createElement('br');
+        fragmentImg.appendChild(brImg);
+        const brScale = document.createElement('br');
+        fragmentScale.appendChild(brScale);
+        grayscaleOutput.appendChild(fragmentGrayscale);
+        imgOutput.appendChild(fragmentImg);
+        scaleOutput.appendChild(fragmentScale);
+        return;
+      }
+
+      // diffを適した値に変更する(diffはミリ秒)
+      const calculatedDiff = (diff / 1000) * 100;
+
+      // calculatedDiffをグレースケールに適した値に変更する
+      const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
+      // グレースケールに適応させる
+      const spanGrayscale = document.createElement('span');
+      spanGrayscale.classList.add('inline-block', 'm-0.5');
+      spanGrayscale.style.color = `hsl(0, 0%, ${hslValue}%)`;
+      spanGrayscale.appendChild(document.createTextNode(value));
+      fragmentGrayscale.appendChild(spanGrayscale);
+      grayscaleOutput.appendChild(fragmentGrayscale);
+
+      // 写真と文字を合成する
+      const spanImgOuter = document.createElement('span');
+      spanImgOuter.classList.add('inline-block', 'px-3', 'py-1');
+      const spanImg = document.createElement('span');
+      if (!(value === ' ' || value === '　')) {
+        if (textarea.entity[entityId].image) {
+          spanImgOuter.style.backgroundImage = `url(${textarea.entity[entityId].image})`;
+        } else {
+          const imageUrl = `${data.IMG_BASE_URL}/${data.id}/${dir}/${entityId}.jpeg`;
+          spanImgOuter.style.backgroundImage = `url(${imageUrl})`;
+        }
+        spanImgOuter.style.backgroundSize = 'cover';
+        spanImgOuter.style.backgroundPosition = 'center';
+        spanImg.style.color = '#fff';
+        spanImg.style.mixBlendMode = 'difference';
+      }
+      spanImg.appendChild(document.createTextNode(value));
+      spanImgOuter.appendChild(spanImg);
+      fragmentImg.appendChild(spanImgOuter);
+      imgOutput.appendChild(fragmentImg);
+
+      // 文字の幅に適応させる
+      (() => {
+        const char = document.createElement('span');
+        const charBody = document.createElement('span');
+        // 1 文字目は時差なし、なので必ず 1.0 になる
+        // 1 文字目以降は時差に応じて文字の大きさを変える
+        // 4000 ミリ秒で最大の 10 倍になる
+        const sx = Math.abs(1.0 + Math.min((diff / 4000) * 9, 9));
+
+        char.classList.add('inline-block', 'm-0.5');
+
+        charBody.style.transform = `scaleX(${sx})`;
+        charBody.style.transformOrigin = `top left`;
+        charBody.style.display = 'inline-block';
+
+        charBody.appendChild(document.createTextNode(value));
+        char.appendChild(charBody);
+        fragmentScale.appendChild(char);
+        scaleOutput.appendChild(fragmentScale);
+
+        const charBodyDOMRect = charBody.getBoundingClientRect();
+        char.style.width = `${charBodyDOMRect.width}px`;
+      })();
+    });
+
+    document.documentElement.scrollTop = scrollY;
+
+    window.requestAnimationFrame(loop);
+  };
+
+  const postDates = await data.getPostDates();
+  const timestamps = postDates.timestamps;
+  timestamp = timestamps[activeDate][index];
+  const sentenceData = await data.getSentence(timestamp);
+  const { entities, entityIds, dir } = sentenceData;
+
+  textarea = new Sentence('#js-textarea', entities, entityIds);
+
+  window.requestAnimationFrame(loop);
+};
+
+showSentence(parsedNum);
+console.log(parsedNum);
+
+// タブをクリックしたときにテキストエリアにフォーカスさせる
+document.getElementById('tabs-id').addEventListener('click', (e) => {
+  textarea.el.focus();
+});
+
 // サブメニューを押したとき
-const changeAtivePara = (event, num) => {
+const changeActivePara = (event, num) => {
   // 日記の内容を切り替える
-  index = num;
+  showSentence(num);
 
   // タイムラインを表示できるように番号を保存する
   localStorage.setItem('savedNumber', num);
@@ -98,7 +228,7 @@ const changeAtivePara = (event, num) => {
       liElement.classList.add('hover:bg-yellow-50');
     });
 
-    const targetElement = liElements[textData[formattedDate].length - 1 - num];
+    const targetElement = liElements[num];
     targetElement.classList.remove('hover:bg-yellow-50');
     targetElement.classList.add('bg-yellow-50');
   });
@@ -109,115 +239,10 @@ const changeAtivePara = (event, num) => {
   overlay.classList.add('hidden');
 };
 
-// 本文を表示する
-const loop = () => {
-  const fragment = document.createDocumentFragment();
-  const fragmentImg = document.createDocumentFragment();
-
-  grayscale.innerHTML = '';
-  imagePara.innerHTML = '';
-
-  textData[formattedDate][index].entityIds.forEach((entityId, i) => {
-    // 入力された順に文字情報を順に取得する
-    const { timestamp, value } =
-      textData[formattedDate][index].entity[entityId];
-    // ひとつ前の ID を取得する
-    const prevEntityId = textData[formattedDate][index].entityIds[i - 1];
-    // ひとつ前の文字情報との時差
-    let diff = 0;
-
-    // ひとつ前の ID が見つからなければ、1文字目なので時差なし、になる
-    if (prevEntityId) {
-      diff =
-        timestamp -
-        textData[formattedDate][index].entity[prevEntityId].timestamp;
-    }
-
-    // 入力された文字が改行コードか
-    if ('\r\n' === value || '\r' === value || '\n' === value) {
-      // 改行コードであれば br 要素を挿入して、以降の処理を中断する
-      const br = document.createElement('br');
-      fragment.appendChild(br);
-      const brImg = document.createElement('br');
-      fragmentImg.appendChild(brImg);
-      grayscale.appendChild(fragment);
-      imagePara.appendChild(fragmentImg);
-      return;
-    }
-
-    // diffを適した値に変更する(diffはミリ秒)
-    const calculatedDiff = (diff / 1000) * 100;
-
-    // calculatedDiffをグレースケールに適した値に変更する
-    const hslValue = Math.max(Math.min(100 - calculatedDiff, 99), 0);
-    // グレースケールに適応させる
-    const span = document.createElement('span');
-    span.style.color = `hsl(0, 0%, ${hslValue}%)`;
-    span.appendChild(document.createTextNode(value));
-    fragment.appendChild(span);
-    //console.log(diff, calculatedDiff, hslValue);
-
-    // 写真と文字を合成する
-    const spanImg = document.createElement('span');
-    if (textData[formattedDate][index].entity[entityId].imageData) {
-      spanImg.style.backgroundImage = `url(${textData[formattedDate][index].entity[entityId].imageData.imageUrl})`;
-    }
-    spanImg.style.backgroundClip = 'text';
-    spanImg.style.webkitBackgroundClip = 'text';
-    spanImg.style.color = 'transparent';
-    spanImg.appendChild(document.createTextNode(value));
-    fragmentImg.appendChild(spanImg);
-  });
-
-  grayscale.appendChild(fragment);
-  imagePara.appendChild(fragmentImg);
-  window.requestAnimationFrame(loop);
-};
-
-// 最初に表示する日記
-if (textData && textData[formattedDate]) {
-  // 最後に表示した日記を表示する
-  if (savedNum) {
-    index = parsedNum;
-    console.log(index);
-  } else {
-    // 一番初めは最新の日記を表示する
-    index = textData[formattedDate].length - 1;
-  }
-  window.requestAnimationFrame(loop);
-}
-
-// 破棄ボタンを押したときに日記を消去する
-const discardButton = document.getElementById('js-discardBtn');
-const onDeleted = () => {
-  console.log('click deleteButton');
-  if (textData && textData[formattedDate]) {
-    // 日記をストレージから消去する
-    textData[formattedDate].splice(index, 1);
-
-    //　その日のオブジェクトに日記が無い場合はキーごと消去する
-    if (textData[formattedDate].length === 0) {
-      delete textData[formattedDate];
-    } else {
-      // 消去した後は最新の日記を表示する
-      index = textData[formattedDate].length - 1;
-
-      // タイムラインを表示できるように番号を保存する
-      localStorage.setItem('savedNumber', index);
-    }
-
-    // ローカルストレージに保存する
-    textDataString = JSON.stringify(textData);
-    localStorage.setItem('textData', textDataString);
-
-    location.reload();
-    console.log('delete data');
-  }
-};
-discardButton.addEventListener('click', onDeleted);
-
+let tabName = 'tab-grayscale';
 // タブとタブのボタンを切り替える
-const changeAtiveTab = (event, tabID) => {
+const changeActiveTab = (event, tabID) => {
+  tabName = tabID;
   let element = event.target;
   let ulElement = element.parentNode.parentNode;
   let aElements = ulElement.querySelectorAll('li > a');
@@ -231,9 +256,8 @@ const changeAtiveTab = (event, tabID) => {
     aElements[i].classList.add(
       'hover:bg-gray-50',
       'underline',
-      'underline-offset-2',
-      'cursor-pointer',
-      'toolBtn'
+      'underline-offset-4',
+      'cursor-pointer'
     );
 
     // 表示されているものをhiddenにする
@@ -245,9 +269,8 @@ const changeAtiveTab = (event, tabID) => {
   element.classList.remove(
     'hover:bg-gray-50',
     'underline',
-    'underline-offset-2',
-    'cursor-pointer',
-    'toolBtn'
+    'underline-offset-4',
+    'cursor-pointer'
   );
   element.classList.add('bg-gray-50', 'cursor-default');
 
@@ -258,21 +281,21 @@ const changeAtiveTab = (event, tabID) => {
 
 // ヘルプのオンオフ
 const tooltipsOnOff = (event) => {
-  const tooltip = document.querySelectorAll('.toolBtn-tooltip');
-  const tooltipOff = document.querySelectorAll('.tooltipOff');
-  const helpTooltip = document.querySelector('.helpBtn-tooltip');
+  const tooltipOns = document.querySelectorAll('.tooltipOn');
+  const tooltipOffs = document.querySelectorAll('.tooltipOff');
 
-  if (tooltip.length > 0) {
-    tooltip.forEach((tooltips) => {
-      tooltips.classList.remove('toolBtn-tooltip');
-      tooltips.classList.add('tooltipOff');
-      helpTooltip.innerHTML = 'ヘルプをオンにする';
+  // tooltipの数→オンの数、tooltipOffの数→オフの数
+  if (tooltipOns.length > 0) {
+    // オフにする
+    tooltipOns.forEach((tooltipOn) => {
+      tooltipOn.classList.remove('tooltipOn');
+      tooltipOn.classList.add('tooltipOff');
     });
-  } else if (tooltipOff.length > 0) {
-    tooltipOff.forEach((tooltipOffs) => {
-      tooltipOffs.classList.remove('tooltipOff');
-      tooltipOffs.classList.add('toolBtn-tooltip');
-      helpTooltip.innerHTML = 'ヘルプをオフにする';
+  } else if (tooltipOffs.length > 0) {
+    // オンにする
+    tooltipOffs.forEach((tooltipOff) => {
+      tooltipOff.classList.remove('tooltipOff');
+      tooltipOff.classList.add('tooltipOn');
     });
   }
 };
@@ -303,6 +326,54 @@ window.addEventListener('resize', () => {
   submenu.classList.remove('-translate-x-0');
   submenu.classList.add('-translate-x-full');
   overlay.classList.add('hidden');
+});
+
+// 文章を画像としてダウンロードする
+const imgDownloaded = (e) => {
+  console.log('ダウンロードボタンをクリックした', e);
+
+  const node = document.getElementById('tabs-text');
+  node.classList.remove(
+    'rounded-md',
+    'border-2',
+    'border-gray-200',
+    'shadow-sm'
+  );
+  node.classList.add('w-[800px]', 'min-h-[800px]');
+
+  htmlToImage.toPng(node, { cacheBust: true }).then((dataUrl) => {
+    download(
+      dataUrl,
+      `${tabName}_${createTime.createDateStr(
+        timestamp
+      )}_${createTime.createTimeStr(timestamp)}.png`
+    );
+    node.classList.add(
+      'rounded-md',
+      'border-2',
+      'border-gray-200',
+      'shadow-sm'
+    );
+    node.classList.remove('w-[800px]', 'min-h-[800px]');
+  });
+};
+
+const downloadBtn = document.getElementById('js-downloadBtn');
+downloadBtn.addEventListener('click', imgDownloaded);
+
+// モーダルを閉じる
+const modalCloseBtn = document.getElementById('save-modal-closeBtn');
+modalCloseBtn.addEventListener('click', () => {
+  const saveModal = document.getElementById('save-modal');
+  saveModal.classList.add('hidden');
+  const modalOverlay = document.getElementById('modal-overlay');
+  modalOverlay.classList.add('hidden');
+
+  // 内容を変えておく
+  const saveModalSaved = document.querySelector('.save-modal-saved');
+  saveModalSaved.classList.add('hidden');
+  const saveModalduring = document.querySelector('.save-modal-during');
+  saveModalduring.classList.remove('hidden');
 });
 
 //localStorage.clear();
