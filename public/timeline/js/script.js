@@ -69,11 +69,12 @@ const createSubmenu = async () => {
       element.classList.remove('hidden');
     });
 
+    // データがないときはタイトル（日付）とサイドバーを隠す
     document.querySelectorAll('.sidebar-date').forEach((element) => {
-      element.classList.remove('hidden');
+      element.classList.add('hidden');
     });
     document.querySelectorAll('.sidebar-list').forEach((element) => {
-      element.classList.remove('hidden');
+      element.classList.add('hidden');
     });
   }
 };
@@ -83,6 +84,10 @@ createSubmenu();
 // タイムラインを作る
 const createTimeline = async (index) => {
   const postDates = await data.getPostDates();
+  if (!postDates) {
+    console.log('postDatesがありません');
+    return;
+  }
   const timestamps = postDates.timestamps;
 
   // 全ての文章のタイムラインを作る
@@ -133,6 +138,10 @@ createTimeline(parsedNum);
 const changeActiveTimeline = async (event, num) => {
   // タイムラインを切り替える
   const postDates = await data.getPostDates();
+  if (!postDates) {
+    console.log('postDatesがありません');
+    return;
+  }
   const timestamps = postDates.timestamps;
 
   // 全ての文章のタイムラインを作る
