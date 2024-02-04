@@ -41,6 +41,7 @@ class Write extends Photo {
       this.textareaCover.classList.add('hidden');
       this.textareaCoverOuter.classList.remove('relative');
 
+      // 文字カウントを表示する
       this.wordCountElement.classList.remove('hidden');
       this.wordCountElement.classList.add('flex');
     });
