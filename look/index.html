@@ -201,13 +201,19 @@
             id="js-attention"
           >
             <p
-              class="text-xl md:text-2xl font-medium text-gray-900 md:tracking-wide leading-relaxed"
+              class="look-no-data hidden text-xl md:text-2xl font-medium text-gray-900 md:tracking-wide leading-relaxed"
             >
               文章が保存されていません。<a
                 href="/write/index.html"
                 class="m-2 underline decoration-1 underline-offset-4 text-orange-400 hover:no-underline hover:text-gray-900"
                 >書く</a
               >で文章を書いて、保存しましょう。
+            </p>
+
+            <p
+              class="look-data-error hidden text-xl md:text-2xl font-medium text-gray-900 md:tracking-wide leading-relaxed"
+            >
+              データの取得に失敗しました。ページを読み込み直してください。
             </p>
           </div>
 

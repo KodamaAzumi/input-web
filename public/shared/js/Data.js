@@ -35,9 +35,37 @@ class Data {
         return data;
       } else {
         console.error('データの取得に失敗しました:', data);
+
+        // ローディング画面が開いているときは閉じる
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (!loadingOverlay.classList.contains('hidden')) {
+          loadingOverlay.classList.add('hidden');
+        }
+
+        // データの取得に失敗したら、エラーメッセージを出す
+        const errorMessages = document.querySelectorAll('.look-data-error');
+        if (errorMessages) {
+          errorMessages.forEach((errorMessage) => {
+            errorMessage.classList.remove('hidden');
+          });
+        }
       }
     } catch (error) {
       console.error('このidで一度も文章を書いていない:', error);
+
+      // ローディング画面が開いているときは閉じる
+      const loadingOverlay = document.getElementById('loading-overlay');
+      if (!loadingOverlay.classList.contains('hidden')) {
+        loadingOverlay.classList.add('hidden');
+      }
+
+      // データの取得に失敗したら、エラーメッセージを出す
+      const errorMessages = document.querySelectorAll('.look-no-data');
+      if (errorMessages) {
+        errorMessages.forEach((errorMessage) => {
+          errorMessage.classList.remove('hidden');
+        });
+      }
     }
   };
 
