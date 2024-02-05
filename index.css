@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-a {
-  @apply text-blue-500 transition-all hover:text-blue-400 hover:underline;
+.shadow-lg-og {
+  box-shadow: 0 0 15px 1px rgb(0 0 0 / 0.05);
 }
-*/
