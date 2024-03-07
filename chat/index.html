@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
-    <title>チャット | 名古屋造形大学卒展 | 鍜島スタジオ</title>
+    <title>
+      チャット | アナログとデジタルの特性を活かした新しい文字入力装置の制作 |
+      第31回 名古屋造形大学卒展
+    </title>
   </head>
   <body>
     <!-- スマホホバー解除対策 -->
@@ -181,14 +184,14 @@
         >
           <div class="w-full h-full flex flex-col">
             <!-- Timeline -->
-            <section
+            <div
               class="timeline-scroll-bar bg-sky-300 px-3 pt-3 w-full h-full flex-1 max-w-full overflow-auto"
             >
               <div class="grid justify-items-stretch" id="js-chatarea"></div>
-            </section>
+            </div>
 
             <!-- Input Area -->
-            <section class="w-full mx-auto md:px-2 py-3 z-30 bg-white">
+            <div class="w-full mx-auto md:px-2 py-3 z-30 bg-white">
               <!-- Write Button -->
               <div class="ml-1 my-1 mb-3 flex justify-start items-center">
                 <button
@@ -305,7 +308,6 @@
                     <textarea
                       class="-z-10 absolute w-[calc(100%-1rem)] top-3 left-2 h-auto resize-none pointer-events-none tracking-widest caret-transparent text-transparent"
                       id="js-textarea"
-                      type="text"
                       rows="1"
                       disabled
                     ></textarea>
@@ -327,7 +329,7 @@
                   >Copyright©Kodama Azumi All Rights Reserved.
                 </span>
               </div>
-            </section>
+            </div>
           </div>
         </main>
       </div>

@@ -344,7 +344,7 @@ const imgDownloaded = (e) => {
     'border-gray-200',
     'shadow-sm'
   );
-  node.classList.add('w-[800px]', 'min-h-[800px]');
+  node.classList.add('w-[600px]', 'min-h-[600px]');
 
   htmlToImage.toPng(node, { cacheBust: true }).then((dataUrl) => {
     download(
@@ -359,7 +359,7 @@ const imgDownloaded = (e) => {
       'border-gray-200',
       'shadow-sm'
     );
-    node.classList.remove('w-[800px]', 'min-h-[800px]');
+    node.classList.remove('w-[600px]', 'min-h-[600px]');
   });
 };
 
